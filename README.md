@@ -1,12 +1,12 @@
 # dash-srd.js
 
-dash-srd.js is a DASH player implementing the tiled
-streaming concept. It allows the user to freely navigate
-in a high resolution video panorama while downloading just what
-is needed to render the user's viewpoint.
+dash-srd.js builds on the dash.js DASH player and extends it by the Spatial 
+Relationship Description (SRD) feature to allow for playback of tiled video. 
+It allows the user to freely navigate in a high resolution video panorama 
+while downloading just what is needed to render the user's viewpoint.
 
-The software provided here is a proof of concept and does not
-reflect the performances of a final end-user product.
+This is a fork of the original implementation by @tnomedialab, updated to work 
+with the current development branch (version 3.0.0) of dash.js by the @Dash-Industry-Forum.
 
 ## Requirements
 
