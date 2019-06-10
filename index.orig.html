@@ -38,7 +38,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>DASH-SRD v3.0.0</title>
+    <title>DASH-SRD Player</title>
 
     <!--CSS-->
     <link rel="stylesheet" type="text/css" href="./public/srdplayerstyle.css">
@@ -50,14 +50,13 @@
     <script src="./src/lib/hammer.min.js"></script>
     <script src="./src/lib/jquery.hammer.js"></script>
     <script src="./src/lib/timingsrc.js"></script>
-    <script src="./src/lib/mediasync.js"></script>
 
     <!--SRD Player JavaScript -->
-    <script src = "./build/dash-srd.js"></script>
+    <script src = "./build/dash-srd.min.js"></script>
 </head>
 
 
-<body class="unselectable"  style="background-color:#282c34;">
+<body class="unselectable" onLoad="Dash.createAll()">
 
 <div id="SRDPlayer" class="unselectable">
     <div id="videoContainer">
@@ -130,13 +129,13 @@
     <br>
 
     <div id="videoLoader">
-    <input type="text" id="mpdURL" value="http://localhost/Dancers/output.mpd"> <!--https://tnomedialab.github.io/dash-srd-player-demo/Dancers/output.mpd-->
+    <input type="text" id="mpdURL" value="https://tnomedialab.github.io/dash-srd-player-demo/Dancers/output.mpd">
     <input type="submit" name="Open video" id="mpdButton" onclick="openVideo()" value="Open video" />
     </div>
     <br>
     <br>
     <br>
-    <p id="usageHint">dash-srd.js</p>
+    <p id="usageHint">Double click on a video zooms in or out. When zoomed in, the video can also be dragged.</p>
 </div>
 <br>
 <br>

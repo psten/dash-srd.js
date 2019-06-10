@@ -1,4 +1,4 @@
-/*! v3.0.0-684cb5b1, 2019-06-04T10:37:16Z */
+/*! v3.0.0-684cb5b1, 2019-04-18T06:30:14Z */
 (function() {
     function r(e, n, t) {
         function o(i, f) {
@@ -10753,21 +10753,21 @@
                         video: 50,
                         audio: 5
                     },
-                    retryIntervals: (_retryIntervals = {}, _defineProperty(_retryIntervals, _streamingVoMetricsHTTPRequest.HTTPRequest.MPD_TYPE, 500), 
-                    _defineProperty(_retryIntervals, _streamingVoMetricsHTTPRequest.HTTPRequest.XLINK_EXPANSION_TYPE, 500), 
-                    _defineProperty(_retryIntervals, _streamingVoMetricsHTTPRequest.HTTPRequest.MEDIA_SEGMENT_TYPE, 1e3), 
-                    _defineProperty(_retryIntervals, _streamingVoMetricsHTTPRequest.HTTPRequest.INIT_SEGMENT_TYPE, 1e3), 
-                    _defineProperty(_retryIntervals, _streamingVoMetricsHTTPRequest.HTTPRequest.BITSTREAM_SWITCHING_SEGMENT_TYPE, 1e3), 
-                    _defineProperty(_retryIntervals, _streamingVoMetricsHTTPRequest.HTTPRequest.INDEX_SEGMENT_TYPE, 1e3), 
-                    _defineProperty(_retryIntervals, _streamingVoMetricsHTTPRequest.HTTPRequest.OTHER_TYPE, 1e3), 
+                    retryIntervals: (_retryIntervals = {}, _defineProperty(_retryIntervals, _streamingVoMetricsHTTPRequest.HTTPRequest.MPD_TYPE, 500),
+                    _defineProperty(_retryIntervals, _streamingVoMetricsHTTPRequest.HTTPRequest.XLINK_EXPANSION_TYPE, 500),
+                    _defineProperty(_retryIntervals, _streamingVoMetricsHTTPRequest.HTTPRequest.MEDIA_SEGMENT_TYPE, 1e3),
+                    _defineProperty(_retryIntervals, _streamingVoMetricsHTTPRequest.HTTPRequest.INIT_SEGMENT_TYPE, 1e3),
+                    _defineProperty(_retryIntervals, _streamingVoMetricsHTTPRequest.HTTPRequest.BITSTREAM_SWITCHING_SEGMENT_TYPE, 1e3),
+                    _defineProperty(_retryIntervals, _streamingVoMetricsHTTPRequest.HTTPRequest.INDEX_SEGMENT_TYPE, 1e3),
+                    _defineProperty(_retryIntervals, _streamingVoMetricsHTTPRequest.HTTPRequest.OTHER_TYPE, 1e3),
                     _retryIntervals),
-                    retryAttempts: (_retryAttempts = {}, _defineProperty(_retryAttempts, _streamingVoMetricsHTTPRequest.HTTPRequest.MPD_TYPE, 3), 
-                    _defineProperty(_retryAttempts, _streamingVoMetricsHTTPRequest.HTTPRequest.XLINK_EXPANSION_TYPE, 1), 
-                    _defineProperty(_retryAttempts, _streamingVoMetricsHTTPRequest.HTTPRequest.MEDIA_SEGMENT_TYPE, 3), 
-                    _defineProperty(_retryAttempts, _streamingVoMetricsHTTPRequest.HTTPRequest.INIT_SEGMENT_TYPE, 3), 
-                    _defineProperty(_retryAttempts, _streamingVoMetricsHTTPRequest.HTTPRequest.BITSTREAM_SWITCHING_SEGMENT_TYPE, 3), 
-                    _defineProperty(_retryAttempts, _streamingVoMetricsHTTPRequest.HTTPRequest.INDEX_SEGMENT_TYPE, 3), 
-                    _defineProperty(_retryAttempts, _streamingVoMetricsHTTPRequest.HTTPRequest.OTHER_TYPE, 3), 
+                    retryAttempts: (_retryAttempts = {}, _defineProperty(_retryAttempts, _streamingVoMetricsHTTPRequest.HTTPRequest.MPD_TYPE, 3),
+                    _defineProperty(_retryAttempts, _streamingVoMetricsHTTPRequest.HTTPRequest.XLINK_EXPANSION_TYPE, 1),
+                    _defineProperty(_retryAttempts, _streamingVoMetricsHTTPRequest.HTTPRequest.MEDIA_SEGMENT_TYPE, 3),
+                    _defineProperty(_retryAttempts, _streamingVoMetricsHTTPRequest.HTTPRequest.INIT_SEGMENT_TYPE, 3),
+                    _defineProperty(_retryAttempts, _streamingVoMetricsHTTPRequest.HTTPRequest.BITSTREAM_SWITCHING_SEGMENT_TYPE, 3),
+                    _defineProperty(_retryAttempts, _streamingVoMetricsHTTPRequest.HTTPRequest.INDEX_SEGMENT_TYPE, 3),
+                    _defineProperty(_retryAttempts, _streamingVoMetricsHTTPRequest.HTTPRequest.OTHER_TYPE, 3),
                     _retryAttempts),
                     abr: {
                         movingAverageMethod: _streamingConstantsConstants2["default"].MOVING_AVERAGE_SLIDING_WINDOW,
@@ -11917,7 +11917,7 @@
             function setup() {
                 logger = (0, _coreDebug2["default"])(context).getInstance().getLogger(instance);
                 resetInitialSettings();
-                segmentBaseLoader = isWebM(config.mimeType) ? (0, _WebmSegmentBaseLoader2["default"])(context).getInstance() : (0, 
+                segmentBaseLoader = isWebM(config.mimeType) ? (0, _WebmSegmentBaseLoader2["default"])(context).getInstance() : (0,
                 _SegmentBaseLoader2["default"])(context).getInstance();
                 segmentBaseLoader.setConfig({
                     baseURLController: baseURLController,
@@ -11973,8 +11973,10 @@
             }
             function setRequestUrl(request, destination, representation) {
                 var baseURL = baseURLController.resolve(representation.path);
+                console.debug("baseURL ", baseURL);
                 var url = undefined, serviceLocation = undefined;
                 if (!baseURL || destination === baseURL.url || !urlUtils.isRelative(destination)) {
+                    console.debug("destination ", destination);
                     url = destination;
                 } else {
                     url = baseURL.url;
@@ -11988,6 +11990,7 @@
                 }
                 request.url = url;
                 request.serviceLocation = serviceLocation;
+                console.debug("setRequestUrl ", request.url)
                 return true;
             }
             function generateInitRequest(representation, mediaType) {
@@ -12113,6 +12116,7 @@
                 return idx;
             }
             function getRequestForSegment(segment) {
+              console.debug("getRequestForSegment = ", segment);
                 if (segment === null || segment === undefined) {
                     return null;
                 }
@@ -12124,7 +12128,9 @@
                 url = (0, _utilsSegmentsUtils.replaceTokenForTemplate)(url, "Time", segment.replacementTime);
                 url = (0, _utilsSegmentsUtils.replaceTokenForTemplate)(url, "Bandwidth", bandwidth);
                 url = (0, _utilsSegmentsUtils.replaceIDForTemplate)(url, representation.id);
+                console.debug("url after replaceID ", url, ", representation.id ", representation.id);
                 url = (0, _utilsSegmentsUtils.unescapeDollarsInTemplate)(url);
+                console.debug("url after dollars ", url);
                 request.mediaType = getType();
                 request.type = _streamingVoMetricsHTTPRequest.HTTPRequest.MEDIA_SEGMENT_TYPE;
                 request.range = segment.mediaRange;
@@ -12140,6 +12146,7 @@
                 request.adaptationIndex = representation.adaptation.index;
                 request.representationId = representation.id;
                 if (setRequestUrl(request, url, representation)) {
+                    console.debug("getRequestForSegment = ", request);
                     return request;
                 }
             }
@@ -14009,6 +14016,7 @@
                 return false;
             }
             function getRepresentationsForAdaptation(voAdaptation) {
+                console.debug(voAdaptation);
                 var voRepresentations = [];
                 var processedRealAdaptation = getRealAdaptationFor(voAdaptation);
                 var segmentInfo = undefined, baseUrl = undefined;
@@ -14070,6 +14078,7 @@
                             }
                             if (segmentInfo.hasOwnProperty(_constantsDashConstants2["default"].INITIALIZATION_MINUS)) {
                                 voRepresentation.initialization = segmentInfo.initialization.split("$Bandwidth$").join(realRepresentation.bandwidth).split("$RepresentationID$").join(realRepresentation.id);
+                                console.debug("getRepresentationsForAdaptation voRepresentation.initialization = ", voRepresentation.initialization);
                             }
                         } else {
                             voRepresentation.segmentInfoType = _constantsDashConstants2["default"].BASE_URL;
@@ -14589,7 +14598,8 @@
                 logger.info("Parsing complete: ( xml2json: " + (jsonTime - startTime).toPrecision(3) + "ms, objectiron: " + (ironedTime - jsonTime).toPrecision(3) + "ms, total: " + ((ironedTime - startTime) / 1e3).toPrecision(3) + "s)");
                 return manifest;
             }
-            function parseJSON(data) {
+            function parseJSON(data) { //DIFF1: JSON Parser - object extension of the MPD-Parser?
+                console.debug("DashParser.parseJSON() typeof data = ", typeof(data), "\n", data);
                 var manifest = undefined;
                 var startTime = window.performance.now();
                 if (manifest = data, !manifest) {
@@ -14610,7 +14620,7 @@
             }
             instance = {
                 parse: parse,
-                parseJSON: parseJSON,
+                parseJSON: parseJSON, //DIFF2
                 getMatchers: getMatchers,
                 getIron: getIron
             };
@@ -15308,34 +15318,34 @@
                 _classCallCheck(this, StringMatcher);
                 _get(Object.getPrototypeOf(StringMatcher.prototype), "constructor", this).call(this, function(attr, nodeName) {
                     var _stringAttrsInElements;
-                    var stringAttrsInElements = (_stringAttrsInElements = {}, _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].MPD, [ _constantsDashConstants2["default"].ID, _constantsDashConstants2["default"].PROFILES ]), 
-                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].PERIOD, [ _constantsDashConstants2["default"].ID ]), 
-                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].BASE_URL, [ _constantsDashConstants2["default"].SERVICE_LOCATION, _constantsDashConstants2["default"].BYTE_RANGE ]), 
-                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].SEGMENT_BASE, [ _constantsDashConstants2["default"].INDEX_RANGE ]), 
-                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].INITIALIZATION, [ _constantsDashConstants2["default"].RANGE ]), 
-                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].REPRESENTATION_INDEX, [ _constantsDashConstants2["default"].RANGE ]), 
-                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].SEGMENT_LIST, [ _constantsDashConstants2["default"].INDEX_RANGE ]), 
-                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].BITSTREAM_SWITCHING, [ _constantsDashConstants2["default"].RANGE ]), 
-                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].SEGMENT_URL, [ _constantsDashConstants2["default"].MEDIA_RANGE, _constantsDashConstants2["default"].INDEX_RANGE ]), 
-                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].SEGMENT_TEMPLATE, [ _constantsDashConstants2["default"].INDEX_RANGE, _constantsDashConstants2["default"].MEDIA, _constantsDashConstants2["default"].INDEX, _constantsDashConstants2["default"].INITIALIZATION_MINUS, _constantsDashConstants2["default"].BITSTREAM_SWITCHING_MINUS ]), 
-                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].ASSET_IDENTIFIER, [ _constantsDashConstants2["default"].VALUE, _constantsDashConstants2["default"].ID ]), 
-                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].EVENT_STREAM, [ _constantsDashConstants2["default"].VALUE ]), 
-                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].ADAPTATION_SET, [ _constantsDashConstants2["default"].PROFILES, _constantsDashConstants2["default"].MIME_TYPE, _constantsDashConstants2["default"].SEGMENT_PROFILES, _constantsDashConstants2["default"].CODECS, _constantsDashConstants2["default"].CONTENT_TYPE ]), 
-                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].FRAME_PACKING, [ _constantsDashConstants2["default"].VALUE, _constantsDashConstants2["default"].ID ]), 
-                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].AUDIO_CHANNEL_CONFIGURATION, [ _constantsDashConstants2["default"].VALUE, _constantsDashConstants2["default"].ID ]), 
-                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].CONTENT_PROTECTION, [ _constantsDashConstants2["default"].VALUE, _constantsDashConstants2["default"].ID ]), 
-                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].ESSENTIAL_PROPERTY, [ _constantsDashConstants2["default"].VALUE, _constantsDashConstants2["default"].ID ]), 
-                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].SUPPLEMENTAL_PROPERTY, [ _constantsDashConstants2["default"].VALUE, _constantsDashConstants2["default"].ID ]), 
-                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].INBAND_EVENT_STREAM, [ _constantsDashConstants2["default"].VALUE, _constantsDashConstants2["default"].ID ]), 
-                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].ACCESSIBILITY, [ _constantsDashConstants2["default"].VALUE, _constantsDashConstants2["default"].ID ]), 
-                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].ROLE, [ _constantsDashConstants2["default"].VALUE, _constantsDashConstants2["default"].ID ]), 
-                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].RATING, [ _constantsDashConstants2["default"].VALUE, _constantsDashConstants2["default"].ID ]), 
-                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].VIEWPOINT, [ _constantsDashConstants2["default"].VALUE, _constantsDashConstants2["default"].ID ]), 
-                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].CONTENT_COMPONENT, [ _constantsDashConstants2["default"].CONTENT_TYPE ]), 
-                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].REPRESENTATION, [ _constantsDashConstants2["default"].ID, _constantsDashConstants2["default"].DEPENDENCY_ID, _constantsDashConstants2["default"].MEDIA_STREAM_STRUCTURE_ID ]), 
-                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].SUBSET, [ _constantsDashConstants2["default"].ID ]), 
-                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].METRICS, [ _constantsDashConstants2["default"].METRICS_MINUS ]), 
-                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].REPORTING, [ _constantsDashConstants2["default"].VALUE, _constantsDashConstants2["default"].ID ]), 
+                    var stringAttrsInElements = (_stringAttrsInElements = {}, _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].MPD, [ _constantsDashConstants2["default"].ID, _constantsDashConstants2["default"].PROFILES ]),
+                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].PERIOD, [ _constantsDashConstants2["default"].ID ]),
+                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].BASE_URL, [ _constantsDashConstants2["default"].SERVICE_LOCATION, _constantsDashConstants2["default"].BYTE_RANGE ]),
+                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].SEGMENT_BASE, [ _constantsDashConstants2["default"].INDEX_RANGE ]),
+                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].INITIALIZATION, [ _constantsDashConstants2["default"].RANGE ]),
+                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].REPRESENTATION_INDEX, [ _constantsDashConstants2["default"].RANGE ]),
+                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].SEGMENT_LIST, [ _constantsDashConstants2["default"].INDEX_RANGE ]),
+                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].BITSTREAM_SWITCHING, [ _constantsDashConstants2["default"].RANGE ]),
+                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].SEGMENT_URL, [ _constantsDashConstants2["default"].MEDIA_RANGE, _constantsDashConstants2["default"].INDEX_RANGE ]),
+                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].SEGMENT_TEMPLATE, [ _constantsDashConstants2["default"].INDEX_RANGE, _constantsDashConstants2["default"].MEDIA, _constantsDashConstants2["default"].INDEX, _constantsDashConstants2["default"].INITIALIZATION_MINUS, _constantsDashConstants2["default"].BITSTREAM_SWITCHING_MINUS ]),
+                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].ASSET_IDENTIFIER, [ _constantsDashConstants2["default"].VALUE, _constantsDashConstants2["default"].ID ]),
+                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].EVENT_STREAM, [ _constantsDashConstants2["default"].VALUE ]),
+                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].ADAPTATION_SET, [ _constantsDashConstants2["default"].PROFILES, _constantsDashConstants2["default"].MIME_TYPE, _constantsDashConstants2["default"].SEGMENT_PROFILES, _constantsDashConstants2["default"].CODECS, _constantsDashConstants2["default"].CONTENT_TYPE ]),
+                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].FRAME_PACKING, [ _constantsDashConstants2["default"].VALUE, _constantsDashConstants2["default"].ID ]),
+                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].AUDIO_CHANNEL_CONFIGURATION, [ _constantsDashConstants2["default"].VALUE, _constantsDashConstants2["default"].ID ]),
+                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].CONTENT_PROTECTION, [ _constantsDashConstants2["default"].VALUE, _constantsDashConstants2["default"].ID ]),
+                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].ESSENTIAL_PROPERTY, [ _constantsDashConstants2["default"].VALUE, _constantsDashConstants2["default"].ID ]),
+                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].SUPPLEMENTAL_PROPERTY, [ _constantsDashConstants2["default"].VALUE, _constantsDashConstants2["default"].ID ]),
+                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].INBAND_EVENT_STREAM, [ _constantsDashConstants2["default"].VALUE, _constantsDashConstants2["default"].ID ]),
+                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].ACCESSIBILITY, [ _constantsDashConstants2["default"].VALUE, _constantsDashConstants2["default"].ID ]),
+                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].ROLE, [ _constantsDashConstants2["default"].VALUE, _constantsDashConstants2["default"].ID ]),
+                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].RATING, [ _constantsDashConstants2["default"].VALUE, _constantsDashConstants2["default"].ID ]),
+                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].VIEWPOINT, [ _constantsDashConstants2["default"].VALUE, _constantsDashConstants2["default"].ID ]),
+                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].CONTENT_COMPONENT, [ _constantsDashConstants2["default"].CONTENT_TYPE ]),
+                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].REPRESENTATION, [ _constantsDashConstants2["default"].ID, _constantsDashConstants2["default"].DEPENDENCY_ID, _constantsDashConstants2["default"].MEDIA_STREAM_STRUCTURE_ID ]),
+                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].SUBSET, [ _constantsDashConstants2["default"].ID ]),
+                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].METRICS, [ _constantsDashConstants2["default"].METRICS_MINUS ]),
+                    _defineProperty(_stringAttrsInElements, _constantsDashConstants2["default"].REPORTING, [ _constantsDashConstants2["default"].VALUE, _constantsDashConstants2["default"].ID ]),
                     _stringAttrsInElements);
                     if (stringAttrsInElements.hasOwnProperty(nodeName)) {
                         var attrNames = stringAttrsInElements[nodeName];
@@ -15661,11 +15671,15 @@
             return url ? url.split("$$").join("$") : url;
         }
         function replaceIDForTemplate(url, value) {
-            if (value === null || url === null || url.indexOf("$RepresentationID$") === -1) {
+            //if (!value || !url || url.indexOf("$RepresentationID$") === -1) {
+            if (value === null || url === null || url.indexOf("$RepresentationID$") === -1) {//DIFF representationID value of 0 was the problem. Look into standard what the allowed range is!
+                console.debug("replaceIDForTemplate error: url=", url, ", value=", value, ", url.indexOf($RepresentationID$)=", url.indexOf("$RepresentationID$"));
                 return url;
             }
             var v = value.toString();
-            return url.split("$RepresentationID$").join(v);
+            var result = url.split("$RepresentationID$").join(v);
+            console.debug("replaceIDForTemplate url out: ", result);
+            return result;
         }
         function replaceTokenForTemplate(url, token, value) {
             var formatTag = "%0";
@@ -15717,6 +15731,7 @@
             }
         }
         function getSegment(representation, duration, presentationStartTime, mediaStartTime, availabilityStartTime, timelineConverter, presentationEndTime, isDynamic, index) {
+            console.debug("getSegment representation: ", representation);
             var seg = new _voSegment2["default"]();
             seg.representation = representation;
             seg.duration = duration;
@@ -16784,7 +16799,9 @@
                     return parser;
                 }
             }
+
             function doLoad(url) {
+                console.debug("ManifestLoader.doLoad() typeof url: ", typeof(url), "\n", url);
                 var request = new _voTextRequest2["default"](url, _voMetricsHTTPRequest.HTTPRequest.MPD_TYPE);
                 httpLoader.load({
                     request: request,
@@ -16816,11 +16833,14 @@
                             manifest = parser.parse(data);
                         } catch (e) {
                             eventBus.trigger(_coreEventsEvents2["default"].INTERNAL_MANIFEST_LOADED, {
-                                manifest: null,
-                                error: new _voDashJSError2["default"](_coreErrorsErrors2["default"].MANIFEST_LOADER_PARSING_FAILURE_ERROR_CODE, _coreErrorsErrors2["default"].MANIFEST_LOADER_PARSING_FAILURE_ERROR_MESSAGE + ("" + url))
-                            });
+                                    manifest: null,
+                                    error: new _voDashJSError2(_coreErrorsErrors2["default"].MANIFEST_LOADER_PARSING_FAILURE_ERROR_CODE, _coreErrorsErrors2["default"].MANIFEST_LOADER_PARSING_FAILURE_ERROR_MESSAGE + `${url}`
+                                   )
+                                }
+                            );
                             return;
                         }
+
                         if (manifest) {
                             manifest.url = actualUrl || url;
                             if (!manifest.originalUrl) {
@@ -16843,12 +16863,15 @@
                     error: function error(request, statusText, errorText) {
                         eventBus.trigger(_coreEventsEvents2["default"].INTERNAL_MANIFEST_LOADED, {
                             manifest: null,
-                            error: new _voDashJSError2["default"](_coreErrorsErrors2["default"].MANIFEST_LOADER_LOADING_FAILURE_ERROR_CODE, _coreErrorsErrors2["default"].MANIFEST_LOADER_LOADING_FAILURE_ERROR_MESSAGE + ("" + url) + errorText)
+                            error: new _voDashJSError2["default"](_coreErrorsErrors2["default"].MANIFEST_LOADER_LOADING_FAILURE_ERROR_CODE, _coreErrorsErrors2["default"].MANIFEST_LOADER_LOADING_FAILURE_ERROR_MESSAGE + (url + ", " + errorText))
                         });
                     }
                 });
             }
-            function doLoadObject(url, json) {
+
+            function doLoadObject(url, json) { //DIFF3
+                console.debug("ManifestLoader.doLoadObject() typeof json: ", typeof(json), "\n", json);
+
                 var request = new _voTextRequest2["default"](url, _voMetricsHTTPRequest.HTTPRequest.MPD_TYPE);
                 httpLoader.load({
                     request: request,
@@ -16876,16 +16899,23 @@
                             });
                             return;
                         }
+                        xlinkController.setMatchers(parser.getMatchers());
+                        xlinkController.setIron(parser.getIron());
+
                         try {
                             manifest = parser.parseJSON(json);
                         } catch (e) {
                             eventBus.trigger(_coreEventsEvents2["default"].INTERNAL_MANIFEST_LOADED, {
-                                manifest: null,
-                                error: new _voDashJSError2["default"](_coreErrorsErrors2["default"].MANIFEST_LOADER_PARSING_FAILURE_ERROR_CODE, _coreErrorsErrors2["default"].MANIFEST_LOADER_PARSING_FAILURE_ERROR_MESSAGE + ("" + url))
-                            });
+                                    manifest: null,
+                                    error: new _voDashJSError2["default"](_coreErrorsErrors2["default"].MANIFEST_LOADER_PARSING_FAILURE_ERROR_CODE, _coreErrorsErrors2["default"].MANIFEST_LOADER_PARSING_FAILURE_ERROR_MESSAGE + `${url}`
+                                   )
+                                }
+                            );
                             return;
                         }
+
                         if (manifest) {
+                            console.debug("manifest =  \n", manifest);
                             manifest.url = actualUrl || url;
                             if (!manifest.originalUrl) {
                                 manifest.originalUrl = manifest.url;
@@ -16927,12 +16957,13 @@
                 }
             }
             instance = {
-                load: function load(url) {
-                    if (typeof url === "string") {
-                        doLoad.call(this, url);
-                    } else if (typeof url === "object") {
-                        doLoadObject.call(this, url[0], url[1]);
-                    }
+                load: function(url) { //DIFF4
+                  console.debug("ManifestLoader.load() Typeof url: ", typeof url, "\n", url);
+                  if (typeof url === "string") {
+                      doLoad.call(this, url);
+                  } else if (typeof url === "object") {
+                      doLoadObject.call(this, url[0], url[1]);
+                  }
                 },
                 reset: reset
             };
@@ -17014,6 +17045,7 @@
                 eventBus.on(_coreEventsEvents2["default"].INTERNAL_MANIFEST_LOADED, onManifestLoaded, this);
             }
             function setManifest(manifest) {
+                console.debug("ManifestUpdater.setManifest()");
                 update(manifest);
             }
             function resetInitialSettings() {
@@ -18604,7 +18636,7 @@
             function getBuffer() {
                 return buffer;
             }
-            function getAllBufferRanges() {
+            function getAllBufferRanges() {//err5
                 try {
                     return buffer.buffered;
                 } catch (e) {
@@ -21238,7 +21270,7 @@
             function onPlaybackPlaying() {
                 checkIfSufficientBuffer();
             }
-            function getRangeAt(time, tolerance) {
+            function getRangeAt(time, tolerance) {//err4
                 var ranges = buffer.getAllBufferRanges();
                 var start = 0;
                 var end = 0;
@@ -21546,6 +21578,7 @@
             }
             function setMediaSource(value, mediaInfo) {
                 mediaSource = value;
+                console.debug("setMediaSource mediaSource = ", mediaSource);
                 if (buffer && mediaInfo) {
                     if (typeof buffer.discharge === "function") {
                         dischargeBuffer = buffer;
@@ -23242,7 +23275,7 @@
                             } else {
                                 var request = undefined;
                                 if (!streamProcessor.getBufferController().getIsPruningInProgress()) {
-                                    request = nextFragmentRequestRule.execute(streamProcessor, seekTarget, replacement);
+                                    request = nextFragmentRequestRule.execute(streamProcessor, seekTarget, replacement);//err2 - getNextFragment
                                     setSeekTarget(NaN);
                                     if (request && !replacement) {
                                         if (!isNaN(request.startTime + request.duration)) {
@@ -23269,7 +23302,7 @@
                     if (!isReplacement && !switchTrack) {
                         abrController.checkPlaybackQuality(type);
                     }
-                    getNextFragment();
+                    getNextFragment();//err1
                 } else {
                     startScheduleTimer(500);
                 }
@@ -24347,7 +24380,8 @@
                 checkConfig();
                 manifestLoader.load(url);
             }
-            function loadWithManifest(manifest) {
+            function loadWithManifest(manifest) { //DIFF5: load (parse?) a into the manifest if a[0] contains "http", otherwise set a as the new manifest.
+                console.debug("loadWithManifest()");
                 checkInitialize();
                 if (manifest[0].indexOf("http") > -1) {
                     manifestLoader.load(manifest);
@@ -27974,21 +28008,21 @@
                 requests = [];
                 delayedRequests = [];
                 retryRequests = [];
-                downloadErrorToRequestTypeMap = (_downloadErrorToRequestTypeMap = {}, _defineProperty(_downloadErrorToRequestTypeMap, _voMetricsHTTPRequest.HTTPRequest.MPD_TYPE, _coreErrorsErrors2["default"].DOWNLOAD_ERROR_ID_MANIFEST), 
-                _defineProperty(_downloadErrorToRequestTypeMap, _voMetricsHTTPRequest.HTTPRequest.XLINK_EXPANSION_TYPE, _coreErrorsErrors2["default"].DOWNLOAD_ERROR_ID_XLINK), 
-                _defineProperty(_downloadErrorToRequestTypeMap, _voMetricsHTTPRequest.HTTPRequest.INIT_SEGMENT_TYPE, _coreErrorsErrors2["default"].DOWNLOAD_ERROR_ID_INITIALIZATION), 
-                _defineProperty(_downloadErrorToRequestTypeMap, _voMetricsHTTPRequest.HTTPRequest.MEDIA_SEGMENT_TYPE, _coreErrorsErrors2["default"].DOWNLOAD_ERROR_ID_CONTENT), 
-                _defineProperty(_downloadErrorToRequestTypeMap, _voMetricsHTTPRequest.HTTPRequest.INDEX_SEGMENT_TYPE, _coreErrorsErrors2["default"].DOWNLOAD_ERROR_ID_CONTENT), 
-                _defineProperty(_downloadErrorToRequestTypeMap, _voMetricsHTTPRequest.HTTPRequest.BITSTREAM_SWITCHING_SEGMENT_TYPE, _coreErrorsErrors2["default"].DOWNLOAD_ERROR_ID_CONTENT), 
-                _defineProperty(_downloadErrorToRequestTypeMap, _voMetricsHTTPRequest.HTTPRequest.OTHER_TYPE, _coreErrorsErrors2["default"].DOWNLOAD_ERROR_ID_CONTENT), 
+                downloadErrorToRequestTypeMap = (_downloadErrorToRequestTypeMap = {}, _defineProperty(_downloadErrorToRequestTypeMap, _voMetricsHTTPRequest.HTTPRequest.MPD_TYPE, _coreErrorsErrors2["default"].DOWNLOAD_ERROR_ID_MANIFEST),
+                _defineProperty(_downloadErrorToRequestTypeMap, _voMetricsHTTPRequest.HTTPRequest.XLINK_EXPANSION_TYPE, _coreErrorsErrors2["default"].DOWNLOAD_ERROR_ID_XLINK),
+                _defineProperty(_downloadErrorToRequestTypeMap, _voMetricsHTTPRequest.HTTPRequest.INIT_SEGMENT_TYPE, _coreErrorsErrors2["default"].DOWNLOAD_ERROR_ID_INITIALIZATION),
+                _defineProperty(_downloadErrorToRequestTypeMap, _voMetricsHTTPRequest.HTTPRequest.MEDIA_SEGMENT_TYPE, _coreErrorsErrors2["default"].DOWNLOAD_ERROR_ID_CONTENT),
+                _defineProperty(_downloadErrorToRequestTypeMap, _voMetricsHTTPRequest.HTTPRequest.INDEX_SEGMENT_TYPE, _coreErrorsErrors2["default"].DOWNLOAD_ERROR_ID_CONTENT),
+                _defineProperty(_downloadErrorToRequestTypeMap, _voMetricsHTTPRequest.HTTPRequest.BITSTREAM_SWITCHING_SEGMENT_TYPE, _coreErrorsErrors2["default"].DOWNLOAD_ERROR_ID_CONTENT),
+                _defineProperty(_downloadErrorToRequestTypeMap, _voMetricsHTTPRequest.HTTPRequest.OTHER_TYPE, _coreErrorsErrors2["default"].DOWNLOAD_ERROR_ID_CONTENT),
                 _downloadErrorToRequestTypeMap);
-                newDownloadErrorToRequestTypeMap = (_newDownloadErrorToRequestTypeMap = {}, _defineProperty(_newDownloadErrorToRequestTypeMap, _voMetricsHTTPRequest.HTTPRequest.MPD_TYPE, _coreErrorsErrors2["default"].DOWNLOAD_ERROR_ID_MANIFEST_CODE), 
-                _defineProperty(_newDownloadErrorToRequestTypeMap, _voMetricsHTTPRequest.HTTPRequest.XLINK_EXPANSION_TYPE, _coreErrorsErrors2["default"].DOWNLOAD_ERROR_ID_XLINK_CODE), 
-                _defineProperty(_newDownloadErrorToRequestTypeMap, _voMetricsHTTPRequest.HTTPRequest.INIT_SEGMENT_TYPE, _coreErrorsErrors2["default"].DOWNLOAD_ERROR_ID_INITIALIZATION_CODE), 
-                _defineProperty(_newDownloadErrorToRequestTypeMap, _voMetricsHTTPRequest.HTTPRequest.MEDIA_SEGMENT_TYPE, _coreErrorsErrors2["default"].DOWNLOAD_ERROR_ID_CONTENT_CODE), 
-                _defineProperty(_newDownloadErrorToRequestTypeMap, _voMetricsHTTPRequest.HTTPRequest.INDEX_SEGMENT_TYPE, _coreErrorsErrors2["default"].DOWNLOAD_ERROR_ID_CONTENT_CODE), 
-                _defineProperty(_newDownloadErrorToRequestTypeMap, _voMetricsHTTPRequest.HTTPRequest.BITSTREAM_SWITCHING_SEGMENT_TYPE, _coreErrorsErrors2["default"].DOWNLOAD_ERROR_ID_CONTENT_CODE), 
-                _defineProperty(_newDownloadErrorToRequestTypeMap, _voMetricsHTTPRequest.HTTPRequest.OTHER_TYPE, _coreErrorsErrors2["default"].DOWNLOAD_ERROR_ID_CONTENT_CODE), 
+                newDownloadErrorToRequestTypeMap = (_newDownloadErrorToRequestTypeMap = {}, _defineProperty(_newDownloadErrorToRequestTypeMap, _voMetricsHTTPRequest.HTTPRequest.MPD_TYPE, _coreErrorsErrors2["default"].DOWNLOAD_ERROR_ID_MANIFEST_CODE),
+                _defineProperty(_newDownloadErrorToRequestTypeMap, _voMetricsHTTPRequest.HTTPRequest.XLINK_EXPANSION_TYPE, _coreErrorsErrors2["default"].DOWNLOAD_ERROR_ID_XLINK_CODE),
+                _defineProperty(_newDownloadErrorToRequestTypeMap, _voMetricsHTTPRequest.HTTPRequest.INIT_SEGMENT_TYPE, _coreErrorsErrors2["default"].DOWNLOAD_ERROR_ID_INITIALIZATION_CODE),
+                _defineProperty(_newDownloadErrorToRequestTypeMap, _voMetricsHTTPRequest.HTTPRequest.MEDIA_SEGMENT_TYPE, _coreErrorsErrors2["default"].DOWNLOAD_ERROR_ID_CONTENT_CODE),
+                _defineProperty(_newDownloadErrorToRequestTypeMap, _voMetricsHTTPRequest.HTTPRequest.INDEX_SEGMENT_TYPE, _coreErrorsErrors2["default"].DOWNLOAD_ERROR_ID_CONTENT_CODE),
+                _defineProperty(_newDownloadErrorToRequestTypeMap, _voMetricsHTTPRequest.HTTPRequest.BITSTREAM_SWITCHING_SEGMENT_TYPE, _coreErrorsErrors2["default"].DOWNLOAD_ERROR_ID_CONTENT_CODE),
+                _defineProperty(_newDownloadErrorToRequestTypeMap, _voMetricsHTTPRequest.HTTPRequest.OTHER_TYPE, _coreErrorsErrors2["default"].DOWNLOAD_ERROR_ID_CONTENT_CODE),
                 _newDownloadErrorToRequestTypeMap);
             }
             function internalLoad(config, remainingAttempts) {
@@ -32978,7 +33012,7 @@
                 if (isNaN(time) || mediaType === _constantsConstants2["default"].FRAGMENTED_TEXT && !textController.isTextEnabled()) {
                     return null;
                 }
-                if (bufferController) {
+                if (bufferController) { //err3
                     var range = bufferController.getRangeAt(time);
                     var playingRange = bufferController.getRangeAt(currentTime);
                     var hasDiscontinuities = bufferController.getBuffer().hasDiscontinuitiesAfter(currentTime);
@@ -35257,6 +35291,7 @@
                 }
             }
             function buildTemplateUrl(representation) {
+              console.debug("buildTemplateUrl(representation) ", representation);
                 var templateUrl = urlUtils.isRelative(representation.media) ? urlUtils.resolve(representation.media, baseURLController.resolve(representation.path).url) : representation.media;
                 if (!templateUrl) {
                     return "";

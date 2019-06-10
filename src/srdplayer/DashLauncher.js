@@ -1,7 +1,7 @@
-/* 
-* The copyright in this software is being made available under the following 
-* TNO license terms. This software may be subject to other third party and 
-* TNO intellectual property rights, including patent rights, 
+/*
+* The copyright in this software is being made available under the following
+* TNO license terms. This software may be subject to other third party and
+* TNO intellectual property rights, including patent rights,
 * and no such rights are granted under this license.
 *
 * Created by Jorrit van den Berg on 7/12/15.
@@ -20,8 +20,8 @@
 *    be used to endorse or promote products derived from this software without
 *    specific prior written permission.
 *
-* THIS SOFTWARE IS PROVIDED BY TNO "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
-* INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND 
+* THIS SOFTWARE IS PROVIDED BY TNO "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+* INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL TNO
 * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
 * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
@@ -37,11 +37,8 @@
 function launchDashPlayer (videoElement){
     var context = new Dash.di.DashContext();
     var player = new MediaPlayer(context);
-    player.setAutoPlay(false);
+    player.setAutoPlay(true);
     player.startup();
     player.attachView(document.querySelector("#" + videoElement));
     return player;
 };
-
-
-

@@ -1,7 +1,7 @@
-/* 
-* The copyright in this software is being made available under the following 
-* TNO license terms. This software may be subject to other third party and 
-* TNO intellectual property rights, including patent rights, 
+/*
+* The copyright in this software is being made available under the following
+* TNO license terms. This software may be subject to other third party and
+* TNO intellectual property rights, including patent rights,
 * and no such rights are granted under this license.
 *
 * Created by Jorrit van den Berg on 7/12/15.
@@ -20,8 +20,8 @@
 *    be used to endorse or promote products derived from this software without
 *    specific prior written permission.
 *
-* THIS SOFTWARE IS PROVIDED BY TNO "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
-* INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND 
+* THIS SOFTWARE IS PROVIDED BY TNO "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+* INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL TNO
 * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
 * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
@@ -38,53 +38,53 @@
  * the ServiceBus.js script in utils.
  */
 
-function onClickEvent(e) {
-    
+function onClickEvent(e) {//TODO unneeded for 360° VR App
+
     var parentPosition,
         xPosition,
         yPosition,
-        viewLayer;    
-    
+        viewLayer;
+
     if (fullScreenFlag == false){
         parentPosition = getPosition(e.currentTarget);
         xPosition = -(e.clientX - parentPosition.x);
-        yPosition = -(e.clientY - parentPosition.y); 
-    } else { 
+        yPosition = -(e.clientY - parentPosition.y);
+    } else {
         xPosition = -(e.clientX);
         yPosition = -(e.clientY);
     }
-      
+
     if (currentZoomLevel == 0) {
 
         viewLayer = zoomLayer1;
         currentZoomLevel = 1;
 
-        if (fullScreenFlag){ 
-            
+        if (fullScreenFlag){
+
             updateVideoContainer(xPosition, yPosition, fallBackLayer, null, "fullscreen zoomed");
-            
+
         } else {
-            
+
             updateVideoContainer(xPosition, yPosition, fallBackLayer, null, 2);
-            
-        } 
+
+        }
 
         ServiceBus.publish("Zoom-level1", [xPosition, yPosition, viewLayer]);
-        
+
         zoomLayer1Hammer.on('panstart', function(evt) {
             dragtool.startMoving(zoomLayer1, videoContainer, evt);
         });
-        
+
         zoomLayer1Hammer.on('panend', function(evt) {
             dragtool.stopMoving(videoContainer);
         });
 
-    } else if (currentZoomLevel == 1) {    
+    } else if (currentZoomLevel == 1) {
 
         if (spatialOrderingZoomLevel2.length > 0) {
-            
+
             viewLayer = zoomLayer2;
-        
+
             zoomLayer1Hammer.off('panstart', function(evt) {
                 dragtool.startMoving(zoomLayer1, videoContainer, evt);
             });
@@ -92,8 +92,8 @@ function onClickEvent(e) {
             zoomLayer1Hammer.off('panend', function(evt) {
                 dragtool.stopMoving(videoContainer);
             });
-            
-            if (fullScreenFlag){ 
+
+            if (fullScreenFlag){
 
                 updateVideoContainer(xPosition, yPosition, fallBackLayer, null, "fullscreen zoomed double");
 
@@ -101,12 +101,12 @@ function onClickEvent(e) {
 
                 updateVideoContainer(xPosition, yPosition, fallBackLayer, null, "double");
 
-            } 
+            }
 
             zoomLayer1PlayerObjects = [];
 
             currentZoomLevel = 2;
-            
+
             ServiceBus.publish("Zoom-level2", [xPosition, yPosition, viewLayer]);
 
             zoomLayer2Hammer.on('panstart', function(evt) {
@@ -115,12 +115,12 @@ function onClickEvent(e) {
 
             zoomLayer2Hammer.on('panend', function(evt) {
                 dragtool.stopMoving(videoContainer);
-            });         
-            
+            });
+
         } else {
-  
+
             viewLayer = fallBackLayer;
-            
+
             zoomLayer1Hammer.off('panstart', function(evt) {
                 dragtool.startMoving(zoomLayer1, videoContainer, evt);
             });
@@ -129,7 +129,7 @@ function onClickEvent(e) {
                 dragtool.stopMoving(videoContainer);
             });
 
-            if (fullScreenFlag){ 
+            if (fullScreenFlag){
 
                 if (browserWindowZoomedTo == 0){
 
@@ -138,9 +138,9 @@ function onClickEvent(e) {
                 } else {
 
                     updateVideoContainer(xPosition, yPosition, viewLayer, null, "fullscreen");
-                    
+
                     browserWindowZoomedTo = 0;
-                } 
+                }
 
             } else {
 
@@ -156,20 +156,20 @@ function onClickEvent(e) {
 
                    updateVideoContainer(xPosition, yPosition, viewLayer, null, 0.5);
 
-                } 
+                }
 
             }
-            
+
             zoomLayer1PlayerObjects = [];
 
             currentZoomLevel = 0;
-            
+
         }
-        
+
     } else if (currentZoomLevel == 2) {
-  
+
         viewLayer = fallBackLayer;
-        
+
             zoomLayer1Hammer.off('panstart', function(evt) {
                 dragtool.startMoving(zoomLayer1, videoContainer, evt);
             });
@@ -177,166 +177,166 @@ function onClickEvent(e) {
             zoomLayer1Hammer.off('panend', function(evt) {
                 dragtool.stopMoving(videoContainer);
             });
-        
-        if (fullScreenFlag){ 
-             
+
+        if (fullScreenFlag){
+
             if (browserWindowZoomedTo === 2){
-                
+
                 updateVideoContainer(xPosition, yPosition, viewLayer, null, "fullscreen");
-                
+
             } else {
-                
+
                 updateVideoContainer(xPosition, yPosition, viewLayer, null, 0.333);
-                
+
             }
 
-            
+
         } else {
-            
+
             if (!fullScreenZoomedTo || fullScreenZoomedTo == 0 ){
-                
+
                 if (currentZoomLevel === 1) {
-                    
+
                     updateVideoContainer(xPosition, yPosition, viewLayer, null, 0.5);
-                
+
                 } else if (currentZoomLevel === 2) {
-                    
+
                     updateVideoContainer(xPosition, yPosition, viewLayer, null, 0.25); //0.16667
-                    
+
                 }
-                
+
             } else if (fullScreenZoomedTo == 1) {
-                
+
                 updateVideoContainer(xPosition, yPosition, viewLayer, null, 0.5);
-                
+
                 fullScreenZoomedTo = 0;
-               
+
             } else if (fullScreenZoomedTo == 2 ) {
-                
+
                 updateVideoContainer(xPosition, yPosition, viewLayer, null, 1.0);
-                
+
                 fullScreenZoomedTo = 0;
-               
+
             } else {
-                
+
                updateVideoContainer(xPosition, yPosition, viewLayer, null, 1.0);
-               
-            } 
-            
+
+            }
+
             browserWindowZoomedTo = 0;
-            
+
         }
-        
+
         zoomLayer2PlayerObjects = [];
-        
+
         currentZoomLevel = 0;
-       
+
     }
 }
- 
+
 function getPosition(element) {
     var xPosition = 0;
     var yPosition = 0;
-     
+
    if (fullScreenFlag == false) {
-        
+
         while (element) {
             xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
             yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
             element = element.offsetParent;
         }
     } else {
-        
+
         while (element) {
             xPosition += (element.offsetLeft - element.scrollLeft);
             yPosition += (element.offsetTop - element.scrollTop);
             element = element.offsetParent;
         }
     }
-     
+
     return { x: xPosition, y: yPosition };
 }
 
-function updateVideoContainer(xPosition, yPosition, viewLayer, delay, resizeFactor) {
-    
+function updateVideoContainer(xPosition, yPosition, viewLayer, delay, resizeFactor) { //TODO
+
     if (viewLayer == fallBackLayer){
-        
+
         if (fullScreenFlag == true) {
-            
+
             if (resizeFactor == "fullscreen zoomed") {
-                
+
                 fallBackLayer.style.height = (screen.width / fallBackLayerContentAspectRatio)  * 2 + "px";
                 fallBackLayer.style.width = screen.width * 2 + "px";
-                
+
             } else if (resizeFactor == "fullscreen zoomed double") {
-                
+
                 fallBackLayer.style.height = (screen.width / fallBackLayerContentAspectRatio)  * 3 + "px";
                 fallBackLayer.style.width = screen.width * 3 + "px";
-              
+
             } else if (resizeFactor == "fullscreen") {
-                
+
                 fallBackLayer.style.height = (screen.width / fallBackLayerContentAspectRatio) + "px";
                 fallBackLayer.style.width = screen.width + "px";
-                
+
             } else {
-                
+
                 var resizedHeight = parseInt(fallBackLayer.offsetHeight, 10) * resizeFactor;
-                var resizedWidth = parseInt(fallBackLayer.offsetWidth, 10) * resizeFactor; 
+                var resizedWidth = parseInt(fallBackLayer.offsetWidth, 10) * resizeFactor;
 
                 fallBackLayer.style.height = resizedHeight + "px";
                 fallBackLayer.style.width = resizedWidth + "px";
-                
-            }         
-           
+
+            }
+
         } else if (fullScreenFlag == false) {
-            
+
             var resizedHeight = parseInt(fallBackLayer.offsetHeight, 10) * resizeFactor;
-            var resizedWidth = parseInt(fallBackLayer.offsetWidth, 10) * resizeFactor; 
-            
+            var resizedWidth = parseInt(fallBackLayer.offsetWidth, 10) * resizeFactor;
+
             fallBackLayer.style.height = resizedHeight + "px";
             fallBackLayer.style.width = resizedWidth + "px";
 
         }
 
-        if (resizeFactor === 0.25) {    
-           
-            fallBackLayer.style.left = 0 + 'px';
-            fallBackLayer.style.top = 0 + 'px';
-            setVisibleElement("fallbacklayer");  
+        if (resizeFactor === 0.25) {
 
-        } else if (resizeFactor === 0.333 || resizeFactor === 0.5) {    
-            
-            var offsetFromTop = (parseInt(videoContainer.offsetHeight, 10) - parseInt(fallBackLayer.offsetHeight, 10)) / 2;
-           
-            fallBackLayer.style.left = 0 + 'px';
-            fallBackLayer.style.top = offsetFromTop + 'px';
-            setVisibleElement("fallbacklayer");   
-            
-        } else if (resizeFactor === 1.0) { 
-            
             fallBackLayer.style.left = 0 + 'px';
             fallBackLayer.style.top = 0 + 'px';
             setVisibleElement("fallbacklayer");
-        
+
+        } else if (resizeFactor === 0.333 || resizeFactor === 0.5) {
+
+            var offsetFromTop = (parseInt(videoContainer.offsetHeight, 10) - parseInt(fallBackLayer.offsetHeight, 10)) / 2;
+
+            fallBackLayer.style.left = 0 + 'px';
+            fallBackLayer.style.top = offsetFromTop + 'px';
+            setVisibleElement("fallbacklayer");
+
+        } else if (resizeFactor === 1.0) {
+
+            fallBackLayer.style.left = 0 + 'px';
+            fallBackLayer.style.top = 0 + 'px';
+            setVisibleElement("fallbacklayer");
+
         } else if (resizeFactor === 2) {
-            
+
             fallBackLayer.style.left = xPosition + 'px';
             fallBackLayer.style.top = yPosition + 'px';
 
-        } else if (resizeFactor === "double") {       
+        } else if (resizeFactor === "double") {
 
             var resizedHeight = parseInt(fallBackLayer.offsetHeight, 10) * 2;
-            var resizedWidth = parseInt(fallBackLayer.offsetWidth, 10) * 2; 
-            
+            var resizedWidth = parseInt(fallBackLayer.offsetWidth, 10) * 2;
+
             fallBackLayer.style.height = resizedHeight + "px";
             fallBackLayer.style.width = resizedWidth + "px";
-          
+
             fallBackLayer.style.left = (xPosition * 3) + 'px';
-            fallBackLayer.style.top = (yPosition * 3)  + 'px';            
+            fallBackLayer.style.top = (yPosition * 3)  + 'px';
             setVisibleElement("fallbacklayer");
-            
+
         } else if (resizeFactor === "fullscreen zoomed") {
-            
+
             fallBackLayer.style.left = xPosition + 'px';
             fallBackLayer.style.top = yPosition + 'px';
             setVisibleElement("fallbacklayer");
@@ -346,60 +346,60 @@ function updateVideoContainer(xPosition, yPosition, viewLayer, delay, resizeFact
             fallBackLayer.style.left = (xPosition - (parseInt(fallBackLayer.offsetWidth, 10)/ 4)) + 'px';
             fallBackLayer.style.top = (yPosition - (parseInt(fallBackLayer.offsetHeight, 10)/ 4)) + 'px';
             setVisibleElement("fallbacklayer");
-            
+
         } else if (resizeFactor === "fullscreen") {
-           
+
             fallBackLayer.style.left = 0 + 'px';
             fallBackLayer.style.top = 0 + 'px';
             setVisibleElement("fallbacklayer");
-            
+
         }
-        
+
     } else if (viewLayer == zoomLayer1) {
-     
+
         var offsetFromTop = (parseInt(videoContainer.offsetHeight, 10) - (parseInt(zoomLayer1.offsetHeight, 10) / 2)) / 2;
-        
+
         if (fullScreenFlag == false) {
             offsetFromTop = 0;
         }
         zoomLayer1.style.left = xPosition + 'px';
         zoomLayer1.style.top = (yPosition + offsetFromTop) + 'px';
 
-        setTimeout(function(){    
+        setTimeout(function(){
             setVisibleElement("zoomlayer1");
-            
-        }, delay); 
-        
+
+        }, delay);
+
     } else if (viewLayer == zoomLayer2) {
-        
+
         var offsetFromTop = (parseInt(videoContainer.offsetHeight, 10) - (parseInt(zoomLayer2.offsetHeight, 10) / 2)) / 2;
-        
+
         if (fullScreenFlag == false) {
             offsetFromTop = 0;
         }
         zoomLayer2.style.left = xPosition + 'px';
         zoomLayer2.style.top = (yPosition + offsetFromTop) + 'px';
 
-        setTimeout(function(){    
+        setTimeout(function(){
             setVisibleElement("zoomlayer2");
-        }, delay);        
-    }   
+        }, delay);
+    }
 }
 
 function updateAspectRatio(viewLayer, contentAspectRatio) {
-    
-    if (viewLayer == fallBackLayer) { 
-    
+
+    if (viewLayer == fallBackLayer) {
+
         SRDPlayer.style.height = ((initialWidth / contentAspectRatio) + 188) + "px";
         videoContainer.style.height = (initialWidth / contentAspectRatio) + "px";
         fallBackLayer.style.height = (initialWidth / contentAspectRatio) + "px";
-        bannerbox.style.height = (initialWidth / contentAspectRatio) + "px"; 
-    
+        bannerbox.style.height = (initialWidth / contentAspectRatio) + "px";
+
     }
 }
 
 function setVisibleElement(visibleElement){
-   
+
    if (visibleElement === "fallbacklayer") {
        fallBackLayer.style.visibility = "visible";
        zoomLayer1.style.visibility = "hidden";
@@ -434,11 +434,11 @@ var dragtool = function(){
                         divid.style.top = ypos + 'px';
                         fallBackLayer.style.left = xpos + 'px';
                         fallBackLayer.style.top = ypos + 'px';
-                        
+
                     },
-                    
+
                     startMoving : function(divid, videoContainer, evt){
-                        
+
                         var eWi = parseInt(divid.offsetWidth, 10),
                             eHe = parseInt(divid.offsetHeight, 10),
                             vWi = parseInt(videoContainer.offsetWidth, 10),
@@ -449,49 +449,49 @@ var dragtool = function(){
 
                         videoContainer.onmousemove = function(evt){
                             evt = evt || window.event;
-                            
+
                             var parentPosition,
                                 xPosition,
                                 yPosition;
-                            
+
                             if (fullScreenFlag == false) {
                                 parentPosition = getPosition(evt.currentTarget);
                                 xPosition = evt.clientX - parentPosition.x - (((eWi / 2) + vWi) / 2);
                                 yPosition = evt.clientY - parentPosition.y - (((eHe / 2) + vHe) / 2);
-                                
-                            } else {  
+
+                            } else {
                                 xPosition = evt.clientX - (((eWi / 2) + vWi) / 2);
                                 yPosition = evt.clientY - (((eHe / 2) + vHe) / 2);
 
-                            }   
-                            
+                            }
+
                             if (xPosition < -(eWi - vWi)) {xPosition = -(eWi - vWi);};
-                            if (yPosition < -(eHe - vHe)) {yPosition = -(eHe - vHe);};                            
+                            if (yPosition < -(eHe - vHe)) {yPosition = -(eHe - vHe);};
                             if (xPosition > 0) {xPosition = 0;};
                             if (yPosition > 0) {yPosition = 0;};
 
                             dragtool.move(divid,xPosition,yPosition);
                         };
                     },
-                    
+
                     stopMoving : function(videoContainer){
 		        videoContainer.style.cursor='default';
                         videoContainer.onmousemove = function(){};
                     }
                 };
             }();
- 
+
 function computeVideoDimensions(contentAspectRatio, viewState) {
 
     if (contentAspectRatio === undefined) {
 
-        // Use fallBackLayerContentAspectRatio as fallback when input content aspect ratio is not available   
+        // Use fallBackLayerContentAspectRatio as fallback when input content aspect ratio is not available
         contentAspectRatio = fallBackLayerContentAspectRatio;
 
     }
-    
+
     if (viewState == "fullscreen") {
-        
+
         var fullScreenVideoHeight,
             fullScreenVideoWidth;
 
@@ -503,7 +503,7 @@ function computeVideoDimensions(contentAspectRatio, viewState) {
         } else if (screenAspectRatio < contentAspectRatio){
 
             fullScreenVideoHeight = screen.width / contentAspectRatio;
-            fullScreenVideoWidth = screen.width;   
+            fullScreenVideoWidth = screen.width;
 
         } else if (screenAspectRatio > contentAspectRatio) {
 
@@ -512,20 +512,14 @@ function computeVideoDimensions(contentAspectRatio, viewState) {
 
         }
 
-        return [fullScreenVideoHeight, fullScreenVideoWidth]; 
-        
+        return [fullScreenVideoHeight, fullScreenVideoWidth];
+
     } else if (viewState == "normal") {
-        
+
         var normalVideoHeight;
         normalVideoHeight = initialWidth / contentAspectRatio;
-        
+
         return normalVideoHeight;
 
     }
 };
-
-
-
-
-            
-            

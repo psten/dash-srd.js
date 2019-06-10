@@ -1,7 +1,7 @@
-/* 
-* The copyright in this software is being made available under the following 
-* TNO license terms. This software may be subject to other third party and 
-* TNO intellectual property rights, including patent rights, 
+/*
+* The copyright in this software is being made available under the following
+* TNO license terms. This software may be subject to other third party and
+* TNO intellectual property rights, including patent rights,
 * and no such rights are granted under this license.
 *
 * Created by Jorrit van den Berg on 7/12/15.
@@ -20,8 +20,8 @@
 *    be used to endorse or promote products derived from this software without
 *    specific prior written permission.
 *
-* THIS SOFTWARE IS PROVIDED BY TNO "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
-* INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND 
+* THIS SOFTWARE IS PROVIDED BY TNO "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+* INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL TNO
 * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
 * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
@@ -59,7 +59,7 @@ var SRDPlayer,
     syncVideo4,
     syncVideo5,
     syncVideo6,
-    syncVideo7, 
+    syncVideo7,
     syncVideo8,
     zoomLayer1VideoSyncObjects,
     zoomLayer2VideoSyncObjects,
@@ -82,13 +82,13 @@ var SRDPlayer,
     initialAspectRatio,
     fallBackLayerContentWidth,
     fallBackLayerContentHeight,
-    fallBackLayerContentAspectRatio,   
+    fallBackLayerContentAspectRatio,
     zoomLayer1ContentWidth,
     zoomLayer1ContentHeight,
     zoomLayer1ContentAspectRatio,
     zoomLayer2ContentWidth,
     zoomLayer2ContentHeight,
-    zoomLayer2ContentAspectRatio,        
+    zoomLayer2ContentAspectRatio,
     screenAspectRatio,
     contentHasAudio,
     contentAspectRatio,
@@ -115,8 +115,8 @@ var SRDPlayer,
 /* Variable assignments to be executed when DOM loading is finished.
  * This is needed to get hooks to DOM elements and do some settings.
  * If you want to change the id of DOM elements in your HTML file (e.g. zoomLayer1 or video1),
- * be sure to change them here as well in each occurence: 
- * document.getElementById("<yourElementId>") 
+ * be sure to change them here as well in each occurence:
+ * document.getElementById("<yourElementId>")
  */
 
 $(document).ready(function() {
@@ -137,7 +137,7 @@ $(document).ready(function() {
     videoController = document.getElementById("videoController");
 
     zoomLayer1VideoElements = [video1, video2, video3, video4];
-    zoomLayer2VideoElements = [video5, video6, video7, video8];  
+    zoomLayer2VideoElements = [video5, video6, video7, video8];
 
     zoomLayer1VideoSyncObjects = [syncVideo1, syncVideo2, syncVideo3, syncVideo4];
     zoomLayer2VideoSyncObjects = [syncVideo5, syncVideo6, syncVideo7, syncVideo8];
@@ -146,11 +146,11 @@ $(document).ready(function() {
     zoomLayer2PlayerObjects = [];
     spatialOrderingZoomLevel1 = [];
     spatialOrderingZoomLevel2 = [];
-    
-    fallBackLayer.style.visibility = 'visible';
-    zoomLayer1.style.visibility = 'hidden';
-    zoomLayer2.style.visibility = 'hidden';    
-    
+
+    fallBackLayer.style.visibility = 'hidden';
+    zoomLayer1.style.visibility = 'visible';  //made zoomLayer1 visible by default
+    zoomLayer2.style.visibility = 'hidden';
+
     video1.muted = true;
     video2.muted = true;
     video3.muted = true;
@@ -162,17 +162,17 @@ $(document).ready(function() {
     getClickPositionEnabled = false;
     fullScreenFlag = false;
     browserType = detectBrowser();
-    
+
     /* Construct Hammer.js instances for gesture events on mobile devices.
        (currently this is not functional due to an import error of the Hammer.js library) */
-    
+
     zoomLayer1Hammer = new Hammer(zoomLayer1, {
-    
+
         recognizers: [[Hammer.Pan,{ direction: Hammer.DIRECTION_ALL }],]
     });
-    
+
     zoomLayer2Hammer = new Hammer(zoomLayer2, {
-    
+
         recognizers: [[Hammer.Pan,{ direction: Hammer.DIRECTION_ALL }],]
     });
 });

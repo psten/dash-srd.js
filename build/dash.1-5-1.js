@@ -226,135 +226,320 @@ function ObjectIron(a) {
   return {
     run: f
   }
-}! function(a) {
-  "use strict";
-  var b = {
-    VERSION: "0.5.3"
-  };
-  b.System = function() {
-    this._mappings = {}, this._outlets = {}, this._handlers = {}, this.strictInjections = !0, this.autoMapOutlets = !1, this.postInjectionHook = "setup"
-  }, b.System.prototype = {
-    _createAndSetupInstance: function(a, b) {
-      var c = new b;
-      return this.injectInto(c, a), c
-    },
-    _retrieveFromCacheOrCreate: function(a, b) {
-      "undefined" == typeof b && (b = !1);
-      var c;
-      if (!this._mappings.hasOwnProperty(a)) throw new Error(1e3);
-      var d = this._mappings[a];
-      return !b && d.isSingleton ? (null == d.object && (d.object = this._createAndSetupInstance(a, d.clazz)), c = d.object) : c = d.clazz ? this._createAndSetupInstance(a, d.clazz) : d.object, c
-    },
-    mapOutlet: function(a, b, c) {
-      if ("undefined" == typeof a) throw new Error(1010);
-      return b = b || "global", c = c || a, this._outlets.hasOwnProperty(b) || (this._outlets[b] = {}), this._outlets[b][c] = a, this
-    },
-    getObject: function(a) {
-      if ("undefined" == typeof a) throw new Error(1020);
-      return this._retrieveFromCacheOrCreate(a)
-    },
-    mapValue: function(a, b) {
-      if ("undefined" == typeof a) throw new Error(1030);
-      return this._mappings[a] = {
-        clazz: null,
-        object: b,
-        isSingleton: !0
-      }, this.autoMapOutlets && this.mapOutlet(a), this.hasMapping(a) && this.injectInto(b, a), this
-    },
-    hasMapping: function(a) {
-      if ("undefined" == typeof a) throw new Error(1040);
-      return this._mappings.hasOwnProperty(a)
-    },
-    mapClass: function(a, b) {
-      if ("undefined" == typeof a) throw new Error(1050);
-      if ("undefined" == typeof b) throw new Error(1051);
-      return this._mappings[a] = {
-        clazz: b,
-        object: null,
-        isSingleton: !1
-      }, this.autoMapOutlets && this.mapOutlet(a), this
-    },
-    mapSingleton: function(a, b) {
-      if ("undefined" == typeof a) throw new Error(1060);
-      if ("undefined" == typeof b) throw new Error(1061);
-      return this._mappings[a] = {
-        clazz: b,
-        object: null,
-        isSingleton: !0
-      }, this.autoMapOutlets && this.mapOutlet(a), this
-    },
-    instantiate: function(a) {
-      if ("undefined" == typeof a) throw new Error(1070);
-      return this._retrieveFromCacheOrCreate(a, !0)
-    },
-    injectInto: function(a, b) {
-      if ("undefined" == typeof a) throw new Error(1080);
-      if ("object" == typeof a) {
-        var c = [];
-        this._outlets.hasOwnProperty("global") && c.push(this._outlets.global), "undefined" != typeof b && this._outlets.hasOwnProperty(b) && c.push(this._outlets[b]);
-        for (var d in c) {
-          var e = c[d];
-          for (var f in e) {
-            var g = e[f];
-            (!this.strictInjections || f in a) && (a[f] = this.getObject(g))
+}
+if (function(a) {
+    "use strict";
+    var b = {
+      VERSION: "0.5.3"
+    };
+    b.System = function() {
+      this._mappings = {}, this._outlets = {}, this._handlers = {}, this.strictInjections = !0, this.autoMapOutlets = !1, this.postInjectionHook = "setup"
+    }, b.System.prototype = {
+      _createAndSetupInstance: function(a, b) {
+        var c = new b;
+        return this.injectInto(c, a), c
+      },
+      _retrieveFromCacheOrCreate: function(a, b) {
+        "undefined" == typeof b && (b = !1);
+        var c;
+        if (!this._mappings.hasOwnProperty(a)) throw new Error(1e3);
+        var d = this._mappings[a];
+        return !b && d.isSingleton ? (null == d.object && (d.object = this._createAndSetupInstance(a, d.clazz)), c = d.object) : c = d.clazz ? this._createAndSetupInstance(a, d.clazz) : d.object, c
+      },
+      mapOutlet: function(a, b, c) {
+        if ("undefined" == typeof a) throw new Error(1010);
+        return b = b || "global", c = c || a, this._outlets.hasOwnProperty(b) || (this._outlets[b] = {}), this._outlets[b][c] = a, this
+      },
+      getObject: function(a) {
+        if ("undefined" == typeof a) throw new Error(1020);
+        return this._retrieveFromCacheOrCreate(a)
+      },
+      mapValue: function(a, b) {
+        if ("undefined" == typeof a) throw new Error(1030);
+        return this._mappings[a] = {
+          clazz: null,
+          object: b,
+          isSingleton: !0
+        }, this.autoMapOutlets && this.mapOutlet(a), this.hasMapping(a) && this.injectInto(b, a), this
+      },
+      hasMapping: function(a) {
+        if ("undefined" == typeof a) throw new Error(1040);
+        return this._mappings.hasOwnProperty(a)
+      },
+      mapClass: function(a, b) {
+        if ("undefined" == typeof a) throw new Error(1050);
+        if ("undefined" == typeof b) throw new Error(1051);
+        return this._mappings[a] = {
+          clazz: b,
+          object: null,
+          isSingleton: !1
+        }, this.autoMapOutlets && this.mapOutlet(a), this
+      },
+      mapSingleton: function(a, b) {
+        if ("undefined" == typeof a) throw new Error(1060);
+        if ("undefined" == typeof b) throw new Error(1061);
+        return this._mappings[a] = {
+          clazz: b,
+          object: null,
+          isSingleton: !0
+        }, this.autoMapOutlets && this.mapOutlet(a), this
+      },
+      instantiate: function(a) {
+        if ("undefined" == typeof a) throw new Error(1070);
+        return this._retrieveFromCacheOrCreate(a, !0)
+      },
+      injectInto: function(a, b) {
+        if ("undefined" == typeof a) throw new Error(1080);
+        if ("object" == typeof a) {
+          var c = [];
+          this._outlets.hasOwnProperty("global") && c.push(this._outlets.global), "undefined" != typeof b && this._outlets.hasOwnProperty(b) && c.push(this._outlets[b]);
+          for (var d in c) {
+            var e = c[d];
+            for (var f in e) {
+              var g = e[f];
+              (!this.strictInjections || f in a) && (a[f] = this.getObject(g))
+            }
+          }
+          "setup" in a && a.setup.call(a)
+        }
+        return this
+      },
+      unmap: function(a) {
+        if ("undefined" == typeof a) throw new Error(1090);
+        return delete this._mappings[a], this
+      },
+      unmapOutlet: function(a, b) {
+        if ("undefined" == typeof a) throw new Error(1100);
+        if ("undefined" == typeof b) throw new Error(1101);
+        return delete this._outlets[a][b], this
+      },
+      mapHandler: function(a, b, c, d, e) {
+        if ("undefined" == typeof a) throw new Error(1110);
+        return b = b || "global", c = c || a, "undefined" == typeof d && (d = !1), "undefined" == typeof e && (e = !1), this._handlers.hasOwnProperty(a) || (this._handlers[a] = {}), this._handlers[a].hasOwnProperty(b) || (this._handlers[a][b] = []), this._handlers[a][b].push({
+          handler: c,
+          oneShot: d,
+          passEvent: e
+        }), this
+      },
+      unmapHandler: function(a, b, c) {
+        if ("undefined" == typeof a) throw new Error(1120);
+        if (b = b || "global", c = c || a, this._handlers.hasOwnProperty(a) && this._handlers[a].hasOwnProperty(b)) {
+          var d = this._handlers[a][b];
+          for (var e in d) {
+            var f = d[e];
+            if (f.handler === c) {
+              d.splice(e, 1);
+              break
+            }
           }
         }
-        "setup" in a && a.setup.call(a)
-      }
-      return this
-    },
-    unmap: function(a) {
-      if ("undefined" == typeof a) throw new Error(1090);
-      return delete this._mappings[a], this
-    },
-    unmapOutlet: function(a, b) {
-      if ("undefined" == typeof a) throw new Error(1100);
-      if ("undefined" == typeof b) throw new Error(1101);
-      return delete this._outlets[a][b], this
-    },
-    mapHandler: function(a, b, c, d, e) {
-      if ("undefined" == typeof a) throw new Error(1110);
-      return b = b || "global", c = c || a, "undefined" == typeof d && (d = !1), "undefined" == typeof e && (e = !1), this._handlers.hasOwnProperty(a) || (this._handlers[a] = {}), this._handlers[a].hasOwnProperty(b) || (this._handlers[a][b] = []), this._handlers[a][b].push({
-        handler: c,
-        oneShot: d,
-        passEvent: e
-      }), this
-    },
-    unmapHandler: function(a, b, c) {
-      if ("undefined" == typeof a) throw new Error(1120);
-      if (b = b || "global", c = c || a, this._handlers.hasOwnProperty(a) && this._handlers[a].hasOwnProperty(b)) {
-        var d = this._handlers[a][b];
-        for (var e in d) {
-          var f = d[e];
-          if (f.handler === c) {
-            d.splice(e, 1);
-            break
+        return this
+      },
+      notify: function(a) {
+        if ("undefined" == typeof a) throw new Error(1130);
+        var b = Array.prototype.slice.call(arguments),
+          c = b.slice(1);
+        if (this._handlers.hasOwnProperty(a)) {
+          var d = this._handlers[a];
+          for (var e in d) {
+            var f, g = d[e];
+            "global" !== e && (f = this.getObject(e));
+            var h, i, j = [];
+            for (h = 0, i = g.length; i > h; h++) {
+              var k, l = g[h];
+              k = f && "string" == typeof l.handler ? f[l.handler] : l.handler, l.oneShot && j.unshift(h), l.passEvent ? k.apply(f, b) : k.apply(f, c)
+            }
+            for (h = 0, i = j.length; i > h; h++) g.splice(j[h], 1)
           }
         }
+        return this
       }
-      return this
-    },
-    notify: function(a) {
-      if ("undefined" == typeof a) throw new Error(1130);
-      var b = Array.prototype.slice.call(arguments),
-        c = b.slice(1);
-      if (this._handlers.hasOwnProperty(a)) {
-        var d = this._handlers[a];
-        for (var e in d) {
-          var f, g = d[e];
-          "global" !== e && (f = this.getObject(e));
-          var h, i, j = [];
-          for (h = 0, i = g.length; i > h; h++) {
-            var k, l = g[h];
-            k = f && "string" == typeof l.handler ? f[l.handler] : l.handler, l.oneShot && j.unshift(h), l.passEvent ? k.apply(f, b) : k.apply(f, c)
-          }
-          for (h = 0, i = j.length; i > h; h++) g.splice(j[h], 1)
-        }
-      }
-      return this
+    }, a.dijon = b
+  }(this), "undefined" == typeof utils) var utils = {};
+"undefined" == typeof utils.Math && (utils.Math = {}), utils.Math.to64BitNumber = function(a, b) {
+  var c, d, e;
+  return c = new goog.math.Long(0, b), d = new goog.math.Long(a, 0), e = c.add(d), e.toNumber()
+}, goog = {}, goog.math = {}, goog.math.Long = function(a, b) {
+  this.low_ = 0 | a, this.high_ = 0 | b
+}, goog.math.Long.IntCache_ = {}, goog.math.Long.fromInt = function(a) {
+  if (a >= -128 && 128 > a) {
+    var b = goog.math.Long.IntCache_[a];
+    if (b) return b
+  }
+  var c = new goog.math.Long(0 | a, 0 > a ? -1 : 0);
+  return a >= -128 && 128 > a && (goog.math.Long.IntCache_[a] = c), c
+}, goog.math.Long.fromNumber = function(a) {
+  return isNaN(a) || !isFinite(a) ? goog.math.Long.ZERO : a <= -goog.math.Long.TWO_PWR_63_DBL_ ? goog.math.Long.MIN_VALUE : a + 1 >= goog.math.Long.TWO_PWR_63_DBL_ ? goog.math.Long.MAX_VALUE : 0 > a ? goog.math.Long.fromNumber(-a).negate() : new goog.math.Long(a % goog.math.Long.TWO_PWR_32_DBL_ | 0, a / goog.math.Long.TWO_PWR_32_DBL_ | 0)
+}, goog.math.Long.fromBits = function(a, b) {
+  return new goog.math.Long(a, b)
+}, goog.math.Long.fromString = function(a, b) {
+  if (0 == a.length) throw Error("number format error: empty string");
+  var c = b || 10;
+  if (2 > c || c > 36) throw Error("radix out of range: " + c);
+  if ("-" == a.charAt(0)) return goog.math.Long.fromString(a.substring(1), c).negate();
+  if (a.indexOf("-") >= 0) throw Error('number format error: interior "-" character: ' + a);
+  for (var d = goog.math.Long.fromNumber(Math.pow(c, 8)), e = goog.math.Long.ZERO, f = 0; f < a.length; f += 8) {
+    var g = Math.min(8, a.length - f),
+      h = parseInt(a.substring(f, f + g), c);
+    if (8 > g) {
+      var i = goog.math.Long.fromNumber(Math.pow(c, g));
+      e = e.multiply(i).add(goog.math.Long.fromNumber(h))
+    } else e = e.multiply(d), e = e.add(goog.math.Long.fromNumber(h))
+  }
+  return e
+}, goog.math.Long.TWO_PWR_16_DBL_ = 65536, goog.math.Long.TWO_PWR_24_DBL_ = 1 << 24, goog.math.Long.TWO_PWR_32_DBL_ = goog.math.Long.TWO_PWR_16_DBL_ * goog.math.Long.TWO_PWR_16_DBL_, goog.math.Long.TWO_PWR_31_DBL_ = goog.math.Long.TWO_PWR_32_DBL_ / 2, goog.math.Long.TWO_PWR_48_DBL_ = goog.math.Long.TWO_PWR_32_DBL_ * goog.math.Long.TWO_PWR_16_DBL_, goog.math.Long.TWO_PWR_64_DBL_ = goog.math.Long.TWO_PWR_32_DBL_ * goog.math.Long.TWO_PWR_32_DBL_, goog.math.Long.TWO_PWR_63_DBL_ = goog.math.Long.TWO_PWR_64_DBL_ / 2, goog.math.Long.ZERO = goog.math.Long.fromInt(0), goog.math.Long.ONE = goog.math.Long.fromInt(1), goog.math.Long.NEG_ONE = goog.math.Long.fromInt(-1), goog.math.Long.MAX_VALUE = goog.math.Long.fromBits(-1, 2147483647), goog.math.Long.MIN_VALUE = goog.math.Long.fromBits(0, -2147483648), goog.math.Long.TWO_PWR_24_ = goog.math.Long.fromInt(1 << 24), goog.math.Long.prototype.toInt = function() {
+  return this.low_
+}, goog.math.Long.prototype.toNumber = function() {
+  return this.high_ * goog.math.Long.TWO_PWR_32_DBL_ + this.getLowBitsUnsigned()
+}, goog.math.Long.prototype.toString = function(a) {
+  var b = a || 10;
+  if (2 > b || b > 36) throw Error("radix out of range: " + b);
+  if (this.isZero()) return "0";
+  if (this.isNegative()) {
+    if (this.equals(goog.math.Long.MIN_VALUE)) {
+      var c = goog.math.Long.fromNumber(b),
+        d = this.div(c),
+        e = d.multiply(c).subtract(this);
+      return d.toString(b) + e.toInt().toString(b)
     }
-  }, a.dijon = b
-}(this);
+    return "-" + this.negate().toString(b)
+  }
+  for (var f = goog.math.Long.fromNumber(Math.pow(b, 6)), e = this, g = "";;) {
+    var h = e.div(f),
+      i = e.subtract(h.multiply(f)).toInt(),
+      j = i.toString(b);
+    if (e = h, e.isZero()) return j + g;
+    for (; j.length < 6;) j = "0" + j;
+    g = "" + j + g
+  }
+}, goog.math.Long.prototype.getHighBits = function() {
+  return this.high_
+}, goog.math.Long.prototype.getLowBits = function() {
+  return this.low_
+}, goog.math.Long.prototype.getLowBitsUnsigned = function() {
+  return this.low_ >= 0 ? this.low_ : goog.math.Long.TWO_PWR_32_DBL_ + this.low_
+}, goog.math.Long.prototype.getNumBitsAbs = function() {
+  if (this.isNegative()) return this.equals(goog.math.Long.MIN_VALUE) ? 64 : this.negate().getNumBitsAbs();
+  for (var a = 0 != this.high_ ? this.high_ : this.low_, b = 31; b > 0 && 0 == (a & 1 << b); b--);
+  return 0 != this.high_ ? b + 33 : b + 1
+}, goog.math.Long.prototype.isZero = function() {
+  return 0 == this.high_ && 0 == this.low_
+}, goog.math.Long.prototype.isNegative = function() {
+  return this.high_ < 0
+}, goog.math.Long.prototype.isOdd = function() {
+  return 1 == (1 & this.low_)
+}, goog.math.Long.prototype.equals = function(a) {
+  return this.high_ == a.high_ && this.low_ == a.low_
+}, goog.math.Long.prototype.notEquals = function(a) {
+  return this.high_ != a.high_ || this.low_ != a.low_
+}, goog.math.Long.prototype.lessThan = function(a) {
+  return this.compare(a) < 0
+}, goog.math.Long.prototype.lessThanOrEqual = function(a) {
+  return this.compare(a) <= 0
+}, goog.math.Long.prototype.greaterThan = function(a) {
+  return this.compare(a) > 0
+}, goog.math.Long.prototype.greaterThanOrEqual = function(a) {
+  return this.compare(a) >= 0
+}, goog.math.Long.prototype.compare = function(a) {
+  if (this.equals(a)) return 0;
+  var b = this.isNegative(),
+    c = a.isNegative();
+  return b && !c ? -1 : !b && c ? 1 : this.subtract(a).isNegative() ? -1 : 1
+}, goog.math.Long.prototype.negate = function() {
+  return this.equals(goog.math.Long.MIN_VALUE) ? goog.math.Long.MIN_VALUE : this.not().add(goog.math.Long.ONE)
+}, goog.math.Long.prototype.add = function(a) {
+  var b = this.high_ >>> 16,
+    c = 65535 & this.high_,
+    d = this.low_ >>> 16,
+    e = 65535 & this.low_,
+    f = a.high_ >>> 16,
+    g = 65535 & a.high_,
+    h = a.low_ >>> 16,
+    i = 65535 & a.low_,
+    j = 0,
+    k = 0,
+    l = 0,
+    m = 0;
+  return m += e + i, l += m >>> 16, m &= 65535, l += d + h, k += l >>> 16, l &= 65535, k += c + g, j += k >>> 16, k &= 65535, j += b + f, j &= 65535, goog.math.Long.fromBits(l << 16 | m, j << 16 | k)
+}, goog.math.Long.prototype.subtract = function(a) {
+  return this.add(a.negate())
+}, goog.math.Long.prototype.multiply = function(a) {
+  if (this.isZero()) return goog.math.Long.ZERO;
+  if (a.isZero()) return goog.math.Long.ZERO;
+  if (this.equals(goog.math.Long.MIN_VALUE)) return a.isOdd() ? goog.math.Long.MIN_VALUE : goog.math.Long.ZERO;
+  if (a.equals(goog.math.Long.MIN_VALUE)) return this.isOdd() ? goog.math.Long.MIN_VALUE : goog.math.Long.ZERO;
+  if (this.isNegative()) return a.isNegative() ? this.negate().multiply(a.negate()) : this.negate().multiply(a).negate();
+  if (a.isNegative()) return this.multiply(a.negate()).negate();
+  if (this.lessThan(goog.math.Long.TWO_PWR_24_) && a.lessThan(goog.math.Long.TWO_PWR_24_)) return goog.math.Long.fromNumber(this.toNumber() * a.toNumber());
+  var b = this.high_ >>> 16,
+    c = 65535 & this.high_,
+    d = this.low_ >>> 16,
+    e = 65535 & this.low_,
+    f = a.high_ >>> 16,
+    g = 65535 & a.high_,
+    h = a.low_ >>> 16,
+    i = 65535 & a.low_,
+    j = 0,
+    k = 0,
+    l = 0,
+    m = 0;
+  return m += e * i, l += m >>> 16, m &= 65535, l += d * i, k += l >>> 16, l &= 65535, l += e * h, k += l >>> 16, l &= 65535, k += c * i, j += k >>> 16, k &= 65535, k += d * h, j += k >>> 16, k &= 65535, k += e * g, j += k >>> 16, k &= 65535, j += b * i + c * h + d * g + e * f, j &= 65535, goog.math.Long.fromBits(l << 16 | m, j << 16 | k)
+}, goog.math.Long.prototype.div = function(a) {
+  if (a.isZero()) throw Error("division by zero");
+  if (this.isZero()) return goog.math.Long.ZERO;
+  if (this.equals(goog.math.Long.MIN_VALUE)) {
+    if (a.equals(goog.math.Long.ONE) || a.equals(goog.math.Long.NEG_ONE)) return goog.math.Long.MIN_VALUE;
+    if (a.equals(goog.math.Long.MIN_VALUE)) return goog.math.Long.ONE;
+    var b = this.shiftRight(1),
+      c = b.div(a).shiftLeft(1);
+    if (c.equals(goog.math.Long.ZERO)) return a.isNegative() ? goog.math.Long.ONE : goog.math.Long.NEG_ONE;
+    var d = this.subtract(a.multiply(c)),
+      e = c.add(d.div(a));
+    return e
+  }
+  if (a.equals(goog.math.Long.MIN_VALUE)) return goog.math.Long.ZERO;
+  if (this.isNegative()) return a.isNegative() ? this.negate().div(a.negate()) : this.negate().div(a).negate();
+  if (a.isNegative()) return this.div(a.negate()).negate();
+  for (var f = goog.math.Long.ZERO, d = this; d.greaterThanOrEqual(a);) {
+    for (var c = Math.max(1, Math.floor(d.toNumber() / a.toNumber())), g = Math.ceil(Math.log(c) / Math.LN2), h = 48 >= g ? 1 : Math.pow(2, g - 48), i = goog.math.Long.fromNumber(c), j = i.multiply(a); j.isNegative() || j.greaterThan(d);) c -= h, i = goog.math.Long.fromNumber(c), j = i.multiply(a);
+    i.isZero() && (i = goog.math.Long.ONE), f = f.add(i), d = d.subtract(j)
+  }
+  return f
+}, goog.math.Long.prototype.modulo = function(a) {
+  return this.subtract(this.div(a).multiply(a))
+}, goog.math.Long.prototype.not = function() {
+  return goog.math.Long.fromBits(~this.low_, ~this.high_)
+}, goog.math.Long.prototype.and = function(a) {
+  return goog.math.Long.fromBits(this.low_ & a.low_, this.high_ & a.high_)
+}, goog.math.Long.prototype.or = function(a) {
+  return goog.math.Long.fromBits(this.low_ | a.low_, this.high_ | a.high_)
+}, goog.math.Long.prototype.xor = function(a) {
+  return goog.math.Long.fromBits(this.low_ ^ a.low_, this.high_ ^ a.high_)
+}, goog.math.Long.prototype.shiftLeft = function(a) {
+  if (a &= 63, 0 == a) return this;
+  var b = this.low_;
+  if (32 > a) {
+    var c = this.high_;
+    return goog.math.Long.fromBits(b << a, c << a | b >>> 32 - a)
+  }
+  return goog.math.Long.fromBits(0, b << a - 32)
+}, goog.math.Long.prototype.shiftRight = function(a) {
+  if (a &= 63, 0 == a) return this;
+  var b = this.high_;
+  if (32 > a) {
+    var c = this.low_;
+    return goog.math.Long.fromBits(c >>> a | b << 32 - a, b >> a)
+  }
+  return goog.math.Long.fromBits(b >> a - 32, b >= 0 ? 0 : -1)
+}, goog.math.Long.prototype.shiftRightUnsigned = function(a) {
+  if (a &= 63, 0 == a) return this;
+  var b = this.high_;
+  if (32 > a) {
+    var c = this.low_;
+    return goog.math.Long.fromBits(c >>> a | b << 32 - a, b >>> a)
+  }
+  return 32 == a ? goog.math.Long.fromBits(b, 0) : goog.math.Long.fromBits(b >>> a - 32, 0)
+};
 var UTF8 = {};
 UTF8.encode = function(a) {
   for (var b = [], c = 0; c < a.length; ++c) {
@@ -370,56 +555,57 @@ UTF8.encode = function(a) {
   return b.join("")
 };
 var BASE64 = {};
-! function(b) {
-  var c = function(a) {
-      for (var c = 0, d = [], e = 0 | a.length / 3; 0 < e--;) {
-        var f = (a[c] << 16) + (a[c + 1] << 8) + a[c + 2];
-        c += 3, d.push(b.charAt(63 & f >> 18)), d.push(b.charAt(63 & f >> 12)), d.push(b.charAt(63 & f >> 6)), d.push(b.charAt(63 & f))
-      }
-      if (2 == a.length - c) {
-        var f = (a[c] << 16) + (a[c + 1] << 8);
-        d.push(b.charAt(63 & f >> 18)), d.push(b.charAt(63 & f >> 12)), d.push(b.charAt(63 & f >> 6)), d.push("=")
-      } else if (1 == a.length - c) {
-        var f = a[c] << 16;
-        d.push(b.charAt(63 & f >> 18)), d.push(b.charAt(63 & f >> 12)), d.push("==")
-      }
-      return d.join("")
-    },
-    d = function() {
-      for (var a = [], c = 0; c < b.length; ++c) a[b.charCodeAt(c)] = c;
-      return a["=".charCodeAt(0)] = 0, a
-    }(),
-    e = function(a) {
-      for (var b = 0, c = [], e = 0 | a.length / 4; 0 < e--;) {
-        var f = (d[a.charCodeAt(b)] << 18) + (d[a.charCodeAt(b + 1)] << 12) + (d[a.charCodeAt(b + 2)] << 6) + d[a.charCodeAt(b + 3)];
-        c.push(255 & f >> 16), c.push(255 & f >> 8), c.push(255 & f), b += 4
-      }
-      return c && ("=" == a.charAt(b - 2) ? (c.pop(), c.pop()) : "=" == a.charAt(b - 1) && c.pop()), c
-    },
-    f = {};
-  f.encode = function(a) {
-    for (var b = [], c = 0; c < a.length; ++c) b.push(a.charCodeAt(c));
-    return b
-  }, f.decode = function(b) {
-    for (var c = 0; c < s.length; ++c) a[c] = String.fromCharCode(a[c]);
-    return a.join("")
-  }, BASE64.decodeArray = function(a) {
-    var b = e(a);
-    return new Uint8Array(b)
-  }, BASE64.encodeASCII = function(a) {
-    var b = f.encode(a);
-    return c(b)
-  }, BASE64.decodeASCII = function(a) {
-    var b = e(a);
-    return f.decode(b)
-  }, BASE64.encode = function(a) {
-    var b = UTF8.encode(a);
-    return c(b)
-  }, BASE64.decode = function(a) {
-    var b = e(a);
-    return UTF8.decode(b)
-  }
-}("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/");
+if (function(b) {
+    var c = function(a) {
+        for (var c = 0, d = [], e = 0 | a.length / 3; 0 < e--;) {
+          var f = (a[c] << 16) + (a[c + 1] << 8) + a[c + 2];
+          c += 3, d.push(b.charAt(63 & f >> 18)), d.push(b.charAt(63 & f >> 12)), d.push(b.charAt(63 & f >> 6)), d.push(b.charAt(63 & f))
+        }
+        if (2 == a.length - c) {
+          var f = (a[c] << 16) + (a[c + 1] << 8);
+          d.push(b.charAt(63 & f >> 18)), d.push(b.charAt(63 & f >> 12)), d.push(b.charAt(63 & f >> 6)), d.push("=")
+        } else if (1 == a.length - c) {
+          var f = a[c] << 16;
+          d.push(b.charAt(63 & f >> 18)), d.push(b.charAt(63 & f >> 12)), d.push("==")
+        }
+        return d.join("")
+      },
+      d = function() {
+        for (var a = [], c = 0; c < b.length; ++c) a[b.charCodeAt(c)] = c;
+        return a["=".charCodeAt(0)] = 0, a
+      }(),
+      e = function(a) {
+        for (var b = 0, c = [], e = 0 | a.length / 4; 0 < e--;) {
+          var f = (d[a.charCodeAt(b)] << 18) + (d[a.charCodeAt(b + 1)] << 12) + (d[a.charCodeAt(b + 2)] << 6) + d[a.charCodeAt(b + 3)];
+          c.push(255 & f >> 16), c.push(255 & f >> 8), c.push(255 & f), b += 4
+        }
+        return c && ("=" == a.charAt(b - 2) ? (c.pop(), c.pop()) : "=" == a.charAt(b - 1) && c.pop()), c
+      },
+      f = {};
+    f.encode = function(a) {
+      for (var b = [], c = 0; c < a.length; ++c) b.push(a.charCodeAt(c));
+      return b
+    }, f.decode = function(b) {
+      for (var c = 0; c < s.length; ++c) a[c] = String.fromCharCode(a[c]);
+      return a.join("")
+    }, BASE64.decodeArray = function(a) {
+      var b = e(a);
+      return new Uint8Array(b)
+    }, BASE64.encodeASCII = function(a) {
+      var b = f.encode(a);
+      return c(b)
+    }, BASE64.decodeASCII = function(a) {
+      var b = e(a);
+      return f.decode(b)
+    }, BASE64.encode = function(a) {
+      var b = UTF8.encode(a);
+      return c(b)
+    }, BASE64.decode = function(a) {
+      var b = e(a);
+      return UTF8.decode(b)
+    }
+  }("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"), void 0 === btoa) var btoa = BASE64.encode;
+if (void 0 === atob) var atob = BASE64.decode;
 var ISOBoxer = ISOBoxer || {};
 ISOBoxer.Cursor = function(a) {
   this.offset = "undefined" == typeof a ? 0 : a
@@ -588,7 +774,7 @@ ISOFile.prototype.fetch = function(a) {
     }
   }, MediaPlayer = function(a) {
     "use strict";
-    var b, c, d, e, f, g, h, i, j, k, l, m, n, o = "1.6.0",
+    var b, c, d, e, f, g, h, i, j, k, l, m, n, o = "1.5.1",
       p = 0,
       q = null,
       r = null,
@@ -597,69 +783,67 @@ ISOFile.prototype.fetch = function(a) {
       u = !1,
       v = !0,
       w = !1,
-      x = !0,
-      y = MediaPlayer.dependencies.BufferController.BUFFER_SIZE_REQUIRED,
-      z = !0,
-      A = [],
-      B = 4,
-      C = !1,
-      D = function() {
+      x = MediaPlayer.dependencies.BufferController.BUFFER_SIZE_REQUIRED,
+      y = !0,
+      z = [],
+      A = 4,
+      B = !1,
+      C = function() {
         return !!e && !!f && !t
       },
-      E = function() {
+      D = function() {
         if (!s) throw "MediaPlayer not initialized!";
         if (!this.capabilities.supportsMediaSource()) return void this.errHandler.capabilityError("mediasource");
         if (!e || !f) throw "Missing view or source.";
-        u = !0, this.debug.log("Playback initiated!"), g = b.getObject("streamController"), i.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_SEEKING, g), i.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_TIME_UPDATED, g), i.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_CAN_PLAY, g), i.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_ERROR, g), i.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_STARTED, g), i.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_PAUSED, g), i.setLiveDelayAttributes(B, C), b.mapValue("liveDelayFragmentCount", B), b.mapOutlet("liveDelayFragmentCount", "trackController"), g.initialize(v, q, r), n.checkInitialBitrate(), "string" == typeof f ? g.load(f) : g.loadWithManifest(f), g.setUTCTimingSources(A, z), c = b.getObject("abrController"), c.limitBitrateByPortal = x, b.mapValue("scheduleWhilePaused", w), b.mapOutlet("scheduleWhilePaused", "stream"), b.mapOutlet("scheduleWhilePaused", "scheduleController"), b.mapValue("numOfParallelRequestAllowed", p), b.mapOutlet("numOfParallelRequestAllowed", "scheduleController"), b.mapValue("bufferMax", y), b.mapOutlet("bufferMax", "bufferController"), h.initialize()
+        u = !0, this.debug.log("Playback initiated!"), g = b.getObject("streamController"), i.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_SEEKING, g), i.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_TIME_UPDATED, g), i.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_CAN_PLAY, g), i.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_ERROR, g), i.setLiveDelayAttributes(A, B), b.mapValue("liveDelayFragmentCount", A), b.mapOutlet("liveDelayFragmentCount", "trackController"), g.initialize(v, q, r), n.checkInitialBitrate(), "string" == typeof f ? g.load(f) : g.loadWithManifest(f), g.setUTCTimingSources(z, y), b.mapValue("scheduleWhilePaused", w), b.mapOutlet("scheduleWhilePaused", "stream"), b.mapOutlet("scheduleWhilePaused", "scheduleController"), b.mapValue("numOfParallelRequestAllowed", p), b.mapOutlet("numOfParallelRequestAllowed", "scheduleController"), b.mapValue("bufferMax", x), b.mapOutlet("bufferMax", "bufferController"), h.initialize()
+      },
+      E = function() {
+        C() && D.call(this)
       },
       F = function() {
-        D() && E.call(this)
-      },
-      G = function() {
         var a = k.getReadOnlyMetricsFor("video") || k.getReadOnlyMetricsFor("audio");
         return j.getCurrentDVRInfo(a)
       },
-      H = function() {
-        var a = G.call(this);
-        return a ? a.manifestInfo.DVRWindowSize : NaN
+      G = function() {
+        return F.call(this).manifestInfo.DVRWindowSize
       },
-      I = function(a) {
-        var b = G.call(this),
+      H = function(a) {
+        var b = F.call(this),
           c = b.range.start + a;
         return c > b.range.end && (c = b.range.end), c
       },
-      J = function(a) {
+      I = function(a) {
         var b = i.getIsDynamic() ? this.getDVRSeekOffset(a) : a;
         this.getVideoModel().setCurrentTime(b)
       },
-      K = function() {
+      J = function() {
         var a = l.getCurrentTime();
         if (i.getIsDynamic()) {
-          var b = G.call(this);
+          var b = F.call(this);
           a = null === b ? 0 : this.duration() - (b.range.end - b.time)
         }
         return a
       },
-      L = function() {
+      K = function() {
         var a = l.getElement().duration;
         if (i.getIsDynamic()) {
-          var b, c = G.call(this);
+          var b, c = F.call(this);
           if (null === c) return 0;
           b = c.range.end - c.range.start, a = b < c.manifestInfo.DVRWindowSize ? b : c.manifestInfo.DVRWindowSize
         }
         return a
       },
-      M = function(a) {
-        var b, c, d = G.call(this);
+      L = function(a) {
+        var b, c, d = F.call(this);
         return null === d ? 0 : (b = d.manifestInfo.availableFrom.getTime() / 1e3, c = a + (b + d.range.start))
       },
+      M = function() {
+        return L.call(this, this.time())
+      },
       N = function() {
-        return M.call(this, this.time())
+        return L.call(this, this.duration())
       },
-      O = function() {
-        return M.call(this, this.duration())
-      },
-      P = function(a, b, c) {
+      O = function(a, b, c) {
         var d = new Date(1e3 * a),
           e = d.toLocaleDateString(b),
           f = d.toLocaleTimeString(b, {
@@ -667,35 +851,35 @@ ISOFile.prototype.fetch = function(a) {
           });
         return f + " " + e
       },
-      Q = function(a) {
+      P = function(a) {
         a = Math.max(a, 0);
         var b = Math.floor(a / 3600),
           c = Math.floor(a % 3600 / 60),
           d = Math.floor(a % 3600 % 60);
-        return (0 === b ? "" : 10 > b ? "0" + b.toString() + ":" : b.toString() + ":") + (10 > c ? "0" + c.toString() : c.toString()) + ":" + (10 > d ? "0" + d.toString() : d.toString())
+        return (0 === b ? "" : 10 > b ? "0" + b.toString() + ":" : b.toString() + ":") + (10 > c ? "0" + c.toString() : c.toString()) + ":" + (10 > d ? "0" + d.toString() : d.toString());
       },
-      R = function(a, b, c) {
+      Q = function(a, b, c) {
         b && void 0 !== a && null !== a && (c ? h.setRules(a, b) : h.addRules(a, b))
       },
-      S = function() {
+      R = function() {
         var a = g.getActiveStreamInfo();
         return a ? g.getStreamById(a.id) : null
       },
-      T = function() {
+      S = function() {
         if (this.adapter.reset(), u && g) {
           if (!t) {
-            t = !0, i.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_SEEKING, g), i.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_TIME_UPDATED, g), i.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_CAN_PLAY, g), i.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_ERROR, g), i.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_STARTED, g), i.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_PAUSED, g);
+            t = !0, i.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_SEEKING, g), i.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_TIME_UPDATED, g), i.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_CAN_PLAY, g), i.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_ERROR, g);
             var a = {},
               b = this;
             a[MediaPlayer.dependencies.StreamController.eventList.ENAME_TEARDOWN_COMPLETE] = function() {
-              c.reset(), h.reset(), i.reset(), d.reset(), g = null, u = !1, t = !1, D.call(b) && F.call(b)
+              c.reset(), h.reset(), i.reset(), d.reset(), g = null, u = !1, t = !1, C.call(b) && E.call(b)
             }, g.subscribe(MediaPlayer.dependencies.StreamController.eventList.ENAME_TEARDOWN_COMPLETE, a, void 0, !0), g.reset()
           }
-        } else D.call(this) && F.call(this)
+        } else C.call(this) && E.call(this)
       },
-      U = dijon.System.prototype.getObject;
+      T = dijon.System.prototype.getObject;
     dijon.System.prototype.getObject = function(a) {
-      var b = U.call(this, a);
+      var b = T.call(this, a);
       return "object" != typeof b || b.getName || (b.getName = function() {
         return a
       }, b.setMediaType = function(a) {
@@ -704,8 +888,8 @@ ISOFile.prototype.fetch = function(a) {
         return b.mediaType
       }), b
     }, b = new dijon.System, b.mapValue("system", b), b.mapOutlet("system"), b.mapValue("eventBus", new MediaPlayer.utils.EventBus), b.mapOutlet("eventBus");
-    var V = new MediaPlayer.utils.Debug;
-    return b.mapValue("debug", V), b.mapOutlet("debug"), b.injectInto(V), V.setup(), b.injectInto(a), {
+    var U = new MediaPlayer.utils.Debug;
+    return b.mapValue("debug", U), b.mapOutlet("debug"), b.injectInto(U), U.setup(), b.injectInto(a), {
       notifier: void 0,
       debug: void 0,
       eventBus: void 0,
@@ -715,7 +899,7 @@ ISOFile.prototype.fetch = function(a) {
       uriQueryFragModel: void 0,
       videoElementExt: void 0,
       setup: function() {
-        j = b.getObject("metricsExt"), c = b.getObject("abrController"), h = b.getObject("rulesController"), k = b.getObject("metricsModel"), n = b.getObject("DOMStorage"), i = b.getObject("playbackController"), d = b.getObject("mediaController"), this.restoreDefaultUTCTimingSources()
+        j = b.getObject("metricsExt"), c = b.getObject("abrController"), h = b.getObject("rulesController"), k = b.getObject("metricsModel"), n = b.getObject("DOMStorage"), i = b.getObject("playbackController"), d = b.getObject("mediaController"), this.restoreDefaultUTCTimingSources(), this.debug.log("[dash.js " + o + "] new MediaPlayer instance has been created")
       },
       addEventListener: function(a, b, c) {
         a = a.toLowerCase(), this.eventBus.addEventListener(a, b, c)
@@ -742,10 +926,10 @@ ISOFile.prototype.fetch = function(a) {
         return l ? l.getVideoContainer() : null
       },
       setLiveDelayFragmentCount: function(a) {
-        B = a
+        A = a
       },
       useSuggestedPresentationDelay: function(a) {
-        C = a
+        B = a
       },
       enableLastBitrateCaching: function(a, b) {
         n.enableLastBitrateCaching(a, b)
@@ -762,12 +946,6 @@ ISOFile.prototype.fetch = function(a) {
       getMaxAllowedBitrateFor: function(a) {
         return c.getMaxAllowedBitrateFor(a)
       },
-      setMaxAllowedRepresentationRatioFor: function(a, b) {
-        c.setMaxAllowedRepresentationRatioFor(a, b)
-      },
-      getMaxAllowedRepresentationRatioFor: function(a) {
-        return c.getMaxAllowedRepresentationRatioFor(a)
-      },
       setAutoPlay: function(a) {
         v = a
       },
@@ -780,17 +958,11 @@ ISOFile.prototype.fetch = function(a) {
       getScheduleWhilePaused: function() {
         return w
       },
-      setLimitBitrateByPortal: function(a) {
+      setBufferMax: function(a) {
         x = a
       },
-      getLimitBitrateByPortal: function() {
-        return x
-      },
-      setBufferMax: function(a) {
-        y = a
-      },
       getBufferMax: function() {
-        return y
+        return x
       },
       getMetricsExt: function() {
         return j
@@ -814,7 +986,7 @@ ISOFile.prototype.fetch = function(a) {
         m.setTextTrack()
       },
       getBitrateInfoListFor: function(a) {
-        var b = S.call(this);
+        var b = R.call(this);
         return b ? b.getBitrateListFor(a) : []
       },
       setInitialBitrateFor: function(a, b) {
@@ -858,35 +1030,23 @@ ISOFile.prototype.fetch = function(a) {
       getSelectionModeForInitialTrack: function() {
         return d.getSelectionModeForInitialTrack()
       },
-      setInitialRepresentationRatioFor: function(a, b) {
-        c.setInitialRepresentationRatioFor(a, b)
-      },
-      getInitialRepresentationRatioFor: function(a) {
-        return c.getInitialRepresentationRatioFor(a)
-      },
       getAutoSwitchQuality: function() {
-        return this.getAutoSwitchQualityFor("video") || this.getAutoSwitchQualityFor("audio")
+        return c.getAutoSwitchBitrate()
       },
       setAutoSwitchQuality: function(a) {
-        this.setAutoSwitchQualityFor("audio", a), this.setAutoSwitchQualityFor("video", a)
-      },
-      getAutoSwitchQualityFor: function(a) {
-        return c.getAutoSwitchBitrate(a)
-      },
-      setAutoSwitchQualityFor: function(a, b) {
-        c.setAutoSwitchBitrate(a, b)
+        c.setAutoSwitchBitrate(a)
       },
       setSchedulingRules: function(a) {
-        R.call(this, h.SCHEDULING_RULE, a, !0)
+        Q.call(this, h.SCHEDULING_RULE, a, !0)
       },
       addSchedulingRules: function(a) {
-        R.call(this, h.SCHEDULING_RULE, a, !1)
+        Q.call(this, h.SCHEDULING_RULE, a, !1)
       },
       setABRRules: function(a) {
-        R.call(this, h.ABR_RULE, a, !0)
+        Q.call(this, h.ABR_RULE, a, !0)
       },
       addABRRules: function(a) {
-        R.call(this, h.ABR_RULE, a, !1)
+        Q.call(this, h.ABR_RULE, a, !1)
       },
       createProtection: function() {
         return b.getObject("protectionController")
@@ -904,21 +1064,21 @@ ISOFile.prototype.fetch = function(a) {
       addUTCTimingSource: function(a, b) {
         this.removeUTCTimingSource(a, b);
         var c = new Dash.vo.UTCTiming;
-        c.schemeIdUri = a, c.value = b, A.push(c)
+        c.schemeIdUri = a, c.value = b, z.push(c)
       },
       removeUTCTimingSource: function(a, b) {
-        A.forEach(function(c, d) {
-          c.schemeIdUri === a && c.value === b && A.splice(d, 1)
+        z.forEach(function(c, d) {
+          c.schemeIdUri === a && c.value === b && z.splice(d, 1)
         })
       },
       clearDefaultUTCTimingSources: function() {
-        A = []
+        z = []
       },
       restoreDefaultUTCTimingSources: function() {
         this.addUTCTimingSource(MediaPlayer.UTCTimingSources["default"].scheme, MediaPlayer.UTCTimingSources["default"].value)
       },
       enableManifestDateHeaderTimeSource: function(a) {
-        z = a
+        y = a
       },
       displayCaptionsOnTop: function(a) {
         var c = b.getObject("textTrackExtensions");
@@ -930,7 +1090,7 @@ ISOFile.prototype.fetch = function(a) {
       },
       attachView: function(a) {
         if (!s) throw "MediaPlayer not initialized!";
-        e = a, l = null, e && (l = b.getObject("videoModel"), l.setElement(e), e.preload = "auto"), T.call(this)
+        e = a, l = null, e && (l = b.getObject("videoModel"), l.setElement(e), e.preload = "auto"), S.call(this)
       },
       attachTTMLRenderingDiv: function(a) {
         if (!l) throw "Must call attachView with video element before you attach TTML Rendering Div";
@@ -938,26 +1098,26 @@ ISOFile.prototype.fetch = function(a) {
       },
       attachSource: function(a, b, c) {
         if (!s) throw "MediaPlayer not initialized!";
-        "string" == typeof a ? (this.uriQueryFragModel.reset(), f = this.uriQueryFragModel.parseURI(a)) : f = a, q = b, r = c, T.call(this)
+        "string" == typeof a ? (this.uriQueryFragModel.reset(), f = this.uriQueryFragModel.parseURI(a)) : f = a, q = b, r = c, S.call(this)
       },
       reset: function() {
         this.attachSource(null), this.attachView(null), q = null, r = null
       },
-      play: E,
-      isReady: D,
-      seek: J,
-      time: K,
-      duration: L,
-      timeAsUTC: N,
-      durationAsUTC: O,
-      getDVRWindowSize: H,
-      getDVRSeekOffset: I,
-      formatUTC: P,
-      convertToTimeCode: Q
+      play: D,
+      isReady: C,
+      seek: I,
+      time: J,
+      duration: K,
+      timeAsUTC: M,
+      durationAsUTC: N,
+      getDVRWindowSize: G,
+      getDVRSeekOffset: H,
+      formatUTC: O,
+      convertToTimeCode: P
     }
   }, MediaPlayer.prototype = {
     constructor: MediaPlayer
-  }, MediaPlayer.dependencies = {}, MediaPlayer.dependencies.protection = {}, MediaPlayer.dependencies.protection.servers = {}, MediaPlayer.utils = {}, MediaPlayer.models = {}, MediaPlayer.vo = {}, MediaPlayer.vo.metrics = {}, MediaPlayer.vo.protection = {}, MediaPlayer.rules = {}, MediaPlayer.metrics = {}, MediaPlayer.metrics.reporting = {}, MediaPlayer.metrics.handlers = {}, MediaPlayer.metrics.utils = {}, MediaPlayer.di = {}, MediaPlayer.UTCTimingSources = {
+  }, MediaPlayer.dependencies = {}, MediaPlayer.dependencies.protection = {}, MediaPlayer.dependencies.protection.servers = {}, MediaPlayer.utils = {}, MediaPlayer.models = {}, MediaPlayer.vo = {}, MediaPlayer.vo.metrics = {}, MediaPlayer.vo.protection = {}, MediaPlayer.rules = {}, MediaPlayer.di = {}, MediaPlayer.UTCTimingSources = {
     "default": {
       scheme: "urn:mpeg:dash:utc:http-xsdate:2014",
       value: "http://time.akamai.com/?iso"
@@ -979,9 +1139,7 @@ ISOFile.prototype.fetch = function(a) {
     BUFFER_LOADED: "bufferloaded",
     BUFFER_EMPTY: "bufferstalled",
     ERROR: "error",
-    LOG: "log",
-    AST_IN_FUTURE: "astinfuture",
-    FRAGMENT_DISCARDED: "fragmentdiscarded"
+    LOG: "log"
   }, MediaPlayer.di.Context = function() {
     "use strict";
     var a = function() {
@@ -991,7 +1149,7 @@ ISOFile.prototype.fetch = function(a) {
     return {
       system: void 0,
       setup: function() {
-        this.system.autoMapOutlets = !0, this.system.mapClass("eventBusCl", MediaPlayer.utils.EventBus), this.system.mapSingleton("capabilities", MediaPlayer.utils.Capabilities), this.system.mapSingleton("DOMStorage", MediaPlayer.utils.DOMStorage), this.system.mapClass("customTimeRanges", MediaPlayer.utils.CustomTimeRanges), this.system.mapSingleton("virtualBuffer", MediaPlayer.utils.VirtualBuffer), this.system.mapClass("isoFile", MediaPlayer.utils.IsoFile), this.system.mapSingleton("randomNumberGenerator", MediaPlayer.utils.RNG), this.system.mapSingleton("textTrackExtensions", MediaPlayer.utils.TextTrackExtensions), this.system.mapSingleton("vttParser", MediaPlayer.utils.VTTParser), this.system.mapSingleton("ttmlParser", MediaPlayer.utils.TTMLParser), this.system.mapSingleton("boxParser", MediaPlayer.utils.BoxParser), this.system.mapSingleton("videoModel", MediaPlayer.models.VideoModel), this.system.mapSingleton("manifestModel", MediaPlayer.models.ManifestModel), this.system.mapSingleton("metricsModel", MediaPlayer.models.MetricsModel), this.system.mapSingleton("uriQueryFragModel", MediaPlayer.models.URIQueryAndFragmentModel), this.system.mapSingleton("ksPlayReady", MediaPlayer.dependencies.protection.KeySystem_PlayReady), this.system.mapSingleton("ksWidevine", MediaPlayer.dependencies.protection.KeySystem_Widevine), this.system.mapSingleton("ksClearKey", MediaPlayer.dependencies.protection.KeySystem_ClearKey), this.system.mapSingleton("serverPlayReady", MediaPlayer.dependencies.protection.servers.PlayReady), this.system.mapSingleton("serverWidevine", MediaPlayer.dependencies.protection.servers.Widevine), this.system.mapSingleton("serverClearKey", MediaPlayer.dependencies.protection.servers.ClearKey), this.system.mapSingleton("serverDRMToday", MediaPlayer.dependencies.protection.servers.DRMToday), this.system.mapSingleton("requestModifierExt", MediaPlayer.dependencies.RequestModifierExtensions), this.system.mapSingleton("textSourceBuffer", MediaPlayer.dependencies.TextSourceBuffer), this.system.mapSingleton("mediaSourceExt", MediaPlayer.dependencies.MediaSourceExtensions), this.system.mapSingleton("sourceBufferExt", MediaPlayer.dependencies.SourceBufferExtensions), this.system.mapSingleton("abrController", MediaPlayer.dependencies.AbrController), this.system.mapSingleton("errHandler", MediaPlayer.dependencies.ErrorHandler), this.system.mapSingleton("videoExt", MediaPlayer.dependencies.VideoModelExtensions), this.system.mapSingleton("protectionExt", MediaPlayer.dependencies.ProtectionExtensions), this.system.mapClass("protectionController", MediaPlayer.dependencies.ProtectionController), this.system.mapSingleton("playbackController", MediaPlayer.dependencies.PlaybackController), a.call(this), this.system.mapSingleton("liveEdgeFinder", MediaPlayer.dependencies.LiveEdgeFinder), this.system.mapClass("metrics", MediaPlayer.models.MetricsList), this.system.mapClass("insufficientBufferRule", MediaPlayer.rules.InsufficientBufferRule), this.system.mapClass("throughputRule", MediaPlayer.rules.ThroughputRule), this.system.mapSingleton("abrRulesCollection", MediaPlayer.rules.ABRRulesCollection), this.system.mapSingleton("rulesController", MediaPlayer.rules.RulesController), this.system.mapClass("bufferLevelRule", MediaPlayer.rules.BufferLevelRule), this.system.mapClass("pendingRequestsRule", MediaPlayer.rules.PendingRequestsRule), this.system.mapClass("playbackTimeRule", MediaPlayer.rules.PlaybackTimeRule), this.system.mapClass("sameTimeRequestRule", MediaPlayer.rules.SameTimeRequestRule), this.system.mapClass("abandonRequestRule", MediaPlayer.rules.AbandonRequestsRule), this.system.mapSingleton("scheduleRulesCollection", MediaPlayer.rules.ScheduleRulesCollection), this.system.mapClass("liveEdgeBinarySearchRule", MediaPlayer.rules.LiveEdgeBinarySearchRule), this.system.mapClass("liveEdgeWithTimeSynchronizationRule", MediaPlayer.rules.LiveEdgeWithTimeSynchronizationRule), this.system.mapSingleton("synchronizationRulesCollection", MediaPlayer.rules.SynchronizationRulesCollection), this.system.mapClass("xlinkController", MediaPlayer.dependencies.XlinkController), this.system.mapClass("xlinkLoader", MediaPlayer.dependencies.XlinkLoader), this.system.mapClass("streamProcessor", MediaPlayer.dependencies.StreamProcessor), this.system.mapClass("eventController", MediaPlayer.dependencies.EventController), this.system.mapClass("textController", MediaPlayer.dependencies.TextController), this.system.mapClass("bufferController", MediaPlayer.dependencies.BufferController), this.system.mapClass("manifestLoader", MediaPlayer.dependencies.ManifestLoader), this.system.mapSingleton("manifestUpdater", MediaPlayer.dependencies.ManifestUpdater), this.system.mapClass("fragmentController", MediaPlayer.dependencies.FragmentController), this.system.mapClass("fragmentLoader", MediaPlayer.dependencies.FragmentLoader), this.system.mapClass("fragmentModel", MediaPlayer.dependencies.FragmentModel), this.system.mapSingleton("streamController", MediaPlayer.dependencies.StreamController), this.system.mapSingleton("mediaController", MediaPlayer.dependencies.MediaController), this.system.mapClass("stream", MediaPlayer.dependencies.Stream), this.system.mapClass("scheduleController", MediaPlayer.dependencies.ScheduleController), this.system.mapSingleton("timeSyncController", MediaPlayer.dependencies.TimeSyncController), this.system.mapSingleton("metricsCollectionController", MediaPlayer.dependencies.MetricsCollectionController), this.system.mapClass("metricsController", MediaPlayer.dependencies.MetricsController), this.system.mapClass("rangeController", MediaPlayer.dependencies.RangeController), this.system.mapClass("reportingController", MediaPlayer.dependencies.ReportingController), this.system.mapClass("metricsHandlersController", MediaPlayer.dependencies.MetricsHandlersController), this.system.mapSingleton("reportingFactory", MediaPlayer.metrics.ReportingFactory), this.system.mapClass("dvbReporting", MediaPlayer.metrics.reporting.DVBReporting), this.system.mapSingleton("metricsHandlerFactory", MediaPlayer.metrics.MetricsHandlerFactory), this.system.mapClass("bufferLevelHandler", MediaPlayer.metrics.handlers.BufferLevel), this.system.mapClass("dVBErrorsHandler", MediaPlayer.metrics.handlers.DVBErrors), this.system.mapClass("httpListHandler", MediaPlayer.metrics.handlers.HttpList), this.system.mapClass("playListHandler", MediaPlayer.metrics.handlers.PlayList), this.system.mapClass("genericMetricHandler", MediaPlayer.metrics.handlers.GenericMetricHandler), this.system.mapSingleton("metricSerialiser", MediaPlayer.metrics.utils.MetricSerialiser), this.system.mapSingleton("handlerHelpers", MediaPlayer.metrics.utils.HandlerHelpers), this.system.mapSingleton("notifier", MediaPlayer.dependencies.Notifier)
+        this.system.autoMapOutlets = !0, this.system.mapClass("eventBusCl", MediaPlayer.utils.EventBus), this.system.mapSingleton("capabilities", MediaPlayer.utils.Capabilities), this.system.mapSingleton("DOMStorage", MediaPlayer.utils.DOMStorage), this.system.mapClass("customTimeRanges", MediaPlayer.utils.CustomTimeRanges), this.system.mapSingleton("virtualBuffer", MediaPlayer.utils.VirtualBuffer), this.system.mapClass("isoFile", MediaPlayer.utils.IsoFile), this.system.mapSingleton("textTrackExtensions", MediaPlayer.utils.TextTrackExtensions), this.system.mapSingleton("vttParser", MediaPlayer.utils.VTTParser), this.system.mapSingleton("ttmlParser", MediaPlayer.utils.TTMLParser), this.system.mapSingleton("boxParser", MediaPlayer.utils.BoxParser), this.system.mapSingleton("videoModel", MediaPlayer.models.VideoModel), this.system.mapSingleton("manifestModel", MediaPlayer.models.ManifestModel), this.system.mapSingleton("metricsModel", MediaPlayer.models.MetricsModel), this.system.mapSingleton("uriQueryFragModel", MediaPlayer.models.URIQueryAndFragmentModel), this.system.mapSingleton("ksPlayReady", MediaPlayer.dependencies.protection.KeySystem_PlayReady), this.system.mapSingleton("ksWidevine", MediaPlayer.dependencies.protection.KeySystem_Widevine), this.system.mapSingleton("ksClearKey", MediaPlayer.dependencies.protection.KeySystem_ClearKey), this.system.mapSingleton("serverPlayReady", MediaPlayer.dependencies.protection.servers.PlayReady), this.system.mapSingleton("serverWidevine", MediaPlayer.dependencies.protection.servers.Widevine), this.system.mapSingleton("serverClearKey", MediaPlayer.dependencies.protection.servers.ClearKey), this.system.mapSingleton("serverDRMToday", MediaPlayer.dependencies.protection.servers.DRMToday), this.system.mapSingleton("requestModifierExt", MediaPlayer.dependencies.RequestModifierExtensions), this.system.mapSingleton("textSourceBuffer", MediaPlayer.dependencies.TextSourceBuffer), this.system.mapSingleton("mediaSourceExt", MediaPlayer.dependencies.MediaSourceExtensions), this.system.mapSingleton("sourceBufferExt", MediaPlayer.dependencies.SourceBufferExtensions), this.system.mapSingleton("abrController", MediaPlayer.dependencies.AbrController), this.system.mapSingleton("errHandler", MediaPlayer.dependencies.ErrorHandler), this.system.mapSingleton("videoExt", MediaPlayer.dependencies.VideoModelExtensions), this.system.mapSingleton("protectionExt", MediaPlayer.dependencies.ProtectionExtensions), this.system.mapClass("protectionController", MediaPlayer.dependencies.ProtectionController), this.system.mapSingleton("playbackController", MediaPlayer.dependencies.PlaybackController), a.call(this), this.system.mapSingleton("liveEdgeFinder", MediaPlayer.dependencies.LiveEdgeFinder), this.system.mapClass("metrics", MediaPlayer.models.MetricsList), this.system.mapClass("insufficientBufferRule", MediaPlayer.rules.InsufficientBufferRule), this.system.mapClass("bufferOccupancyRule", MediaPlayer.rules.BufferOccupancyRule), this.system.mapClass("throughputRule", MediaPlayer.rules.ThroughputRule), this.system.mapSingleton("abrRulesCollection", MediaPlayer.rules.ABRRulesCollection), this.system.mapSingleton("rulesController", MediaPlayer.rules.RulesController), this.system.mapClass("bufferLevelRule", MediaPlayer.rules.BufferLevelRule), this.system.mapClass("pendingRequestsRule", MediaPlayer.rules.PendingRequestsRule), this.system.mapClass("playbackTimeRule", MediaPlayer.rules.PlaybackTimeRule), this.system.mapClass("sameTimeRequestRule", MediaPlayer.rules.SameTimeRequestRule), this.system.mapClass("abandonRequestRule", MediaPlayer.rules.AbandonRequestsRule), this.system.mapSingleton("scheduleRulesCollection", MediaPlayer.rules.ScheduleRulesCollection), this.system.mapClass("liveEdgeBinarySearchRule", MediaPlayer.rules.LiveEdgeBinarySearchRule), this.system.mapClass("liveEdgeWithTimeSynchronizationRule", MediaPlayer.rules.LiveEdgeWithTimeSynchronizationRule), this.system.mapSingleton("synchronizationRulesCollection", MediaPlayer.rules.SynchronizationRulesCollection), this.system.mapClass("xlinkController", MediaPlayer.dependencies.XlinkController), this.system.mapClass("xlinkLoader", MediaPlayer.dependencies.XlinkLoader), this.system.mapClass("streamProcessor", MediaPlayer.dependencies.StreamProcessor), this.system.mapClass("eventController", MediaPlayer.dependencies.EventController), this.system.mapClass("textController", MediaPlayer.dependencies.TextController), this.system.mapClass("bufferController", MediaPlayer.dependencies.BufferController), this.system.mapClass("manifestLoader", MediaPlayer.dependencies.ManifestLoader), this.system.mapSingleton("manifestUpdater", MediaPlayer.dependencies.ManifestUpdater), this.system.mapClass("fragmentController", MediaPlayer.dependencies.FragmentController), this.system.mapClass("fragmentLoader", MediaPlayer.dependencies.FragmentLoader), this.system.mapClass("fragmentModel", MediaPlayer.dependencies.FragmentModel), this.system.mapSingleton("streamController", MediaPlayer.dependencies.StreamController), this.system.mapSingleton("mediaController", MediaPlayer.dependencies.MediaController), this.system.mapClass("stream", MediaPlayer.dependencies.Stream), this.system.mapClass("scheduleController", MediaPlayer.dependencies.ScheduleController), this.system.mapSingleton("timeSyncController", MediaPlayer.dependencies.TimeSyncController), this.system.mapSingleton("notifier", MediaPlayer.dependencies.Notifier)
       }
     }
   }, Dash = function() {
@@ -1141,9 +1299,10 @@ ISOFile.prototype.fetch = function(a) {
       manifestExt: void 0,
       timelineConverter: void 0,
       metricsList: {
-        TCP_CONNECTION: "TcpList",
-        HTTP_REQUEST: "HttpList",
-        TRACK_SWITCH: "RepSwitchList",
+        TCP_CONNECTION: "TcpConnection",
+        HTTP_REQUEST: "HttpRequest",
+        HTTP_REQUEST_TRACE: "HttpRequestTrace",
+        TRACK_SWITCH: "RepresentationSwitch",
         BUFFER_LEVEL: "BufferLevel",
         BUFFER_STATE: "BufferState",
         DVR_INFO: "DVRInfo",
@@ -1153,7 +1312,8 @@ ISOFile.prototype.fetch = function(a) {
         MANIFEST_UPDATE: "ManifestUpdate",
         MANIFEST_UPDATE_STREAM_INFO: "ManifestUpdatePeriodInfo",
         MANIFEST_UPDATE_TRACK_INFO: "ManifestUpdateRepresentationInfo",
-        PLAY_LIST: "PlayList"
+        PLAY_LIST: "PlayList",
+        PLAY_LIST_TRACE: "PlayListTrace"
       },
       convertDataToTrack: f,
       convertDataToMedia: g,
@@ -1328,20 +1488,27 @@ ISOFile.prototype.fetch = function(a) {
           } : s.call(j, a), e = c.start, f = c.end, d = e; f >= d; d += 1) n = p.call(j, a, d), n.replacementTime = (g + d - 1) * a.segmentDuration, o = k.media, o = h(o, "Number", n.replacementNumber), o = h(o, "Time", n.replacementTime), n.media = o, i.push(n), n = null;
         return isNaN(l) ? a.availableSegmentsNumber = 1 : a.availableSegmentsNumber = Math.ceil((m.end - m.start) / l), i
       },
-      s = function(a) {
-        var c, d, e, f = this,
-          g = a.segmentDuration,
-          h = a.adaptation.period.mpd.manifest.minBufferTime,
-          i = a.segmentAvailabilityRange,
-          j = {
-            start: f.timelineConverter.calcPeriodRelativeTimeFromMpdRelativeTime(a, i.start),
-            end: f.timelineConverter.calcPeriodRelativeTimeFromMpdRelativeTime(a, i.end)
-          };
-        a.segments, Math.max(2 * h, 10 * g);
-        return j || (j = f.timelineConverter.calcSegmentAvailabilityRange(a, b)), j.start = Math.max(j.start, 0), c = Math.floor(j.start / g), d = Math.floor(j.end / g), e = {
-          start: c,
-          end: d
-        }
+      s = function(c) {
+        var e, f, g, h = this,
+          i = c.segmentDuration,
+          j = c.adaptation.period.mpd.manifest.minBufferTime,
+          k = c.segmentAvailabilityRange,
+          l = {
+            start: h.timelineConverter.calcPeriodRelativeTimeFromMpdRelativeTime(c, k.start),
+            end: h.timelineConverter.calcPeriodRelativeTimeFromMpdRelativeTime(c, k.end)
+          },
+          m = NaN,
+          n = null,
+          o = c.segments,
+          p = 2 * i,
+          q = Math.max(2 * j, 10 * i);
+        return l || (l = h.timelineConverter.calcSegmentAvailabilityRange(c, b)), l.start = Math.max(l.start, 0), b && !h.timelineConverter.isTimeSyncCompleted() ? (e = Math.floor(l.start / i), f = Math.floor(l.end / i), g = {
+          start: e,
+          end: f
+        }) : (o && o.length > 0 ? (n = B(d, c), m = n ? h.timelineConverter.calcPeriodRelativeTimeFromMpdRelativeTime(c, n.presentationStartTime) : d > 0 ? d * i : h.timelineConverter.calcPeriodRelativeTimeFromMpdRelativeTime(c, a || o[0].presentationStartTime)) : m = d > 0 ? d * i : b ? l.end : l.start, e = Math.floor(Math.max(m - p, l.start) / i), f = Math.floor(Math.min(e + q / i, l.end / i)), g = {
+          start: e,
+          end: f
+        })
       },
       t = function() {
         var c, e, f, g = 2,
@@ -1413,9 +1580,8 @@ ISOFile.prototype.fetch = function(a) {
       B = function(a, b) {
         if (!b || !b.segments) return null;
         var c, d, e = b.segments.length;
-        if (e > a && (c = b.segments[a], c && c.availabilityIdx === a)) return c;
         for (d = 0; e > d; d += 1)
-          if (c = b.segments[d], c && c.availabilityIdx === a) return c;
+          if (c = b.segments[d], c.availabilityIdx === a) return c;
         return null
       },
       C = function(a) {
@@ -1428,7 +1594,8 @@ ISOFile.prototype.fetch = function(a) {
         var b, d = new MediaPlayer.vo.FragmentRequest,
           e = a.representation,
           f = e.adaptation.period.mpd.manifest.Period_asArray[e.adaptation.period.index].AdaptationSet_asArray[e.adaptation.index].Representation_asArray[e.index].bandwidth;
-        return b = l(a.media, e), b = h(b, "Number", a.replacementNumber), b = h(b, "Time", a.replacementTime), b = h(b, "Bandwidth", f), b = j(b, e.id), b = i(b), d.mediaType = c, d.type = MediaPlayer.vo.metrics.HTTPRequest.MEDIA_SEGMENT_TYPE, d.url = b, d.range = a.mediaRange, d.startTime = a.presentationStartTime, d.duration = a.duration, d.timescale = e.timescale, d.availabilityStartTime = a.availabilityStartTime, d.availabilityEndTime = a.availabilityEndTime, d.wallStartTime = a.wallStartTime, d.quality = e.index, d.index = a.availabilityIdx, d.mediaInfo = this.streamProcessor.getMediaInfo(), d
+        return b = l(a.media, e), b = h(b, "Number", a.replacementNumber), b = h(b, "Time", a.replacementTime), b = h(b, "Bandwidth", f), b = j(b, e.id), b = i(b), d.mediaType = c, d.type = MediaPlayer.vo.metrics.HTTPRequest.MEDIA_SEGMENT_TYPE, d.url = b, d.range = a.mediaRange, d.startTime = a.presentationStartTime, d.duration = a.duration, d.timescale = e.timescale, d.availabilityStartTime = a.availabilityStartTime, d.availabilityEndTime = a.availabilityEndTime, d.wallStartTime = a.wallStartTime,
+          d.quality = e.index, d.index = a.availabilityIdx, d.mediaInfo = this.streamProcessor.getMediaInfo(), d
       },
       E = function(b, e, f) {
         var g, h, i, j = d,
@@ -1663,11 +1830,29 @@ ISOFile.prototype.fetch = function(a) {
           return this.errHandler.manifestError("parsing the manifest failed", "parse", a), null
         }
         return d
+      },
+      r = function(a, b, c) { //DIFF1: JSON Parser - object extension of the MPD-Parser?
+        var d,
+            e = new ObjectIron(p()),
+            f = new Date,
+            g = null,
+            h = null;
+        try {
+          if (d = a, !d) throw "parser error";
+          g = new Date,
+          d.hasOwnProperty("BaseURL") ? (d.BaseURL = d.BaseURL_asArray[0], 0 === d.BaseURL.toString().indexOf("www") && (d.BaseURL = "http://" + d.BaseURL), "/" !== d.BaseURL.toString().slice(-1) && (d.BaseURL = d.BaseURL + "/"), 0 !== d.BaseURL.toString().indexOf("http") && (d.BaseURL = b + d.BaseURL)) : d.BaseURL = b,
+          d.hasOwnProperty("Location") && (d.Location = d.Location_asArray[0]), e.run(d), h = new Date, c.setMatchers(l), c.setIron(e),
+          this.log("Parsing complete: ( xml2json: " + (g.getTime() - f.getTime()) + "ms, objectiron: " + (h.getTime() - g.getTime()) + "ms, total: " + (h.getTime() - f.getTime()) / 1e3 + "s)")
+        } catch (i) {
+          return this.errHandler.manifestError("parsing the manifest failed", "parse", a), null
+        }
+        return d
       };
     return {
       log: void 0,
       errHandler: void 0,
-      parse: q
+      parse: q,
+      parseJSON: r  //DIFF2: export Method parseJSON of the MPDparser?
     }
   }, Dash.dependencies.DashParser.prototype = {
     constructor: Dash.dependencies.DashParser
@@ -1783,20 +1968,20 @@ ISOFile.prototype.fetch = function(a) {
       d = !0,
       e = [],
       f = function(c, f, g) {
-        var h, j = this,
-          k = null,
-          m = j.streamProcessor.getStreamInfo(),
-          n = j.abrController.getTopQualityIndexFor(g, m.id);
-        if (d = !0, j.notify(Dash.dependencies.RepresentationController.eventList.ENAME_DATA_UPDATE_STARTED), e = l.call(j, f), null === b ? (k = j.abrController.getInitialBitrateFor(g, m), h = j.abrController.getQualityForBitrate(j.streamProcessor.getMediaInfo(), k)) : h = j.abrController.getQualityFor(g, m), h > n && (h = n), a = i.call(j, h), b = c, "video" !== g && "audio" !== g && "fragmentedText" !== g) return d = !1, void j.notify(Dash.dependencies.RepresentationController.eventList.ENAME_DATA_UPDATE_COMPLETED, {
+        var h, j, k = this,
+          m = null,
+          n = k.streamProcessor.getStreamInfo(),
+          o = k.abrController.getTopQualityIndexFor(g, n.id);
+        if (d = !0, k.notify(Dash.dependencies.RepresentationController.eventList.ENAME_DATA_UPDATE_STARTED), e = l.call(k, f), null === b ? (j = k.abrController.getAverageThroughput(g), m = j || k.abrController.getInitialBitrateFor(g, n), h = k.abrController.getQualityForBitrate(k.streamProcessor.getMediaInfo(), m)) : h = k.abrController.getQualityFor(g, n), h > o && (h = o), a = i.call(k, h), b = c, "video" !== g && "audio" !== g && "fragmentedText" !== g) return d = !1, void k.notify(Dash.dependencies.RepresentationController.eventList.ENAME_DATA_UPDATE_COMPLETED, {
           data: b,
           currentRepresentation: a
         });
-        for (var o = 0; o < e.length; o += 1) j.indexHandler.updateRepresentation(e[o], !0)
+        for (var p = 0; p < e.length; p += 1) k.indexHandler.updateRepresentation(e[p], !0)
       },
       g = function() {
         var a = new Date,
           b = this.getCurrentRepresentation(),
-          c = 1e3 * this.streamProcessor.playbackController.getTime();
+          c = this.streamProcessor.playbackController.getTime();
         this.metricsModel.addRepresentationSwitch(b.adaptation.type, a, c, b.id)
       },
       h = function() {
@@ -1834,12 +2019,7 @@ ISOFile.prototype.fetch = function(a) {
               for (var a = 0; a < e.length; a += 1) c.indexHandler.updateRepresentation(e[a], !0)
             }
           };
-        d = !1, c.eventBus.dispatchEvent({
-          type: MediaPlayer.events.AST_IN_FUTURE,
-          data: {
-            delay: f
-          }
-        }), setTimeout(g.bind(this), f)
+        d = !1, setTimeout(g.bind(this), f)
       },
       o = function(c) {
         if (this.isUpdating()) {
@@ -1881,14 +2061,17 @@ ISOFile.prototype.fetch = function(a) {
         }
       },
       r = function() {
-        this.streamProcessor.isDynamic() && h.call(this)
+        h.call(this)
       },
       s = function(b) {
         var c = this;
         b.data.mediaType === c.streamProcessor.getType() && c.streamProcessor.getStreamInfo().id === b.data.streamInfo.id && (a = c.getRepresentationForQuality(b.data.newQuality), t.call(c, b.data.mediaType, a.bandwidth), g.call(c))
       },
       t = function(a, b) {
-        ("video" === a || "audio" === a) && this.DOMStorage.storeBitrate(MediaPlayer.utils.DOMStorage.STORAGE_TYPE_LOCAL, a, b / 1e3)
+        !this.DOMStorage.isSupported(MediaPlayer.utils.DOMStorage.STORAGE_TYPE_LOCAL) || "video" !== a && "audio" !== a || localStorage.setItem(MediaPlayer.utils.DOMStorage["LOCAL_STORAGE_" + a.toUpperCase() + "_BITRATE_KEY"], JSON.stringify({
+          bitrate: b / 1e3,
+          timestamp: (new Date).getTime()
+        }))
       };
     return {
       system: void 0,
@@ -1905,7 +2088,6 @@ ISOFile.prototype.fetch = function(a) {
       unsubscribe: void 0,
       DOMStorage: void 0,
       liveDelayFragmentCount: void 0,
-      eventBus: void 0,
       setup: function() {
         this[MediaPlayer.dependencies.AbrController.eventList.ENAME_QUALITY_CHANGED] = s, this[Dash.dependencies.DashHandler.eventList.ENAME_REPRESENTATION_UPDATED] = o, this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_WALLCLOCK_TIME_UPDATED] = p, this[MediaPlayer.dependencies.LiveEdgeFinder.eventList.ENAME_LIVE_EDGE_SEARCH_COMPLETED] = q, this[MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_UPDATED] = r
       },
@@ -2316,100 +2498,75 @@ ISOFile.prototype.fetch = function(a) {
         var b = new Dash.vo.UTCTiming;
         a.hasOwnProperty("schemeIdUri") && (b.schemeIdUri = a.schemeIdUri, a.hasOwnProperty("value") && (b.value = a.value.toString(), f.push(b)))
       }), f
-    },
-    getMetricsRangeStartTime: function(a, b, c) {
-      var d, e, f = this.getMpd(a),
-        g = 0;
-      return b ? g = f.availabilityStartTime.getTime() / 1e3 : (d = this.getRegularPeriods(a, f), d.length && (g = d[0].start)), e = g, c && c.hasOwnProperty("starttime") && (e += c.starttime), e
-    },
-    getMetrics: function(a) {
-      var b = this,
-        c = [];
-      return a.Metrics_asArray && a.Metrics_asArray.forEach(function(d) {
-        var e = new Dash.vo.Metrics,
-          f = b.getIsDynamic(a);
-        d.hasOwnProperty("metrics") && (e.metrics = d.metrics, d.Range_asArray && d.Range_asArray.forEach(function(c) {
-          var d = new Dash.vo.Range;
-          d.starttime = b.getMetricsRangeStartTime(a, f, c), c.hasOwnProperty("duration") ? d.duration = c.duration : d.duration = b.getDuration(a), d.useWallClockTime = f, e.Range.push(d)
-        }), d.Reporting_asArray && (d.Reporting_asArray.forEach(function(a) {
-          var b, c = new Dash.vo.Reporting;
-          if (a.hasOwnProperty("schemeIdUri")) {
-            c.schemeIdUri = a.schemeIdUri;
-            for (b in a) a.hasOwnProperty(b) && (c[b] = a[b]);
-            e.Reporting.push(c)
-          }
-        }), c.push(e)))
-      }), c
     }
   }, Dash.dependencies.DashMetricsExtensions = function() {
     "use strict";
-    var a = 200,
-      b = function(a, b) {
+    var a = function(a, b) {
         var c, d, e, f, g, h;
         for (d = a.AdaptationSet_asArray, g = 0; g < d.length; g += 1)
           for (c = d[g], f = c.Representation_asArray, h = 0; h < f.length; h += 1)
             if (e = f[h], b === e.id) return h;
         return -1
       },
-      c = function(a, b) {
+      b = function(a, b) {
         var c, d, e, f, g, h;
         for (d = a.AdaptationSet_asArray, g = 0; g < d.length; g += 1)
           for (c = d[g], f = c.Representation_asArray, h = 0; h < f.length; h += 1)
             if (e = f[h], b === e.id) return e;
         return null
       },
-      d = function(a, b) {
+      c = function(a, b) {
         return this.manifestExt.getIsTypeOf(a, b)
       },
-      e = function(a, b) {
-        var c, e, f, g;
+      d = function(a, b) {
+        var d, e, f, g;
         if (!a || !b) return -1;
         for (e = a.AdaptationSet_asArray, g = 0; g < e.length; g += 1)
-          if (c = e[g], f = c.Representation_asArray, d.call(this, c, b)) return f.length;
+          if (d = e[g], f = d.Representation_asArray, c.call(this, d, b)) return f.length;
         return -1
       },
-      f = function(a, b) {
-        var d, e = this,
-          f = e.manifestModel.getValue(),
-          g = f.Period_asArray[b];
-        return d = c.call(e, g, a), null === d ? null : d.bandwidth
-      },
-      g = function(a, c) {
+      e = function(a, c) {
         var d, e = this,
           f = e.manifestModel.getValue(),
           g = f.Period_asArray[c];
-        return d = b.call(e, g, a)
+        return d = b.call(e, g, a), null === d ? null : d.bandwidth
+      },
+      f = function(b, c) {
+        var d, e = this,
+          f = e.manifestModel.getValue(),
+          g = f.Period_asArray[c];
+        return d = a.call(e, g, b)
+      },
+      g = function(a, b) {
+        var c, e = this,
+          f = e.manifestModel.getValue(),
+          g = f.Period_asArray[b];
+        return c = d.call(this, g, a)
       },
       h = function(a, b) {
-        var c, d = this,
-          f = d.manifestModel.getValue(),
-          g = f.Period_asArray[b];
-        return c = e.call(this, g, a)
-      },
-      i = function(a, b) {
         var c = this.system.getObject("abrController"),
           d = 0;
         return c && (d = c.getTopQualityIndexFor(a, b)), d
       },
-      j = function(a) {
+      i = function(a) {
         if (null === a) return null;
         var b, c, d, e = a.RepSwitchList;
         return null === e || e.length <= 0 ? null : (b = e.length, c = b - 1, d = e[c])
       },
-      k = function(a) {
-        if (null === a) return 0;
-        var b = a.BufferLevel;
-        return null === b || b.length <= 0 ? 0 : b[b.length - 1].level / 1e3
+      j = function(a) {
+        if (null === a) return null;
+        var b, c, d, e = a.BufferLevel;
+        return null === e || e.length <= 0 ? null : (b = e.length, c = b - 1, d = e[c])
       },
-      l = function(a) {
+      k = function(a) {
         return a.RequestsQueue
       },
-      m = function(a) {
+      l = function(a) {
         if (null === a) return null;
-        var b = a.PlayList;
-        return null === b || b.length <= 0 ? null : b[b.length - 1]
+        var b, c, d = a.PlayList;
+        return null === d || d.length <= 0 ? null : (b = d[d.length - 1].trace, null === b || b.length <= 0 ? null : c = b[b.length - 1].playbackspeed)
       },
-      n = function(a) {
+      m = function(a) {
         if (null === a) return null;
         var b, c, d = a.HttpList,
           e = null;
@@ -2423,85 +2580,44 @@ ISOFile.prototype.fetch = function(a) {
         }
         return e
       },
-      o = function(b, c) {
-        var d, e = b.HttpList,
-          f = [];
-        if (null === e) return -1;
-        var g = 0;
-        for (d = e.length - 1; d >= 0 && f.length < c; d--) {
-          var h = e[d];
-          if (h.responsecode && h.type == MediaPlayer.vo.metrics.HTTPRequest.MEDIA_SEGMENT_TYPE) {
-            g++;
-            var i = h.interval,
-              j = h.tresponse - h.trequest,
-              k = a > j && a > i;
-            k || f.push(j)
-          }
-        }
-        if (0 === f.length) return g > 5 ? a : -1;
-        var l = 0;
-        for (d = 0; d < f.length; d++) l += f[d];
-        return l / f.length
-      },
-      p = function(a, b) {
-        var c, d, e = a.HttpList,
-          f = [];
-        if (null === e) return -1;
-        var g = 0;
-        for (d = e.length - 1; d >= 0 && f.length < b; d--) {
-          var h = e[d];
-          if (h.responsecode && h.type == MediaPlayer.vo.metrics.HTTPRequest.MEDIA_SEGMENT_TYPE) {
-            g++;
-            var i = h.interval,
-              j = h.tresponse - h.trequest;
-            c = 8 * h._bytes / (i + j);
-            var k = 200 > i && 200 > j;
-            k || f.push(c)
-          }
-        }
-        if (0 === f.length) return g > 5 ? c : -1;
-        var l = 0;
-        for (d = 0; d < f.length; d++) l += f[d];
-        return 1e3 * l / f.length
-      },
-      q = function(a) {
+      n = function(a) {
         return null === a ? [] : a.HttpList ? a.HttpList : []
       },
-      r = function(a) {
+      o = function(a) {
         if (null === a) return null;
         var b, c, d, e = a.DroppedFrames;
         return null === e || e.length <= 0 ? null : (b = e.length, c = b - 1, d = e[c])
       },
-      s = function(a) {
+      p = function(a) {
         if (null === a) return null;
         var b, c, d, e = a.SchedulingInfo;
         return null === e || e.length <= 0 ? null : (b = e.length, c = b - 1, d = e[c])
       },
-      t = function(a) {
+      q = function(a) {
         if (null === a) return null;
         var b, c, d, e = a.ManifestUpdate;
         return null === e || e.length <= 0 ? null : (b = e.length, c = b - 1, d = e[c])
       },
-      u = function(a) {
+      r = function(a) {
         if (null === a) return null;
         var b, c, d = a.DVRInfo;
         return null === d || d.length <= 0 ? null : (b = d.length - 1, c = d[b])
       },
-      v = function(a, b) {
+      s = function(a, b) {
         var c, d, e, f = {};
         if (null === a) return null;
-        for (c = q(a), e = c.length - 1; e >= 0; e -= 1)
+        for (c = n(a), e = c.length - 1; e >= 0; e -= 1)
           if (d = c[e], d.type === MediaPlayer.vo.metrics.HTTPRequest.MPD_TYPE) {
-            f = x(d._responseHeaders);
+            f = u(d.responseHeaders);
             break
           } return void 0 === f[b] ? null : f[b]
       },
-      w = function(a, b) {
+      t = function(a, b) {
         if (null === a) return null;
-        var c, d = n(a);
-        return null === d || null === d._responseHeaders ? null : (c = x(d._responseHeaders), void 0 === c[b] ? null : c[b])
+        var c, d = m(a);
+        return null === d || null === d.responseHeaders ? null : (c = u(d.responseHeaders), void 0 === c[b] ? null : c[b])
       },
-      x = function(a) {
+      u = function(a) {
         var b = {};
         if (!a) return b;
         for (var c = a.split("\r\n"), d = 0, e = c.length; e > d; d++) {
@@ -2512,28 +2628,25 @@ ISOFile.prototype.fetch = function(a) {
         return b
       };
     return {
-      log: void 0,
       manifestModel: void 0,
       manifestExt: void 0,
       system: void 0,
-      getBandwidthForRepresentation: f,
-      getIndexForRepresentation: g,
-      getMaxIndexForBufferType: h,
-      getMaxAllowedIndexForBufferType: i,
-      getCurrentRepresentationSwitch: j,
-      getCurrentBufferLevel: k,
-      getCurrentHttpRequest: n,
-      getRecentThroughput: p,
-      getRecentLatency: o,
-      getHttpRequests: q,
-      getCurrentDroppedFrames: r,
-      getCurrentSchedulingInfo: s,
-      getCurrentDVRInfo: u,
-      getCurrentManifestUpdate: t,
-      getLatestFragmentRequestHeaderValueByID: w,
-      getLatestMPDRequestHeaderValueByID: v,
-      getRequestsQueue: l,
-      getLatestPlayList: m
+      getBandwidthForRepresentation: e,
+      getIndexForRepresentation: f,
+      getMaxIndexForBufferType: g,
+      getMaxAllowedIndexForBufferType: h,
+      getCurrentRepresentationSwitch: i,
+      getCurrentBufferLevel: j,
+      getCurrentPlaybackRate: l,
+      getCurrentHttpRequest: m,
+      getHttpRequests: n,
+      getCurrentDroppedFrames: o,
+      getCurrentSchedulingInfo: p,
+      getCurrentDVRInfo: r,
+      getCurrentManifestUpdate: q,
+      getLatestFragmentRequestHeaderValueByID: t,
+      getLatestMPDRequestHeaderValueByID: s,
+      getRequestsQueue: k
     }
   }, Dash.dependencies.DashMetricsExtensions.prototype = {
     constructor: Dash.dependencies.DashMetricsExtensions
@@ -2587,11 +2700,6 @@ ISOFile.prototype.fetch = function(a) {
     this.adaptionSet = null, this.representation = null, this.period = null, this.timescale = 1, this.value = "", this.schemeIdUri = ""
   }, Dash.vo.EventStream.prototype = {
     constructor: Dash.vo.EventStream
-  }, Dash.vo.Metrics = function() {
-    "use strict";
-    this.metrics = "", this.Range = [], this.Reporting = []
-  }, Dash.vo.Metrics.prototype = {
-    constructor: Dash.vo.Metrics
   }, Dash.vo.Mpd = function() {
     "use strict";
     this.manifest = null, this.suggestedPresentationDelay = 0, this.availabilityStartTime = null, this.availabilityEndTime = Number.POSITIVE_INFINITY, this.timeShiftBufferDepth = Number.POSITIVE_INFINITY, this.maxSegmentDuration = Number.POSITIVE_INFINITY, this.checkTime = NaN, this.clientServerTimeShift = 0, this.isClientServerTimeSyncCompleted = !1
@@ -2602,18 +2710,7 @@ ISOFile.prototype.fetch = function(a) {
     this.id = null, this.index = -1, this.duration = NaN, this.start = NaN, this.mpd = null
   }, Dash.vo.Period.prototype = {
     constructor: Dash.vo.Period
-  }, Dash.vo.Period.DEFAULT_ID = "defaultId", Dash.vo.Range = function() {
-    "use strict";
-    this.starttime = 0, this.duration = 1 / 0, this.useWallClockTime = !1
-  },
-  Dash.vo.Range.prototype = {
-    constructor: Dash.vo.Range
-  }, Dash.vo.Reporting = function() {
-    "use strict";
-    this.schemeIdUri = "", this.value = ""
-  }, Dash.vo.Reporting.prototype = {
-    constructor: Dash.vo.Reporting
-  }, Dash.vo.Representation = function() {
+  }, Dash.vo.Period.DEFAULT_ID = "defaultId", Dash.vo.Representation = function() {
     "use strict";
     this.id = null, this.index = -1, this.adaptation = null, this.segmentInfoType = null, this.initialization = null, this.segmentDuration = NaN, this.timescale = 1, this.startNumber = 1, this.indexRange = null, this.range = null, this.presentationTimeOffset = 0, this.MSETimeOffset = NaN, this.segmentAvailabilityRange = null, this.availableSegmentsNumber = 0, this.bandwidth = NaN, this.maxPlayoutRate = NaN
   }, Dash.vo.Representation.prototype = {
@@ -2715,31 +2812,42 @@ ISOFile.prototype.fetch = function(a) {
           h = !0,
           i = !0,
           j = null,
-          k = 0,
-          l = this,
-          m = function(b, c) {
+          k = this,
+          l = function(b, c) {
             i = !1;
-            var d, e, h = new Date;
-            b.firstByteDate || (b.firstByteDate = b.requestStartDate), b.requestEndDate = h, d = b.firstByteDate.getTime() - b.requestStartDate.getTime(), e = b.requestEndDate.getTime() - b.firstByteDate.getTime(), l.log((c ? "loaded " : "failed ") + b.mediaType + ":" + b.type + ":" + b.startTime + " (" + f.status + ", " + d + "ms, " + e + "ms)"), l.metricsModel.addHttpRequest(a.mediaType, null, a.type, a.url, f.responseURL || null, a.range, a.requestStartDate, b.firstByteDate, b.requestEndDate, f.status, a.duration, f.getAllResponseHeaders(), c ? g : null)
+            var d, e, h = new Date,
+              l = f.response,
+              m = null;
+            g.push({
+              s: h,
+              d: h.getTime() - j.getTime(),
+              b: [l ? l.byteLength : 0]
+            }), b.firstByteDate || (b.firstByteDate = b.requestStartDate), b.requestEndDate = h, d = b.firstByteDate.getTime() - b.requestStartDate.getTime(), e = b.requestEndDate.getTime() - b.firstByteDate.getTime(), k.log((c ? "loaded " : "failed ") + b.mediaType + ":" + b.type + ":" + b.startTime + " (" + f.status + ", " + d + "ms, " + e + "ms)"), m = k.metricsModel.addHttpRequest(a.mediaType, null, a.type, a.url, f.responseURL || null, a.range, a.requestStartDate, b.firstByteDate, b.requestEndDate, f.status, a.duration, f.getAllResponseHeaders()), c && g.forEach(function(a) {
+              k.metricsModel.appendHttpTrace(m, a.s, a.d, a.b)
+            })
           };
-        c.push(f), a.requestStartDate = new Date, j = a.requestStartDate, f.open("GET", l.requestModifierExt.modifyRequestURL(a.url), !0), f.responseType = "arraybuffer", f = l.requestModifierExt.modifyRequestHeader(f), a.range && f.setRequestHeader("Range", "bytes=" + a.range), f.onprogress = function(b) {
+        c.push(f), a.requestStartDate = new Date, g.push({
+          s: a.requestStartDate,
+          d: 0,
+          b: [0]
+        }), j = a.requestStartDate, f.open("GET", k.requestModifierExt.modifyRequestURL(a.url), !0), f.responseType = "arraybuffer", f = k.requestModifierExt.modifyRequestHeader(f), a.range && f.setRequestHeader("Range", "bytes=" + a.range), f.onprogress = function(b) {
           var c = new Date;
-          h && (h = !1, (!b.lengthComputable || b.lengthComputable && b.total !== b.loaded) && (a.firstByteDate = c)), b.lengthComputable && (a.bytesLoaded = b.loaded, a.bytesTotal = b.total), g.push({
-            s: j,
+          h && (h = !1, (!b.lengthComputable || b.lengthComputable && b.total != b.loaded) && (a.firstByteDate = c)), b.lengthComputable && (a.bytesLoaded = b.loaded, a.bytesTotal = b.total), g.push({
+            s: c,
             d: c.getTime() - j.getTime(),
-            b: [b.loaded ? b.loaded - k : 0]
-          }), j = c, k = b.loaded, l.notify(MediaPlayer.dependencies.FragmentLoader.eventList.ENAME_LOADING_PROGRESS, {
+            b: [f.response ? f.response.byteLength : 0]
+          }), j = c, k.notify(MediaPlayer.dependencies.FragmentLoader.eventList.ENAME_LOADING_PROGRESS, {
             request: a
           })
         }, f.onload = function() {
-          f.status < 200 || f.status > 299 || (m(a, !0), l.notify(MediaPlayer.dependencies.FragmentLoader.eventList.ENAME_LOADING_COMPLETED, {
+          f.status < 200 || f.status > 299 || (l(a, !0), k.notify(MediaPlayer.dependencies.FragmentLoader.eventList.ENAME_LOADING_COMPLETED, {
             request: a,
             response: f.response
           }))
         }, f.onloadend = f.onerror = function() {
-          -1 !== c.indexOf(f) && (c.splice(c.indexOf(f), 1), i && (m(a, !1), e > 0 ? (l.log("Failed loading fragment: " + a.mediaType + ":" + a.type + ":" + a.startTime + ", retry in " + b + "ms attempts: " + e), e--, setTimeout(function() {
-            d.call(l, a, e)
-          }, b)) : (l.log("Failed loading fragment: " + a.mediaType + ":" + a.type + ":" + a.startTime + " no retry attempts left"), l.errHandler.downloadError("content", a.url, f), l.notify(MediaPlayer.dependencies.FragmentLoader.eventList.ENAME_LOADING_COMPLETED, {
+          -1 !== c.indexOf(f) && (c.splice(c.indexOf(f), 1), i && (l(a, !1), e > 0 ? (k.log("Failed loading fragment: " + a.mediaType + ":" + a.type + ":" + a.startTime + ", retry in " + b + "ms attempts: " + e), e--, setTimeout(function() {
+            d.call(k, a, e)
+          }, b)) : (k.log("Failed loading fragment: " + a.mediaType + ":" + a.type + ":" + a.startTime + " no retry attempts left"), k.errHandler.downloadError("content", a.url, f), k.notify(MediaPlayer.dependencies.FragmentLoader.eventList.ENAME_LOADING_COMPLETED, {
             request: a,
             bytes: null
           }, new MediaPlayer.vo.Error(null, "failed loading fragment", null)))))
@@ -2850,40 +2958,41 @@ ISOFile.prototype.fetch = function(a) {
         var b = "";
         return -1 !== a.indexOf("/") && (-1 !== a.indexOf("?") && (a = a.substring(0, a.indexOf("?"))), b = a.substring(0, a.lastIndexOf("/") + 1)), b
       },
-      d = function(a, e) {
+      d = function(a, e) { // doLoad, a = url, e = retry attempts
         var f, g, h, i, j, k = c(a),
           l = new XMLHttpRequest,
           m = new Date,
-          n = !0,
-          o = m,
-          p = 0,
-          q = [],
-          r = this;
-        g = function() {
-          var b, d = null,
-            e = new Date;
-          l.status < 200 || l.status > 299 || (n = !1, l.responseURL && l.responseURL !== a && (k = c(l.responseURL), d = l.responseURL), r.metricsModel.addHttpRequest("stream", null, MediaPlayer.vo.metrics.HTTPRequest.MPD_TYPE, a, d, null, m, l.firstByteDate || null, e, l.status, null, l.getAllResponseHeaders(), q), f = r.parser.parse(l.responseText, k, r.xlinkController), f ? (f.url = d || a, f.loadedTime = e, r.metricsModel.addManifestUpdate("stream", f.type, m, e, f.availabilityStartTime), r.xlinkController.resolveManifestOnLoad(f)) : (b = "Failed loading manifest: " + a + ", parsing failed", r.notify(MediaPlayer.dependencies.ManifestLoader.eventList.ENAME_MANIFEST_LOADED, {
+          n = null,
+          o = !0,
+          p = this;
+        g = function() { // onload
+          var b, d = null;
+          l.status < 200 || l.status > 299 || (o = !1, n = new Date, l.responseURL && l.responseURL !== a && (k = c(l.responseURL), d = l.responseURL), p.metricsModel.addHttpRequest("stream", null, MediaPlayer.vo.metrics.HTTPRequest.MPD_TYPE, a, d, null, m, l.firstByteDate || null, n, l.status, null, l.getAllResponseHeaders()), f = p.parser.parse(l.responseText, k, p.xlinkController), f ? (f.url = d || a, f.loadedTime = n, p.metricsModel.addManifestUpdate("stream", f.type, m, n, f.availabilityStartTime), p.xlinkController.resolveManifestOnLoad(f)) : (b = "Failed loading manifest: " + a + ", parsing failed", p.notify(MediaPlayer.dependencies.ManifestLoader.eventList.ENAME_MANIFEST_LOADED, {
             manifest: null
-          }, new MediaPlayer.vo.Error(MediaPlayer.dependencies.ManifestLoader.PARSERERROR_ERROR_CODE, b, null)), r.log(b)))
-        }, h = function() {
-          n && (n = !1, r.metricsModel.addHttpRequest("stream", null, MediaPlayer.vo.metrics.HTTPRequest.MPD_TYPE, a, l.responseURL || null, null, m, l.firstByteDate || null, new Date, l.status, null, l.getAllResponseHeaders(), null), e > 0 ? (r.log("Failed loading manifest: " + a + ", retry in " + b + "ms attempts: " + e), e--, setTimeout(function() {
-            d.call(r, a, e)
-          }, b)) : (r.log("Failed loading manifest: " + a + " no retry attempts left"), r.errHandler.downloadError("manifest", a, l), r.notify(MediaPlayer.dependencies.ManifestLoader.eventList.ENAME_MANIFEST_LOADED, null, new Error("Failed loading manifest: " + a + " no retry attempts left"))))
+          }, new MediaPlayer.vo.Error(MediaPlayer.dependencies.ManifestLoader.PARSERERROR_ERROR_CODE, b, null)), p.log(b)))
+        }, h = function() { // report
+          o && (o = !1, p.metricsModel.addHttpRequest("stream", null, MediaPlayer.vo.metrics.HTTPRequest.MPD_TYPE, a, l.responseURL || null, null, m, l.firstByteDate || null, new Date, l.status, null, l.getAllResponseHeaders()), e > 0 ? (p.log("Failed loading manifest: " + a + ", retry in " + b + "ms attempts: " + e), e--, setTimeout(function() {
+            d.call(p, a, e)
+          }, b)) : (p.log("Failed loading manifest: " + a + " no retry attempts left"), p.errHandler.downloadError("manifest", a, l), p.notify(MediaPlayer.dependencies.ManifestLoader.eventList.ENAME_MANIFEST_LOADED, null, new Error("Failed loading manifest: " + a + " no retry attempts left"))))
         }, i = function(a) {
-          var b = new Date;
-          j && (j = !1, (!a.lengthComputable || a.lengthComputable && a.total !== a.loaded) && (l.firstByteDate = b)), a.lengthComputable && (l.bytesLoaded = a.loaded, l.bytesTotal = a.total), q.push({
-            s: o,
-            d: b.getTime() - o.getTime(),
-            b: [a.loaded ? a.loaded - p : 0]
-          }), o = b, p = a.loaded
+          j && (j = !1, (!a.lengthComputable || a.lengthComputable && a.total != a.loaded) && (l.firstByteDate = new Date))
         };
         try {
-          l.onload = g, l.onloadend = h, l.onerror = h, l.onprogress = i, l.open("GET", r.requestModifierExt.modifyRequestURL(a), !0), l.send()
-        } catch (s) {
+          l.onload = g, l.onloadend = h, l.onerror = h, l.onprogress = i, l.open("GET", p.requestModifierExt.modifyRequestURL(a), !0), l.send()
+        } catch (q) {
           l.onerror()
         }
       },
-      e = function(a) {
+      e = function(a, b) { //DIFF3: Object Extension of d(), calls the JSON-Parser via DIFF2, defined as a method in DIFF1. a is arg[0] from load(arg), b is arg[1]
+        var d, e, f = c(a),
+          g = new Date,
+          h = null,
+          i = this;
+        h = new Date, e = i.parser.parseJSON(b, f, i.xlinkController), e ? (e.url = a, e.loadedTime = h, i.metricsModel.addManifestUpdate("stream", e.type, g, h, e.availabilityStartTime), i.xlinkController.resolveManifestOnLoad(e)) : (d = "Failed loading manifest: " + a + ", parsing failed", i.notify(MediaPlayer.dependencies.ManifestLoader.eventList.ENAME_MANIFEST_LOADED, {
+          manifest: null
+        }, new MediaPlayer.vo.Error(MediaPlayer.dependencies.ManifestLoader.PARSERERROR_ERROR_CODE, d, null)), i.log(d))
+      },
+      f = function(a) {
         this.notify(MediaPlayer.dependencies.ManifestLoader.eventList.ENAME_MANIFEST_LOADED, {
           manifest: a.data.manifest
         })
@@ -2899,10 +3008,15 @@ ISOFile.prototype.fetch = function(a) {
       unsubscribe: void 0,
       system: void 0,
       load: function(b) {
-        d.call(this, b, a)
+        if ("string" == typeof b) d.call(this, b, a);
+        else if ("object" == typeof b) {//DIFF4: if the given b is an object, call e() from DIFF3 to parse it, otherwise call the regular parser from d()
+          var c = b[0],
+              f = b[1];
+          e.call(this, c, f)
+        }
       },
       setup: function() {
-        e = e.bind(this), this.xlinkController = this.system.getObject("xlinkController"), this.xlinkController.subscribe(MediaPlayer.dependencies.XlinkController.eventList.ENAME_XLINK_READY, this, e)
+        f = f.bind(this), this.xlinkController = this.system.getObject("xlinkController"), this.xlinkController.subscribe(MediaPlayer.dependencies.XlinkController.eventList.ENAME_XLINK_READY, this, f)
       }
     }
   }, MediaPlayer.dependencies.ManifestLoader.prototype = {
@@ -3082,7 +3196,7 @@ ISOFile.prototype.fetch = function(a) {
           }
         }), b.notify(MediaPlayer.dependencies.Stream.eventList.ENAME_STREAM_UPDATED, {
           streamInfo: f
-        }, l), e && !d && (a && a.init(b.manifestModel.getValue(), s.call(this, "audio"), s.call(this, "video")), d = !0)
+        }, l), e && !d && (a.init(b.manifestModel.getValue(), s.call(this, "audio"), s.call(this, "video")), d = !0)
       },
       s = function(a) {
         for (var b = c.length, d = null, e = 0; b > e; e += 1)
@@ -3150,7 +3264,7 @@ ISOFile.prototype.fetch = function(a) {
         this[MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFERING_COMPLETED] = u, this[Dash.dependencies.RepresentationController.eventList.ENAME_DATA_UPDATE_COMPLETED] = v, this[MediaPlayer.dependencies.MediaController.eventList.CURRENT_TRACK_CHANGED] = n
       },
       initialize: function(c, d) {
-        f = c, a = d, a && (b = k.bind(this), a.addEventListener(MediaPlayer.dependencies.ProtectionController.events.KEY_SYSTEM_SELECTED, b), a.addEventListener(MediaPlayer.dependencies.ProtectionController.events.SERVER_CERTIFICATE_UPDATED, b), a.addEventListener(MediaPlayer.dependencies.ProtectionController.events.KEY_ADDED, b), a.addEventListener(MediaPlayer.dependencies.ProtectionController.events.KEY_SESSION_CREATED, b), a.addEventListener(MediaPlayer.dependencies.ProtectionController.events.KEY_SYSTEM_SELECTED, b), a.addEventListener(MediaPlayer.dependencies.ProtectionController.events.KEY_SYSTEM_SELECTED, b), a.addEventListener(MediaPlayer.dependencies.ProtectionController.events.LICENSE_REQUEST_COMPLETE, b))
+        f = c, a = d, b = k.bind(this), a.addEventListener(MediaPlayer.dependencies.ProtectionController.events.KEY_SYSTEM_SELECTED, b), a.addEventListener(MediaPlayer.dependencies.ProtectionController.events.SERVER_CERTIFICATE_UPDATED, b), a.addEventListener(MediaPlayer.dependencies.ProtectionController.events.KEY_ADDED, b), a.addEventListener(MediaPlayer.dependencies.ProtectionController.events.KEY_SESSION_CREATED, b), a.addEventListener(MediaPlayer.dependencies.ProtectionController.events.KEY_SYSTEM_SELECTED, b), a.addEventListener(MediaPlayer.dependencies.ProtectionController.events.KEY_SYSTEM_SELECTED, b), a.addEventListener(MediaPlayer.dependencies.ProtectionController.events.LICENSE_REQUEST_COMPLETE, b)
       },
       activate: function(a) {
         d ? t.call(this) : q.call(this, a)
@@ -3166,7 +3280,7 @@ ISOFile.prototype.fetch = function(a) {
         var k, l = c.length,
           m = 0;
         for (m; l > m; m += 1) k = c[m], k.reset(f), k = null;
-        j && j.reset(), c = [], h = !1, i = !1, this.fragmentController && this.fragmentController.reset(), this.fragmentController = void 0, this.liveEdgeFinder.abortSearch(), this.liveEdgeFinder.unsubscribe(MediaPlayer.dependencies.LiveEdgeFinder.eventList.ENAME_LIVE_EDGE_SEARCH_COMPLETED, this.playbackController), a && (a.removeEventListener(MediaPlayer.dependencies.ProtectionController.events.KEY_SYSTEM_SELECTED, b), a.removeEventListener(MediaPlayer.dependencies.ProtectionController.events.SERVER_CERTIFICATE_UPDATED, b), a.removeEventListener(MediaPlayer.dependencies.ProtectionController.events.KEY_ADDED, b), a.removeEventListener(MediaPlayer.dependencies.ProtectionController.events.KEY_SESSION_CREATED, b), a.removeEventListener(MediaPlayer.dependencies.ProtectionController.events.KEY_SYSTEM_SELECTED, b), a.removeEventListener(MediaPlayer.dependencies.ProtectionController.events.KEY_SYSTEM_SELECTED, b), a.removeEventListener(MediaPlayer.dependencies.ProtectionController.events.LICENSE_REQUEST_COMPLETE, b)), e = !1, d = !1, g = {}
+        j && j.reset(), c = [], h = !1, i = !1, this.fragmentController && this.fragmentController.reset(), this.fragmentController = void 0, this.liveEdgeFinder.abortSearch(), this.liveEdgeFinder.unsubscribe(MediaPlayer.dependencies.LiveEdgeFinder.eventList.ENAME_LIVE_EDGE_SEARCH_COMPLETED, this.playbackController), a.removeEventListener(MediaPlayer.dependencies.ProtectionController.events.KEY_SYSTEM_SELECTED, b), a.removeEventListener(MediaPlayer.dependencies.ProtectionController.events.SERVER_CERTIFICATE_UPDATED, b), a.removeEventListener(MediaPlayer.dependencies.ProtectionController.events.KEY_ADDED, b), a.removeEventListener(MediaPlayer.dependencies.ProtectionController.events.KEY_SESSION_CREATED, b), a.removeEventListener(MediaPlayer.dependencies.ProtectionController.events.KEY_SYSTEM_SELECTED, b), a.removeEventListener(MediaPlayer.dependencies.ProtectionController.events.KEY_SYSTEM_SELECTED, b), a.removeEventListener(MediaPlayer.dependencies.ProtectionController.events.LICENSE_REQUEST_COMPLETE, b), e = !1, d = !1, g = {}
       },
       getDuration: function() {
         return f.duration
@@ -3202,8 +3316,7 @@ ISOFile.prototype.fetch = function(a) {
       isInitialized: function() {
         return i
       },
-      updateData: y,
-      getProcessors: x
+      updateData: y
     }
   }, MediaPlayer.dependencies.Stream.prototype = {
     constructor: MediaPlayer.dependencies.Stream
@@ -3245,7 +3358,7 @@ ISOFile.prototype.fetch = function(a) {
           t = l.system.getObject("mediaController"),
           u = this.system.getObject("fragmentLoader"),
           v = g.call(l, c);
-        b = i, d = c, e = j, a = b.getStreamInfo().manifestInfo.isDynamic, l.bufferController = v, l.scheduleController = n, l.representationController = m, l.fragmentController = f, l.fragmentLoader = u, m.subscribe(Dash.dependencies.RepresentationController.eventList.ENAME_DATA_UPDATE_COMPLETED, v), f.subscribe(MediaPlayer.dependencies.FragmentController.eventList.ENAME_INIT_FRAGMENT_LOADED, v), "video" === d || "audio" === d || "fragmentedText" === d ? (p.subscribe(MediaPlayer.dependencies.AbrController.eventList.ENAME_QUALITY_CHANGED, v), p.subscribe(MediaPlayer.dependencies.AbrController.eventList.ENAME_QUALITY_CHANGED, m), p.subscribe(MediaPlayer.dependencies.AbrController.eventList.ENAME_QUALITY_CHANGED, n), o.subscribe(MediaPlayer.dependencies.LiveEdgeFinder.eventList.ENAME_LIVE_EDGE_SEARCH_COMPLETED, this.timelineConverter), o.subscribe(MediaPlayer.dependencies.LiveEdgeFinder.eventList.ENAME_LIVE_EDGE_SEARCH_COMPLETED, m), o.subscribe(MediaPlayer.dependencies.LiveEdgeFinder.eventList.ENAME_LIVE_EDGE_SEARCH_COMPLETED, n), m.subscribe(Dash.dependencies.RepresentationController.eventList.ENAME_DATA_UPDATE_STARTED, n), m.subscribe(Dash.dependencies.RepresentationController.eventList.ENAME_DATA_UPDATE_COMPLETED, n), b.subscribe(MediaPlayer.dependencies.Stream.eventList.ENAME_STREAM_UPDATED, n), m.subscribe(Dash.dependencies.RepresentationController.eventList.ENAME_DATA_UPDATE_COMPLETED, s), f.subscribe(MediaPlayer.dependencies.FragmentController.eventList.ENAME_MEDIA_FRAGMENT_LOADED, v), f.subscribe(MediaPlayer.dependencies.FragmentController.eventList.ENAME_MEDIA_FRAGMENT_LOADING_START, n), f.subscribe(MediaPlayer.dependencies.FragmentController.eventList.ENAME_STREAM_COMPLETED, n), f.subscribe(MediaPlayer.dependencies.FragmentController.eventList.ENAME_STREAM_COMPLETED, v), v.subscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_STATE_CHANGED, s), v.subscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_CLEARED, n), v.subscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_UPDATED, n), v.subscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_UPDATED, m), v.subscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_STATE_CHANGED, n), v.subscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_INIT_REQUESTED, n), v.subscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFERING_COMPLETED, b), v.subscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_QUOTA_EXCEEDED, n), v.subscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BYTES_APPENDED, s), s.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_PROGRESS, v), s.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_TIME_UPDATED, v), s.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_RATE_CHANGED, v), s.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_RATE_CHANGED, n), s.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_SEEKING, v), s.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_SEEKED, v), s.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_SEEKING, n), s.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_STARTED, n), s.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_SEEKING, n.scheduleRulesCollection.playbackTimeRule), s.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_SEEKING, p.abrRulesCollection.insufficientBufferRule), a && s.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_WALLCLOCK_TIME_UPDATED, m), s.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_WALLCLOCK_TIME_UPDATED, v), s.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_WALLCLOCK_TIME_UPDATED, n), r.subscribe(Dash.dependencies.BaseURLExtensions.eventList.ENAME_INITIALIZATION_LOADED, q), r.subscribe(Dash.dependencies.BaseURLExtensions.eventList.ENAME_SEGMENTS_LOADED, q), ("video" === d || "audio" === d) && t.subscribe(MediaPlayer.dependencies.MediaController.eventList.CURRENT_TRACK_CHANGED, v)) : v.subscribe(MediaPlayer.dependencies.TextController.eventList.ENAME_CLOSED_CAPTIONING_REQUESTED, n), m.subscribe(Dash.dependencies.RepresentationController.eventList.ENAME_DATA_UPDATE_COMPLETED, b), q.initialize(this), q.setCurrentTime(s.getInitialTime(this.getStreamInfo())), v.initialize(d, h, l), n.initialize(d, this), p.initialize(d, this), k = this.getFragmentModel(), k.setLoader(u), k.subscribe(MediaPlayer.dependencies.FragmentModel.eventList.ENAME_FRAGMENT_LOADING_STARTED, f), k.subscribe(MediaPlayer.dependencies.FragmentModel.eventList.ENAME_FRAGMENT_LOADING_COMPLETED, f), k.subscribe(MediaPlayer.dependencies.FragmentModel.eventList.ENAME_STREAM_COMPLETED, f), k.subscribe(MediaPlayer.dependencies.FragmentModel.eventList.ENAME_FRAGMENT_LOADING_COMPLETED, n), u.subscribe(MediaPlayer.dependencies.FragmentLoader.eventList.ENAME_LOADING_COMPLETED, k), u.subscribe(MediaPlayer.dependencies.FragmentLoader.eventList.ENAME_LOADING_PROGRESS, p), ("video" === d || "audio" === d || "fragmentedText" === d) && v.subscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BYTES_REJECTED, k), m.initialize(this)
+          b = i, d = c, e = j, a = b.getStreamInfo().manifestInfo.isDynamic, l.bufferController = v, l.scheduleController = n, l.representationController = m, l.fragmentController = f, l.fragmentLoader = u, m.subscribe(Dash.dependencies.RepresentationController.eventList.ENAME_DATA_UPDATE_COMPLETED, v), f.subscribe(MediaPlayer.dependencies.FragmentController.eventList.ENAME_INIT_FRAGMENT_LOADED, v), "video" === d || "audio" === d || "fragmentedText" === d ? (p.subscribe(MediaPlayer.dependencies.AbrController.eventList.ENAME_QUALITY_CHANGED, v), p.subscribe(MediaPlayer.dependencies.AbrController.eventList.ENAME_QUALITY_CHANGED, m), p.subscribe(MediaPlayer.dependencies.AbrController.eventList.ENAME_QUALITY_CHANGED, n), o.subscribe(MediaPlayer.dependencies.LiveEdgeFinder.eventList.ENAME_LIVE_EDGE_SEARCH_COMPLETED, this.timelineConverter), o.subscribe(MediaPlayer.dependencies.LiveEdgeFinder.eventList.ENAME_LIVE_EDGE_SEARCH_COMPLETED, m), o.subscribe(MediaPlayer.dependencies.LiveEdgeFinder.eventList.ENAME_LIVE_EDGE_SEARCH_COMPLETED, n), m.subscribe(Dash.dependencies.RepresentationController.eventList.ENAME_DATA_UPDATE_STARTED, n), m.subscribe(Dash.dependencies.RepresentationController.eventList.ENAME_DATA_UPDATE_COMPLETED, n), b.subscribe(MediaPlayer.dependencies.Stream.eventList.ENAME_STREAM_UPDATED, n), m.subscribe(Dash.dependencies.RepresentationController.eventList.ENAME_DATA_UPDATE_COMPLETED, s), f.subscribe(MediaPlayer.dependencies.FragmentController.eventList.ENAME_MEDIA_FRAGMENT_LOADED, v), f.subscribe(MediaPlayer.dependencies.FragmentController.eventList.ENAME_MEDIA_FRAGMENT_LOADING_START, n), f.subscribe(MediaPlayer.dependencies.FragmentController.eventList.ENAME_STREAM_COMPLETED, n), f.subscribe(MediaPlayer.dependencies.FragmentController.eventList.ENAME_STREAM_COMPLETED, v), f.subscribe(MediaPlayer.dependencies.FragmentController.eventList.ENAME_STREAM_COMPLETED, n.scheduleRulesCollection.bufferLevelRule), v.subscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_STATE_CHANGED, s), v.subscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_CLEARED, n), v.subscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BYTES_APPENDED, n), v.subscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_UPDATED, n), v.subscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_UPDATED, m), v.subscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_STATE_CHANGED, n), v.subscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_INIT_REQUESTED, n), v.subscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFERING_COMPLETED, b), v.subscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_QUOTA_EXCEEDED, n), v.subscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_OUTRUN, n.scheduleRulesCollection.bufferLevelRule), v.subscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_BALANCED, n.scheduleRulesCollection.bufferLevelRule), v.subscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BYTES_APPENDED, s), s.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_PROGRESS, v), s.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_TIME_UPDATED, v), s.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_RATE_CHANGED, v), s.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_RATE_CHANGED, n), s.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_SEEKING, v), s.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_SEEKING, n), s.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_STARTED, n), s.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_SEEKING, n.scheduleRulesCollection.playbackTimeRule), s.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_SEEKING, p.abrRulesCollection.insufficientBufferRule), a && s.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_WALLCLOCK_TIME_UPDATED, m), s.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_WALLCLOCK_TIME_UPDATED, v), s.subscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_WALLCLOCK_TIME_UPDATED, n), r.subscribe(Dash.dependencies.BaseURLExtensions.eventList.ENAME_INITIALIZATION_LOADED, q), r.subscribe(Dash.dependencies.BaseURLExtensions.eventList.ENAME_SEGMENTS_LOADED, q), ("video" === d || "audio" === d) && t.subscribe(MediaPlayer.dependencies.MediaController.eventList.CURRENT_TRACK_CHANGED, v)) : v.subscribe(MediaPlayer.dependencies.TextController.eventList.ENAME_CLOSED_CAPTIONING_REQUESTED, n), m.subscribe(Dash.dependencies.RepresentationController.eventList.ENAME_DATA_UPDATE_COMPLETED, b), q.initialize(this), q.setCurrentTime(s.getStreamStartTime(this.getStreamInfo())), v.initialize(d, h, l), n.initialize(d, this), p.initialize(d, this), k = this.getFragmentModel(), k.setLoader(u), k.subscribe(MediaPlayer.dependencies.FragmentModel.eventList.ENAME_FRAGMENT_LOADING_STARTED, f), k.subscribe(MediaPlayer.dependencies.FragmentModel.eventList.ENAME_FRAGMENT_LOADING_COMPLETED, f), k.subscribe(MediaPlayer.dependencies.FragmentModel.eventList.ENAME_STREAM_COMPLETED, f), k.subscribe(MediaPlayer.dependencies.FragmentModel.eventList.ENAME_FRAGMENT_LOADING_COMPLETED, n), u.subscribe(MediaPlayer.dependencies.FragmentLoader.eventList.ENAME_LOADING_COMPLETED, k), u.subscribe(MediaPlayer.dependencies.FragmentLoader.eventList.ENAME_LOADING_PROGRESS, p), ("video" === d || "audio" === d || "fragmentedText" === d) && (v.subscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_OUTRUN, k), v.subscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_BALANCED, k), v.subscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BYTES_REJECTED, k)), m.initialize(this)
       },
       isUpdating: function() {
         return this.representationController.isUpdating()
@@ -3330,8 +3443,7 @@ ISOFile.prototype.fetch = function(a) {
           q = this.baseURLExt,
           r = this.getFragmentModel(),
           s = this.fragmentLoader;
-        m.unsubscribe(MediaPlayer.dependencies.AbrController.eventList.ENAME_QUALITY_CHANGED, h), m.unsubscribe(MediaPlayer.dependencies.AbrController.eventList.ENAME_QUALITY_CHANGED, i), m.unsubscribe(MediaPlayer.dependencies.AbrController.eventList.ENAME_QUALITY_CHANGED, j), k.unsubscribe(MediaPlayer.dependencies.LiveEdgeFinder.eventList.ENAME_LIVE_EDGE_SEARCH_COMPLETED, this.timelineConverter), k.unsubscribe(MediaPlayer.dependencies.LiveEdgeFinder.eventList.ENAME_LIVE_EDGE_SEARCH_COMPLETED, j), k.unsubscribe(MediaPlayer.dependencies.LiveEdgeFinder.eventList.ENAME_LIVE_EDGE_SEARCH_COMPLETED, i), i.unsubscribe(Dash.dependencies.RepresentationController.eventList.ENAME_DATA_UPDATE_STARTED, j), i.unsubscribe(Dash.dependencies.RepresentationController.eventList.ENAME_DATA_UPDATE_COMPLETED, h), i.unsubscribe(Dash.dependencies.RepresentationController.eventList.ENAME_DATA_UPDATE_COMPLETED, j), i.unsubscribe(Dash.dependencies.RepresentationController.eventList.ENAME_DATA_UPDATE_COMPLETED, b), i.unsubscribe(Dash.dependencies.RepresentationController.eventList.ENAME_DATA_UPDATE_COMPLETED, n), b.unsubscribe(MediaPlayer.dependencies.Stream.eventList.ENAME_STREAM_UPDATED, j), l.unsubscribe(MediaPlayer.dependencies.FragmentController.eventList.ENAME_INIT_FRAGMENT_LOADED, h), l.unsubscribe(MediaPlayer.dependencies.FragmentController.eventList.ENAME_MEDIA_FRAGMENT_LOADED, h), l.unsubscribe(MediaPlayer.dependencies.FragmentController.eventList.ENAME_MEDIA_FRAGMENT_LOADING_START, j), l.unsubscribe(MediaPlayer.dependencies.FragmentController.eventList.ENAME_STREAM_COMPLETED, j), l.unsubscribe(MediaPlayer.dependencies.FragmentController.eventList.ENAME_STREAM_COMPLETED, h), l.unsubscribe(MediaPlayer.dependencies.FragmentController.eventList.ENAME_STREAM_COMPLETED, j.scheduleRulesCollection.bufferLevelRule), h.unsubscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_STATE_CHANGED, n), h.unsubscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_CLEARED, j), h.unsubscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_UPDATED, j), h.unsubscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_UPDATED, i), h.unsubscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_STATE_CHANGED, j), h.unsubscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_INIT_REQUESTED, j), h.unsubscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFERING_COMPLETED, b), h.unsubscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_CLOSED_CAPTIONING_REQUESTED, j), h.unsubscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BYTES_APPENDED, n), n.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_PROGRESS, h), n.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_TIME_UPDATED, h),
-          n.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_RATE_CHANGED, h), n.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_RATE_CHANGED, j), n.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_SEEKING, h), n.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_SEEKING, j), n.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_STARTED, j), n.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_WALLCLOCK_TIME_UPDATED, i), n.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_WALLCLOCK_TIME_UPDATED, h), n.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_WALLCLOCK_TIME_UPDATED, j), n.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_SEEKING, j.scheduleRulesCollection.playbackTimeRule), n.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_SEEKING, m.abrRulesCollection.insufficientBufferRule), q.unsubscribe(Dash.dependencies.BaseURLExtensions.eventList.ENAME_INITIALIZATION_LOADED, p), q.unsubscribe(Dash.dependencies.BaseURLExtensions.eventList.ENAME_SEGMENTS_LOADED, p), h.unsubscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BYTES_REJECTED, r), r.unsubscribe(MediaPlayer.dependencies.FragmentModel.eventList.ENAME_FRAGMENT_LOADING_STARTED, l), r.unsubscribe(MediaPlayer.dependencies.FragmentModel.eventList.ENAME_FRAGMENT_LOADING_COMPLETED, l), r.unsubscribe(MediaPlayer.dependencies.FragmentModel.eventList.ENAME_STREAM_COMPLETED, l), r.unsubscribe(MediaPlayer.dependencies.FragmentModel.eventList.ENAME_FRAGMENT_LOADING_COMPLETED, j), s.unsubscribe(MediaPlayer.dependencies.FragmentLoader.eventList.ENAME_LOADING_COMPLETED, r), s.unsubscribe(MediaPlayer.dependencies.FragmentLoader.eventList.ENAME_LOADING_PROGRESS, m), r.reset(), ("video" === d || "audio" === d) && o.unsubscribe(MediaPlayer.dependencies.MediaController.eventList.CURRENT_TRACK_CHANGED, h), p.reset(), this.bufferController.reset(f), this.scheduleController.reset(), this.bufferController = null, this.scheduleController = null, this.representationController = null, this.videoModel = null, this.fragmentController = null, a = void 0, b = null, c = null, d = null, e = null
+        m.unsubscribe(MediaPlayer.dependencies.AbrController.eventList.ENAME_QUALITY_CHANGED, h), m.unsubscribe(MediaPlayer.dependencies.AbrController.eventList.ENAME_QUALITY_CHANGED, i), m.unsubscribe(MediaPlayer.dependencies.AbrController.eventList.ENAME_QUALITY_CHANGED, j), k.unsubscribe(MediaPlayer.dependencies.LiveEdgeFinder.eventList.ENAME_LIVE_EDGE_SEARCH_COMPLETED, this.timelineConverter), k.unsubscribe(MediaPlayer.dependencies.LiveEdgeFinder.eventList.ENAME_LIVE_EDGE_SEARCH_COMPLETED, j), k.unsubscribe(MediaPlayer.dependencies.LiveEdgeFinder.eventList.ENAME_LIVE_EDGE_SEARCH_COMPLETED, i), i.unsubscribe(Dash.dependencies.RepresentationController.eventList.ENAME_DATA_UPDATE_STARTED, j), i.unsubscribe(Dash.dependencies.RepresentationController.eventList.ENAME_DATA_UPDATE_COMPLETED, h), i.unsubscribe(Dash.dependencies.RepresentationController.eventList.ENAME_DATA_UPDATE_COMPLETED, j), i.unsubscribe(Dash.dependencies.RepresentationController.eventList.ENAME_DATA_UPDATE_COMPLETED, b), i.unsubscribe(Dash.dependencies.RepresentationController.eventList.ENAME_DATA_UPDATE_COMPLETED, n), b.unsubscribe(MediaPlayer.dependencies.Stream.eventList.ENAME_STREAM_UPDATED, j), l.unsubscribe(MediaPlayer.dependencies.FragmentController.eventList.ENAME_INIT_FRAGMENT_LOADED, h), l.unsubscribe(MediaPlayer.dependencies.FragmentController.eventList.ENAME_MEDIA_FRAGMENT_LOADED, h), l.unsubscribe(MediaPlayer.dependencies.FragmentController.eventList.ENAME_MEDIA_FRAGMENT_LOADING_START, j), l.unsubscribe(MediaPlayer.dependencies.FragmentController.eventList.ENAME_STREAM_COMPLETED, j), l.unsubscribe(MediaPlayer.dependencies.FragmentController.eventList.ENAME_STREAM_COMPLETED, h), l.unsubscribe(MediaPlayer.dependencies.FragmentController.eventList.ENAME_STREAM_COMPLETED, j.scheduleRulesCollection.bufferLevelRule), h.unsubscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_STATE_CHANGED, n), h.unsubscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_CLEARED, j), h.unsubscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BYTES_APPENDED, j), h.unsubscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_UPDATED, j), h.unsubscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_UPDATED, i), h.unsubscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_STATE_CHANGED, j), h.unsubscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_INIT_REQUESTED, j), h.unsubscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFERING_COMPLETED, b), h.unsubscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_CLOSED_CAPTIONING_REQUESTED, j), h.unsubscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_OUTRUN, j.scheduleRulesCollection.bufferLevelRule), h.unsubscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_BALANCED, j.scheduleRulesCollection.bufferLevelRule), h.unsubscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BYTES_APPENDED, n), n.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_PROGRESS, h), n.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_TIME_UPDATED, h), n.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_RATE_CHANGED, h), n.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_RATE_CHANGED, j), n.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_SEEKING, h), n.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_SEEKING, j), n.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_STARTED, j), n.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_WALLCLOCK_TIME_UPDATED, i), n.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_WALLCLOCK_TIME_UPDATED, h), n.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_WALLCLOCK_TIME_UPDATED, j), n.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_SEEKING, j.scheduleRulesCollection.playbackTimeRule), n.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_SEEKING, m.abrRulesCollection.insufficientBufferRule), q.unsubscribe(Dash.dependencies.BaseURLExtensions.eventList.ENAME_INITIALIZATION_LOADED, p), q.unsubscribe(Dash.dependencies.BaseURLExtensions.eventList.ENAME_SEGMENTS_LOADED, p), h.unsubscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_OUTRUN, r), h.unsubscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_BALANCED, r), h.unsubscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BYTES_REJECTED, r), r.unsubscribe(MediaPlayer.dependencies.FragmentModel.eventList.ENAME_FRAGMENT_LOADING_STARTED, l), r.unsubscribe(MediaPlayer.dependencies.FragmentModel.eventList.ENAME_FRAGMENT_LOADING_COMPLETED, l), r.unsubscribe(MediaPlayer.dependencies.FragmentModel.eventList.ENAME_STREAM_COMPLETED, l), r.unsubscribe(MediaPlayer.dependencies.FragmentModel.eventList.ENAME_FRAGMENT_LOADING_COMPLETED, j), s.unsubscribe(MediaPlayer.dependencies.FragmentLoader.eventList.ENAME_LOADING_COMPLETED, r), s.unsubscribe(MediaPlayer.dependencies.FragmentLoader.eventList.ENAME_LOADING_PROGRESS, m), r.reset(), ("video" === d || "audio" === d) && o.unsubscribe(MediaPlayer.dependencies.MediaController.eventList.CURRENT_TRACK_CHANGED, h), p.reset(), this.bufferController.reset(f), this.scheduleController.reset(), this.bufferController = null, this.scheduleController = null, this.representationController = null, this.videoModel = null, this.fragmentController = null, a = void 0, b = null, c = null, d = null, e = null
       }
     }
   }, MediaPlayer.dependencies.StreamProcessor.prototype = {
@@ -3749,7 +3861,7 @@ ISOFile.prototype.fetch = function(a) {
         for (var b = this.videoModel.getElement(), c = b.textTracks, d = c.length, e = this, f = 0; d > f; f++) {
           var g = c[f];
           if (a = "showing" !== g.mode, "showing" === g.mode) {
-            e.textTrackExtensions.getCurrentTrackIdx() !== f && (e.textTrackExtensions.setCurrentTrackIdx(f), e.isFragmented && (e.mediaController.isCurrentTrack(e.allTracks[f]) || (e.textTrackExtensions.deleteTrackCues(e.textTrackExtensions.getCurrentTextTrack()), e.fragmentModel.cancelPendingRequests(), e.fragmentModel.abortRequests(), e.mediaController.setTrack(e.allTracks[f]))));
+            e.textTrackExtensions.getCurrentTrackIdx() !== f && (e.textTrackExtensions.setCurrentTrackIdx(f), e.isFragmented && (e.mediaController.isCurrentTrack(e.allTracks[f]) || (e.textTrackExtensions.deleteTrackCues(e.textTrackExtensions.getCurrentTextTrack()), e.fragmentModel.cancelPendingRequests(), e.fragmentModel.abortRequests(), e.buffered.clear(), e.mediaController.setTrack(e.allTracks[f]))));
             break
           }
         }
@@ -3820,9 +3932,6 @@ ISOFile.prototype.fetch = function(a) {
       },
       getAllTracksAreDisabled: function() {
         return a
-      },
-      remove: function(a, b) {
-        this.buffered.remove(a, b)
       },
       setTextTrack: c
     }
@@ -4027,12 +4136,9 @@ ISOFile.prototype.fetch = function(a) {
           l = this,
           m = !0,
           n = !0,
-          o = new Date,
-          p = [],
-          q = o,
-          r = 0;
+          o = new Date;
         h = function() {
-          k.status < 200 || k.status > 299 || (n = !1, l.metricsModel.addHttpRequest("stream", null, MediaPlayer.vo.metrics.HTTPRequest.XLINK_EXPANSION_TYPE, a, k.responseURL || null, null, o, k.firstByteDate || null, new Date, k.status, null, k.getAllResponseHeaders(), p), j = k.responseText, c.resolved = !0, j ? (c.resolvedContent = j, l.notify(MediaPlayer.dependencies.XlinkLoader.eventList.ENAME_XLINKELEMENT_LOADED, {
+          k.status < 200 || k.status > 299 || (n = !1, l.metricsModel.addHttpRequest("stream", null, MediaPlayer.vo.metrics.HTTPRequest.XLINK_EXPANSION_TYPE, a, k.responseURL || null, null, o, k.firstByteDate || null, new Date, k.status, null, k.getAllResponseHeaders()), j = k.responseText, c.resolved = !0, j ? (c.resolvedContent = j, l.notify(MediaPlayer.dependencies.XlinkLoader.eventList.ENAME_XLINKELEMENT_LOADED, {
             element: c,
             resolveObject: e
           })) : (c.resolvedContent = null, l.notify(MediaPlayer.dependencies.XlinkLoader.eventList.ENAME_XLINKELEMENT_LOADED, {
@@ -4040,25 +4146,19 @@ ISOFile.prototype.fetch = function(a) {
             resolveObject: e
           }, new MediaPlayer.vo.Error(null, "Failed loading Xlink element: " + a, null))))
         }, g = function() {
-          var g = "Failed loading XLink content: " + a;
-          n && (n = !1, l.metricsModel.addHttpRequest("stream", null, MediaPlayer.vo.metrics.HTTPRequest.XLINK_EXPANSION_TYPE, a, k.responseURL || null, null, o, k.firstByteDate || null, new Date, k.status, null, k.getAllResponseHeaders(), null), f > 0 ? (l.log(g + ", retry in " + b + "ms attempts: " + f), f--, setTimeout(function() {
+          n && (n = !1, l.metricsModel.addHttpRequest("stream", null, MediaPlayer.vo.metrics.HTTPRequest.XLINK_EXPANSION_TYPE, a, k.responseURL || null, null, o, k.firstByteDate || null, new Date, k.status, null, k.getAllResponseHeaders()), f > 0 ? (console.log("Failed loading xLink content: " + a + ", retry in " + b + "ms attempts: " + f), f--, setTimeout(function() {
             d.call(l, a, c, e, f)
-          }, b)) : (l.log(g + ", no retry attempts left"), l.errHandler.downloadError("xlink", a, k), c.resolved = !0, c.resolvedContent = null, l.notify(MediaPlayer.dependencies.XlinkLoader.eventList.ENAME_XLINKELEMENT_LOADED, {
+          }, b)) : (console.log("Failed loading Xlink content: " + a + " no retry attempts left"), l.errHandler.downloadError("xlink", a, k), c.resolved = !0, c.resolvedContent = null, l.notify(MediaPlayer.dependencies.XlinkLoader.eventList.ENAME_XLINKELEMENT_LOADED, {
             element: c,
             resolveObject: e
           }, new Error("Failed loading xlink Element: " + a + " no retry attempts left"))))
         }, i = function(a) {
-          var b = new Date;
-          m && (m = !1, (!a.lengthComputable || a.lengthComputable && a.total !== a.loaded) && (k.firstByteDate = b)), a.lengthComputable && (k.bytesLoaded = a.loaded, k.bytesTotal = a.total), p.push({
-            s: q,
-            d: b.getTime() - q.getTime(),
-            b: [a.loaded ? a.loaded - r : 0]
-          }), q = b, r = a.loaded
+          m && (m = !1, (!a.lengthComputable || a.lengthComputable && a.total != a.loaded) && (k.firstByteDate = new Date))
         };
         try {
           k.onload = h, k.onloadend = g, k.onerror = g, k.onprogress = i, k.open("GET", l.requestModifierExt.modifyRequestURL(a), !0), k.send()
-        } catch (s) {
-          l.log("Error"), k.onerror()
+        } catch (p) {
+          console.log("Error"), k.onerror()
         }
       };
     return {
@@ -4068,7 +4168,6 @@ ISOFile.prototype.fetch = function(a) {
       notify: void 0,
       subscribe: void 0,
       unsubscribe: void 0,
-      log: void 0,
       load: function(b, e, f) {
         b === c ? (e.resolvedContent = null, e.resolved = !0, this.notify(MediaPlayer.dependencies.XlinkLoader.eventList.ENAME_XLINKELEMENT_LOADED, {
           element: e,
@@ -4082,10 +4181,7 @@ ISOFile.prototype.fetch = function(a) {
     ENAME_XLINKELEMENT_LOADED: "xlinkElementLoaded"
   }, MediaPlayer.dependencies.AbrController = function() {
     "use strict";
-    var a, b = {
-        video: !0,
-        audio: !0
-      },
+    var a, b = !0,
       c = {},
       d = {},
       e = {},
@@ -4111,55 +4207,32 @@ ISOFile.prototype.fetch = function(a) {
         c[b] = c[b] || {}, c[b][a] = d
       },
       o = function(a) {
-        var b;
-        if (!f.hasOwnProperty(a))
-          if (g.hasOwnProperty(a)) {
-            var c = this.manifestModel.getValue(),
-              d = this.manifestExt.getAdaptationForType(c, 0, a).Representation;
-            Array.isArray(d) ? f[a] = d[Math.round(d.length * g[a]) - 1].bandwidth : f[a] = 0
-          } else f[a] = "video" === a ? MediaPlayer.dependencies.AbrController.DEFAULT_VIDEO_BITRATE : MediaPlayer.dependencies.AbrController.DEFAULT_AUDIO_BITRATE;
-        return b = f[a]
+        return f[a]
       },
       p = function(a, b) {
         f[a] = b
       },
       q = function(a) {
-        return g.hasOwnProperty(a) ? g[a] : null
-      },
-      r = function(a, b) {
-        g[a] = b
-      },
-      s = function(a) {
         return f.hasOwnProperty("max") && f.max.hasOwnProperty(a) ? f.max[a] : NaN
       },
-      t = function(a, b) {
+      r = function(a, b) {
         f.max = f.max || {}, f.max[a] = b
       },
-      u = function(a) {
-        return g.hasOwnProperty("max") && g.max.hasOwnProperty(a) ? g.max[a] : 1
-      },
-      v = function(a, b) {
-        g.max = g.max || {}, g.max[a] = b
-      },
-      w = function(a, b) {
+      s = function(a, b) {
         var d;
-        return c[b] = c[b] || {}, c[b].hasOwnProperty(a) || (c[b][a] = 0), d = x.call(this, c[b][a], a), d = y.call(this, d, a, c[b][a]), d = A.call(this, d, a)
+        return c[b] = c[b] || {}, c[b].hasOwnProperty(a) || (c[b][a] = 0), d = t.call(this, c[b][a], a)
       },
-      x = function(a, b) {
-        var c = s(b);
-        if (isNaN(c) || !h[b]) return a;
+      t = function(a, b) {
+        var c = q(b);
+        if (isNaN(c)) return a;
         var d = this.getQualityForBitrate(h[b].getMediaInfo(), c);
         return Math.min(a, d)
       },
-      y = function(a, b, c) {
-        var d = u(b);
-        return isNaN(d) || d >= 1 ? a : Math.min(a, Math.round(c * d))
-      },
-      z = function(c) {
-        var d = this,
-          e = c.data.request.mediaType;
-        if (0 === MediaPlayer.dependencies.ScheduleController.LOADING_REQUEST_THRESHOLD && b[e] && h[e]) {
-          var f = d.abrRulesCollection.getRules(MediaPlayer.rules.ABRRulesCollection.prototype.ABANDON_FRAGMENT_RULES),
+      u = function(c) {
+        if (0 === MediaPlayer.dependencies.ScheduleController.LOADING_REQUEST_THRESHOLD && b) {
+          var d = this,
+            e = c.data.request.mediaType,
+            f = d.abrRulesCollection.getRules(MediaPlayer.rules.ABRRulesCollection.prototype.ABANDON_FRAGMENT_RULES),
             g = h[e].getScheduleController(),
             i = g.getFragmentModel(),
             j = function(b) {
@@ -4181,20 +4254,6 @@ ISOFile.prototype.fetch = function(a) {
             return b
           })
         }
-      },
-      A = function(a, b) {
-        if ("video" !== b || !this.limitBitrateByPortal || !h[b]) return a;
-        var c = h[b].videoModel.getElement(),
-          d = c.clientWidth,
-          e = c.clientHeight,
-          f = this.manifestModel.getValue(),
-          g = this.manifestExt.getAdaptationForType(f, 0, b).Representation,
-          i = a;
-        if (d > 0 && e > 0) {
-          for (; i > 0 && d < g[i].width && d - g[i - 1].width < g[i].width - d;) i -= 1;
-          g.length - 2 >= i && g[i].width === g[i + 1].width && (i = Math.min(a, i + 1))
-        }
-        return i
       };
     return {
       log: void 0,
@@ -4204,44 +4263,41 @@ ISOFile.prototype.fetch = function(a) {
       subscribe: void 0,
       unsubscribe: void 0,
       streamController: void 0,
-      manifestExt: void 0,
-      manifestModel: void 0,
-      limitBitrateByPortal: void 0,
       setup: function() {
-        this[MediaPlayer.dependencies.FragmentLoader.eventList.ENAME_LOADING_PROGRESS] = z
+        this[MediaPlayer.dependencies.FragmentLoader.eventList.ENAME_LOADING_PROGRESS] = u
       },
       initialize: function(a, b) {
         h[a] = b, i[a] = i[a] || {}, i[a].state = MediaPlayer.dependencies.AbrController.ALLOW_LOAD
       },
-      getAutoSwitchBitrate: function(a) {
-        return b[a]
+      getAutoSwitchBitrate: function() {
+        return b
       },
-      setAutoSwitchBitrate: function(a, c) {
-        b[a] = c
+      setAutoSwitchBitrate: function(a) {
+        b = a
       },
       getPlaybackQuality: function(a) {
         var c, d, e, f, g = this,
           h = a.getType(),
           n = a.getStreamInfo().id,
           o = function(b) {
-            var e = w.call(g, h, n);
-            c = b.value, f = b.confidence, 0 > c && (c = 0), c > e && (c = e), d = j.call(this, h, n), c === d || i[h].state === MediaPlayer.dependencies.AbrController.ABANDON_LOAD && c > d || (k(h, n, c), m(h, n, f), g.notify(MediaPlayer.dependencies.AbrController.eventList.ENAME_QUALITY_CHANGED, {
+            var e = s.call(g, h, n);
+            c = b.value, f = b.confidence, 0 > c && (c = 0), c > e && (c = e), d = j(h, n), c === d || i[h].state === MediaPlayer.dependencies.AbrController.ABANDON_LOAD && c > d || (k(h, n, c), m(h, n, f), g.notify(MediaPlayer.dependencies.AbrController.eventList.ENAME_QUALITY_CHANGED, {
               mediaType: h,
               streamInfo: a.getStreamInfo(),
               oldQuality: d,
               newQuality: c
             }))
           };
-        c = j.call(this, h, n), f = l(h, n), b[h] && (e = g.abrRulesCollection.getRules(MediaPlayer.rules.ABRRulesCollection.prototype.QUALITY_SWITCH_RULES), g.rulesController.applyRules(e, a, o.bind(g), c, function(a, b) {
+        c = j(h, n), f = l(h, n), b && (e = g.abrRulesCollection.getRules(MediaPlayer.rules.ABRRulesCollection.prototype.QUALITY_SWITCH_RULES), g.rulesController.applyRules(e, a, o.bind(g), c, function(a, b) {
           return a = a === MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE ? 0 : a, Math.max(a, b)
         }))
       },
       setPlaybackQuality: function(a, b, c) {
         var d = b.id,
-          e = j.call(this, a, d),
+          e = j(a, d),
           f = null !== c && !isNaN(c) && c % 1 === 0;
         if (!f) throw "argument is not an integer";
-        c !== e && c >= 0 && c <= w.call(this, a, d) && (k(a, b.id, c), this.notify(MediaPlayer.dependencies.AbrController.eventList.ENAME_QUALITY_CHANGED, {
+        c !== e && c >= 0 && c <= s.call(this, a, d) && (k(a, b.id, c), this.notify(MediaPlayer.dependencies.AbrController.eventList.ENAME_QUALITY_CHANGED, {
           mediaType: a,
           streamInfo: b,
           oldQuality: e,
@@ -4255,7 +4311,7 @@ ISOFile.prototype.fetch = function(a) {
         return i[a].state
       },
       getQualityFor: function(a, b) {
-        return j.call(this, a, b.id)
+        return j(a, b.id)
       },
       getConfidenceFor: function(a, b) {
         return l(a, b.id)
@@ -4264,37 +4320,29 @@ ISOFile.prototype.fetch = function(a) {
         p(a, b)
       },
       getInitialBitrateFor: function(a) {
-        return o.call(this, a)
-      },
-      setInitialRepresentationRatioFor: function(a, b) {
-        r(a, b)
-      },
-      getInitialRepresentationRatioFor: function(a, b) {
-        q(a, b)
-      },
-      setMaxAllowedRepresentationRatioFor: function(a, b) {
-        v(a, b)
-      },
-      getMaxAllowedRepresentationRatioFor: function(a, b) {
-        u(a, b)
+        return o(a)
       },
       setMaxAllowedBitrateFor: function(a, b) {
-        t(a, b)
+        r(a, b)
       },
       getMaxAllowedBitrateFor: function(a) {
-        return s(a)
+        return q(a)
       },
       getQualityForBitrate: function(a, b) {
-        var c, d = this.getBitrateList(a);
-        if (!d || 0 === d.length) return -1;
-        for (var e = d.length - 1; e >= 0; e--)
-          if (c = d[e], 1e3 * b >= c.bitrate) return e;
-        return 0
+        for (var c, d = this.getBitrateList(a), e = d.length, f = 0; e > f; f += 1)
+          if (c = d[f], 1e3 * b <= c.bitrate) return Math.max(f - 1, 0);
+        return e - 1
       },
       getBitrateList: function(a) {
         if (!a || !a.bitrateList) return null;
         for (var b, c = a.bitrateList, d = a.type, e = [], f = 0, g = c.length; g > f; f += 1) b = new MediaPlayer.vo.BitrateInfo, b.mediaType = d, b.qualityIndex = f, b.bitrate = c[f], e.push(b);
         return e
+      },
+      setAverageThroughput: function(a, b) {
+        g[a] = b
+      },
+      getAverageThroughput: function(a) {
+        return g[a]
       },
       updateTopQualityIndex: function(a) {
         var b, c = a.type,
@@ -4306,39 +4354,36 @@ ISOFile.prototype.fetch = function(a) {
           d = a.id,
           e = c.getQualityFor("audio", a),
           f = c.getQualityFor("video", a);
-        return b = e === w.call(this, "audio", d) && f === w.call(this, "video", d)
+        return b = e === s.call(this, "audio", d) && f === s.call(this, "video", d)
       },
-      getTopQualityIndexFor: w,
+      getTopQualityIndexFor: s,
       reset: function() {
-        b = {
-          video: !0,
-          audio: !0
-        }, c = {}, d = {}, e = {}, h = {}, i = {}, clearTimeout(a), a = null
+        b = !0, c = {}, d = {}, e = {}, h = {}, i = {}, g = {}, clearTimeout(a), a = null
       }
     }
   }, MediaPlayer.dependencies.AbrController.prototype = {
     constructor: MediaPlayer.dependencies.AbrController
   }, MediaPlayer.dependencies.AbrController.eventList = {
     ENAME_QUALITY_CHANGED: "qualityChanged"
-  }, MediaPlayer.dependencies.AbrController.DEFAULT_VIDEO_BITRATE = 1e3, MediaPlayer.dependencies.AbrController.DEFAULT_AUDIO_BITRATE = 100, MediaPlayer.dependencies.AbrController.ABANDON_LOAD = "abandonload", MediaPlayer.dependencies.AbrController.ALLOW_LOAD = "allowload", MediaPlayer.dependencies.AbrController.ABANDON_TIMEOUT = 1e4,
-  MediaPlayer.dependencies.AbrController.BANDWIDTH_SAFETY = .9, MediaPlayer.dependencies.BufferController = function() {
+  }, MediaPlayer.dependencies.AbrController.DEFAULT_VIDEO_BITRATE = 1e3, MediaPlayer.dependencies.AbrController.DEFAULT_AUDIO_BITRATE = 100, MediaPlayer.dependencies.AbrController.ABANDON_LOAD = "abandonload", MediaPlayer.dependencies.AbrController.ALLOW_LOAD = "allowload", MediaPlayer.dependencies.AbrController.ABANDON_TIMEOUT = 1e4, MediaPlayer.dependencies.AbrController.BANDWIDTH_SAFETY = .9, MediaPlayer.dependencies.BufferController = function() {
     "use strict";
     var a, b, c, d, e = .5,
       f = 0,
       g = -1,
-      h = 0,
+      h = !1,
       i = 0,
-      j = Number.POSITIVE_INFINITY,
-      k = -1,
+      j = 0,
+      k = Number.POSITIVE_INFINITY,
       l = -1,
-      m = null,
+      m = -1,
       n = null,
-      o = 0,
-      p = !1,
+      o = null,
+      p = 0,
       q = !1,
       r = !1,
       s = !1,
-      t = function(c) {
+      t = !1,
+      u = function(c) {
         if (!c || !a || !this.streamProcessor) return null;
         var d = null;
         try {
@@ -4346,38 +4391,38 @@ ISOFile.prototype.fetch = function(a) {
         } catch (e) {
           this.errHandler.mediaSourceError("Error creating " + b + " source buffer.")
         }
-        return this.setBuffer(d), N.call(this, this.streamProcessor.getRepresentationInfoForQuality(f).MSETimeOffset), d
+        return this.setBuffer(d), Q.call(this, this.streamProcessor.getRepresentationInfoForQuality(f).MSETimeOffset), d
       },
-      u = function() {
+      v = function() {
         var a = this.streamProcessor.getStreamInfo().id,
           b = this.streamController.getActiveStreamInfo().id;
         return a === b
       },
-      v = function() {
+      w = function() {
         var a = this.streamProcessor.getFragmentModel().getRequests({
             state: MediaPlayer.dependencies.FragmentModel.states.LOADING
           }),
-          c = R.call(this),
+          c = U.call(this),
           d = this.virtualBuffer.getChunks({
             streamId: c,
             mediaType: b,
             segmentType: MediaPlayer.vo.metrics.HTTPRequest.MEDIA_SEGMENT_TYPE,
             quality: g
           });
-        return g > f && (w(d, g) || w(a, g)) ? !1 : g !== f
+        return g > f && (x(d, g) || x(a, g)) ? !1 : g !== f
       },
-      w = function(a, b) {
+      x = function(a, b) {
         var c = 0,
           d = a.length;
         for (c; d > c; c += 1)
           if (a[c].quality === b) return !0;
         return !1
       },
-      x = function(a) {
-        var b, c = this;
-        a.data.fragmentModel === c.streamProcessor.getFragmentModel() && (c.log("Initialization finished loading"), b = a.data.chunk, this.virtualBuffer.append(b), b.quality === f && v.call(c) && aa.call(c))
-      },
       y = function(a) {
+        var b, c = this;
+        a.data.fragmentModel === c.streamProcessor.getFragmentModel() && (c.log("Initialization finished loading"), b = a.data.chunk, this.virtualBuffer.append(b), b.quality === f && w.call(c) && da.call(c))
+      },
+      z = function(a) {
         if (a.data.fragmentModel === this.streamProcessor.getFragmentModel()) {
           var b, c = a.data.chunk,
             d = c.bytes,
@@ -4392,26 +4437,26 @@ ISOFile.prototype.fetch = function(a) {
             i = this.manifestModel.getValue(),
             j = this.adapter.getEventsFor(i, h.mediaInfo, this.streamProcessor),
             k = this.adapter.getEventsFor(i, h, this.streamProcessor);
-          (j.length > 0 || k.length > 0) && (b = C.call(this, d, g, j, k), this.streamProcessor.getEventController().addInbandEvents(b)), c.bytes = D.call(this, d), this.virtualBuffer.append(c), P.call(this)
+          (j.length > 0 || k.length > 0) && (b = D.call(this, d, g, j, k), this.streamProcessor.getEventController().addInbandEvents(b)), c.bytes = E.call(this, d), this.virtualBuffer.append(c), S.call(this)
         }
       },
-      z = function(a) {
-        q = !0, d = a, p = !1;
+      A = function(a) {
+        r = !0, d = a;
         var b = this,
           c = a.quality,
           e = isNaN(a.index);
-        return c !== f && e || c !== g && !e ? (b.log("reject request - required quality = " + f + " current quality = " + g + " chunk media type = " + a.mediaType + " chunk quality = " + c + " chunk index = " + a.index), void T.call(b, c, a.index, a.start)) : void b.sourceBufferExt.append(m, a)
+        return c !== f && e || c !== g && !e ? (b.log("reject request - required quality = " + f + " current quality = " + g + " chunk media type = " + a.mediaType + " chunk quality = " + c + " chunk index = " + a.index), void W.call(b, c, a.index, a.start)) : void b.sourceBufferExt.append(n, a)
       },
-      A = function(b) {
-        if (m === b.data.buffer) {
+      B = function(b) {
+        if (n === b.data.buffer) {
           this.isBufferingCompleted() && this.streamProcessor.getStreamInfo().isLast && this.mediaSourceExt.signalEndOfStream(a);
           var c, e = this;
-          if (b.error) return b.error.code === MediaPlayer.dependencies.SourceBufferExtensions.QUOTA_EXCEEDED_ERROR_CODE && (e.virtualBuffer.append(d), j = .8 * e.sourceBufferExt.getTotalBufferedTime(m), e.notify(MediaPlayer.dependencies.BufferController.eventList.ENAME_QUOTA_EXCEEDED, {
-            criticalBufferLevel: j
-          }), H.call(e, G.call(e))), void(q = !1);
-          if (B.call(e), E.call(e) || (e.notify(MediaPlayer.dependencies.BufferController.eventList.ENAME_QUOTA_EXCEEDED, {
-              criticalBufferLevel: j
-            }), H.call(e, G.call(e))), c = e.sourceBufferExt.getAllRanges(m), c && c.length > 0) {
+          if (b.error) return b.error.code === MediaPlayer.dependencies.SourceBufferExtensions.QUOTA_EXCEEDED_ERROR_CODE && (e.virtualBuffer.append(d), k = .8 * e.sourceBufferExt.getTotalBufferedTime(n), e.notify(MediaPlayer.dependencies.BufferController.eventList.ENAME_QUOTA_EXCEEDED, {
+            criticalBufferLevel: k
+          }), K.call(e, J.call(e))), void(r = !1);
+          if (C.call(e), H.call(e) || (e.notify(MediaPlayer.dependencies.BufferController.eventList.ENAME_QUOTA_EXCEEDED, {
+              criticalBufferLevel: k
+            }), K.call(e, J.call(e))), c = e.sourceBufferExt.getAllRanges(n), c && c.length > 0) {
             var f, g;
             for (f = 0, g = c.length; g > f; f += 1) e.log("Buffered Range: " + c.start(f) + " - " + c.end(f))
           }
@@ -4419,30 +4464,30 @@ ISOFile.prototype.fetch = function(a) {
             quality: d.quality,
             index: d.index,
             bufferedRanges: c
-          }), S.call(e, d.quality, d.index)
+          }), V.call(e, d.quality, d.index)
         }
       },
-      B = function() {
+      C = function() {
         var a = this,
           b = a.playbackController.getTime(),
           c = this.streamProcessor.getScheduleController().getFragmentToLoadCount(),
           d = this.streamProcessor.getCurrentRepresentationInfo().fragmentDuration;
-        return h = a.sourceBufferExt.getBufferLength(m, b), i = c > 0 ? c * d + h : i, Q.call(this), a.notify(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_UPDATED, {
-          bufferLevel: h
-        }), K.call(a), !0
+        return i = a.sourceBufferExt.getBufferLength(n, b), j = c > 0 ? c * d + i : j, T.call(this), a.notify(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_UPDATED, {
+          bufferLevel: i
+        }), F.call(a), N.call(a), !0
       },
-      C = function(a, b, c, d) {
+      D = function(a, b, c, d) {
         var e, f, g, h, i = [],
           j = Math.max(isNaN(b.startTime) ? 0 : b.startTime, 0),
           k = [];
-        s = !1, h = c.concat(d);
+        t = !1, h = c.concat(d);
         for (var l = 0; l < h.length; l++) k[h[l].schemeIdUri] = h[l];
         g = this.boxParser.parse(a), e = g.getBoxes("emsg");
         for (var m = 0, n = e.length; n > m; m += 1) f = this.adapter.getEvent(e[m], k, j), f && i.push(f);
         return i
       },
-      D = function(a) {
-        if (!s) return a;
+      E = function(a) {
+        if (!t) return a;
         for (var b, c, d = a.length, e = 0, f = 0, g = Math.pow(256, 2), h = Math.pow(256, 3), i = new Uint8Array(a.length); d > e;) {
           if (b = String.fromCharCode(a[e + 4], a[e + 5], a[e + 6], a[e + 7]), c = a[e] * h + a[e + 1] * g + 256 * a[e + 2] + 1 * a[e + 3], "emsg" != b)
             for (var j = e; e + c > j; j++) i[f] = a[j], f += 1;
@@ -4450,120 +4495,126 @@ ISOFile.prototype.fetch = function(a) {
         }
         return i.subarray(0, f)
       },
-      E = function() {
-        var a = this,
-          b = a.sourceBufferExt.getTotalBufferedTime(m);
-        return j > b
-      },
       F = function() {
-        var b = m.buffered.length ? m.buffered.start(0) : 0,
-          c = this.playbackController.getTime(),
-          d = c - b - MediaPlayer.dependencies.BufferController.BUFFER_TO_KEEP;
-        r || "ended" === a.readyState || (r = !0, this.sourceBufferExt.remove(m, 0, Math.round(b + d), a))
+        var a = G.call(this),
+          b = 2 * c,
+          d = i - a;
+        d >= b && !q ? (q = !0, this.notify(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_OUTRUN)) : b / 2 > d && q && (this.notify(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_BALANCED), q = !1, S.call(this))
       },
       G = function() {
+        var a = this.metricsModel.getReadOnlyMetricsFor("video"),
+          b = this.metricsExt.getCurrentBufferLevel(a),
+          c = this.metricsModel.getReadOnlyMetricsFor("audio"),
+          d = this.metricsExt.getCurrentBufferLevel(c),
+          e = null;
+        return e = null === b || null === d ? null !== d ? d.level : null !== b ? b.level : null : Math.min(d.level, b.level)
+      },
+      H = function() {
+        var a = this,
+          b = a.sourceBufferExt.getTotalBufferedTime(n);
+        return k > b
+      },
+      I = function() {
+        var b = 0,
+          c = this.playbackController.getTime(),
+          d = this.sourceBufferExt.getBufferRange(n, c);
+        null !== d && (b = c - d.start - MediaPlayer.dependencies.BufferController.BUFFER_TO_KEEP, b > 0 && (s = !0, this.sourceBufferExt.remove(n, 0, Math.round(d.start + b), a)))
+      },
+      J = function() {
         var a, b, c, d, e, f = this;
-        return m ? (a = f.playbackController.getTime(), e = f.streamProcessor.getFragmentModel().getRequests({
+        return n ? (a = f.playbackController.getTime(), e = f.streamProcessor.getFragmentModel().getRequests({
           state: MediaPlayer.dependencies.FragmentModel.states.EXECUTED,
           time: a
-        })[0], c = e && !isNaN(e.startTime) ? e.startTime : Math.floor(a), d = f.sourceBufferExt.getBufferRange(m, a), null === d && m.buffered.length > 0 && (c = m.buffered.end(m.buffered.length - 1)), b = m.buffered.start(0), {
+        })[0], c = e && !isNaN(e.startTime) ? e.startTime : Math.floor(a), d = f.sourceBufferExt.getBufferRange(n, a), null === d && n.buffered.length > 0 && (c = n.buffered.end(n.buffered.length - 1)), b = n.buffered.start(0), {
           start: b,
           end: c
         }) : null
       },
-      H = function(b) {
-        if (b && m) {
+      K = function(b) {
+        if (b && n) {
           var c = this,
             d = b.start,
             e = b.end;
-          c.sourceBufferExt.remove(m, d, e, a)
+          c.sourceBufferExt.remove(n, d, e, a)
         }
       },
-      I = function(a) {
-        m === a.data.buffer && (r && (r = !1), this.virtualBuffer.updateBufferedRanges({
-          streamId: R.call(this),
+      L = function(a) {
+        n === a.data.buffer && (s && (s = !1), this.virtualBuffer.updateBufferedRanges({
+          streamId: U.call(this),
           mediaType: b
-        }, this.sourceBufferExt.getAllRanges(m)), B.call(this), this.notify(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_CLEARED, {
+        }, this.sourceBufferExt.getAllRanges(n)), C.call(this), this.notify(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_CLEARED, {
           from: a.data.from,
           to: a.data.to,
-          hasEnoughSpaceToAppend: E.call(this)
-        }), E.call(this) || setTimeout(H.bind(this, G.call(this)), 1e3 * c))
+          hasEnoughSpaceToAppend: H.call(this)
+        }), H.call(this) || setTimeout(K.bind(this, J.call(this)), 1e3 * c))
       },
-      J = function() {
-        var b, c, d, e = .15,
-          f = this.playbackController.getTime(),
-          g = this.playbackController.getIsDynamic();
-        if (!m || !m.buffered || 0 === m.buffered.length) return !1;
-        if (b = m.buffered.length - 1, !g && m.buffered.start(b) <= f && m.buffered.end(b) >= this.playbackController.getStreamDuration() - e) return p || (p = !0, this.notify(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFERING_COMPLETED)), !0;
-        if (!r) {
-          for (c = b; c > 0 && f + MediaPlayer.dependencies.BufferController.BUFFER_AHEAD_TO_KEEP < m.buffered.start(c); c--) d = m.buffered.start(c);
-          d && (r = !0, this.sourceBufferExt.remove(m, d, m.buffered.end(b), a))
-        }
-        return !1
+      M = function() {
+        var a = l === m - 1;
+        a && !h && (h = !0, this.notify(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFERING_COMPLETED))
       },
-      K = function() {
-        e > h && !this.isBufferingCompleted() ? M.call(this, !1) : M.call(this, !0)
+      N = function() {
+        e > i && !h ? P.call(this, !1) : P.call(this, !0)
       },
-      L = function() {
-        return n ? MediaPlayer.dependencies.BufferController.BUFFER_LOADED : MediaPlayer.dependencies.BufferController.BUFFER_EMPTY
+      O = function() {
+        return o ? MediaPlayer.dependencies.BufferController.BUFFER_LOADED : MediaPlayer.dependencies.BufferController.BUFFER_EMPTY
       },
-      M = function(a) {
-        if (!(n === a || "fragmentedText" === b && this.textSourceBuffer.getAllTracksAreDisabled())) {
-          n = a;
-          var c = L(),
+      P = function(a) {
+        if (!(o === a || "fragmentedText" === b && this.textSourceBuffer.getAllTracksAreDisabled())) {
+          o = a;
+          var c = O(),
             d = c === MediaPlayer.dependencies.BufferController.BUFFER_LOADED ? MediaPlayer.events.BUFFER_LOADED : MediaPlayer.events.BUFFER_EMPTY;
-          Q.call(this), this.eventBus.dispatchEvent({
+          T.call(this), this.eventBus.dispatchEvent({
             type: d,
             data: {
               bufferType: b
             }
           }), this.notify(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_STATE_CHANGED, {
             hasSufficientBuffer: a
-          }), this.log(n ? "Got enough buffer to start." : "Waiting for more buffer before starting playback.")
+          }), this.log(o ? "Got enough buffer to start." : "Waiting for more buffer before starting playback.")
         }
       },
-      N = function(a) {
-        m && m.timestampOffset !== a && !isNaN(a) && (m.timestampOffset = a)
-      },
-      O = function() {
-        if (m) {
-          var a = this;
-          B.call(a), P.call(a)
-        }
-      },
-      P = function() {
-        v.call(this) ? aa.call(this) : X.call(this)
-      },
-      Q = function() {
-        if (u.call(this)) {
-          this.metricsModel.addBufferState(b, L(), i);
-          var a, c = h;
-          a = this.virtualBuffer.getTotalBufferLevel(this.streamProcessor.getMediaInfo()), a && (c += a), this.metricsModel.addBufferLevel(b, new Date, 1e3 * c)
-        }
+      Q = function(a) {
+        n && n.timestampOffset !== a && !isNaN(a) && (n.timestampOffset = a)
       },
       R = function() {
+        if (n) {
+          var a = this;
+          C.call(a), S.call(a)
+        }
+      },
+      S = function() {
+        w.call(this) ? da.call(this) : $.call(this)
+      },
+      T = function() {
+        if (v.call(this)) {
+          this.metricsModel.addBufferState(b, O(), j);
+          var a, c = i;
+          a = this.virtualBuffer.getTotalBufferLevel(this.streamProcessor.getMediaInfo()), a && (c += a), this.metricsModel.addBufferLevel(b, new Date, c)
+        }
+      },
+      U = function() {
         return this.streamProcessor.getStreamInfo().id
       },
-      S = function(a, b) {
-        q = !1, isNaN(b) ? U.call(this, a) : V.call(this, b), P.call(this)
+      V = function(a, b) {
+        r = !1, isNaN(b) ? X.call(this, a) : Y.call(this, b), S.call(this)
       },
-      T = function(a, b, c) {
-        q = !1, this.notify(MediaPlayer.dependencies.BufferController.eventList.ENAME_BYTES_REJECTED, {
+      W = function(a, b, c) {
+        r = !1, this.notify(MediaPlayer.dependencies.BufferController.eventList.ENAME_BYTES_REJECTED, {
           quality: a,
           index: b,
           start: c
-        }), P.call(this)
+        }), S.call(this)
       },
-      U = function(a) {
+      X = function(a) {
         g = a
       },
-      V = function(a) {
-        this.virtualBuffer.storeAppendedChunk(d, m), W.call(this), k = Math.max(a, k), J.call(this)
+      Y = function(a) {
+        this.virtualBuffer.storeAppendedChunk(d, n), Z.call(this), l = Math.max(a, l), M.call(this)
       },
-      W = function() {
+      Z = function() {
         var a, c, d, e = this,
           f = this.virtualBuffer.getChunks({
-            streamId: R.call(this),
+            streamId: U.call(this),
             mediaType: b,
             segmentType: MediaPlayer.vo.metrics.HTTPRequest.MEDIA_SEGMENT_TYPE,
             appended: !0
@@ -4580,42 +4631,42 @@ ISOFile.prototype.fetch = function(a) {
           for (var k = 0, l = g.length; l > k; k += 1) d = {
             start: g.start(k),
             end: g.end(k)
-          }, (e.mediaController.getSwitchMode(b) === MediaPlayer.dependencies.MediaController.trackSwitchModes.ALWAYS_REPLACE || d.start > i) && H.call(e, d)
+          }, (e.mediaController.getSwitchMode(b) === MediaPlayer.dependencies.MediaController.trackSwitchModes.ALWAYS_REPLACE || d.start > i) && K.call(e, d)
       },
-      X = function() {
-        var a, c = R.call(this);
-        !m || r || q || v.call(this) || !E.call(this) || (a = this.virtualBuffer.extract({
+      $ = function() {
+        var a, c = U.call(this);
+        !n || s || q || r || w.call(this) || !H.call(this) || (a = this.virtualBuffer.extract({
           streamId: c,
           mediaType: b,
           segmentType: MediaPlayer.vo.metrics.HTTPRequest.MEDIA_SEGMENT_TYPE,
           limit: 1
-        })[0], a && z.call(this, a))
+        })[0], a && A.call(this, a))
       },
-      Y = function(a) {
+      _ = function(a) {
         if (!a.error) {
           var b, d = this;
-          N.call(d, a.data.currentRepresentation.MSETimeOffset), b = d.streamProcessor.getStreamInfo().manifestInfo.minBufferTime, c !== b && (d.setMinBufferTime(b), d.notify(MediaPlayer.dependencies.BufferController.eventList.ENAME_MIN_BUFFER_TIME_UPDATED, {
+          Q.call(d, a.data.currentRepresentation.MSETimeOffset), b = d.streamProcessor.getStreamInfo().manifestInfo.minBufferTime, c !== b && (d.setMinBufferTime(b), d.notify(MediaPlayer.dependencies.BufferController.eventList.ENAME_MIN_BUFFER_TIME_UPDATED, {
             minBufferTime: b
           }))
         }
       },
-      Z = function(a) {
+      aa = function(a) {
         var b = this;
-        a.data.fragmentModel === b.streamProcessor.getFragmentModel() && (l = a.data.request.index, J.call(b))
+        a.data.fragmentModel === b.streamProcessor.getFragmentModel() && (m = a.data.request.index, M.call(b))
       },
-      $ = function(a) {
+      ba = function(a) {
         if (b === a.data.mediaType && this.streamProcessor.getStreamInfo().id === a.data.streamInfo.id) {
           var c = this,
             d = a.data.newQuality;
-          f !== d && (N.call(c, c.streamProcessor.getRepresentationInfoForQuality(d).MSETimeOffset), f = d, v.call(c) && aa.call(c))
+          f !== d && (Q.call(c, c.streamProcessor.getRepresentationInfoForQuality(d).MSETimeOffset), f = d, w.call(c) && da.call(c))
         }
       },
-      _ = function() {
-        Q.call(this)
+      ca = function() {
+        T.call(this)
       },
-      aa = function() {
+      da = function() {
         var a = this,
-          c = R.call(a),
+          c = U.call(a),
           d = {
             streamId: c,
             mediaType: b,
@@ -4624,14 +4675,14 @@ ISOFile.prototype.fetch = function(a) {
           },
           e = a.virtualBuffer.getChunks(d)[0];
         if (e) {
-          if (q || !m) return;
-          z.call(a, e)
+          if (r || !n) return;
+          A.call(a, e)
         } else a.notify(MediaPlayer.dependencies.BufferController.eventList.ENAME_INIT_REQUESTED, {
           requiredQuality: f
         })
       },
-      ba = function(a) {
-        if (m) {
+      ea = function(a) {
+        if (n) {
           var c = this,
             d = a.data.newMediaInfo,
             e = d.type,
@@ -4643,7 +4694,7 @@ ISOFile.prototype.fetch = function(a) {
             };
           if (b === e) switch (f) {
             case MediaPlayer.dependencies.MediaController.trackSwitchModes.ALWAYS_REPLACE:
-              H.call(c, h);
+              K.call(c, h);
               break;
             case MediaPlayer.dependencies.MediaController.trackSwitchModes.NEVER_REPLACE:
               break;
@@ -4652,12 +4703,11 @@ ISOFile.prototype.fetch = function(a) {
           }
         }
       },
-      ca = function() {
-        var a;
-        P.call(this), o += 1, a = o * (MediaPlayer.dependencies.PlaybackController.WALLCLOCK_TIME_UPDATE_INTERVAL / 1e3), a >= MediaPlayer.dependencies.BufferController.BUFFER_PRUNING_INTERVAL && !q && (o = 0, F.call(this))
+      fa = function() {
+        S.call(this), p += 1, p % MediaPlayer.dependencies.BufferController.BUFFER_PRUNING_INTERVAL !== 0 || r || I.call(this)
       },
-      da = function() {
-        K.call(this)
+      ga = function() {
+        N.call(this)
       };
     return {
       sourceBufferExt: void 0,
@@ -4682,13 +4732,13 @@ ISOFile.prototype.fetch = function(a) {
       virtualBuffer: void 0,
       textSourceBuffer: void 0,
       setup: function() {
-        this[Dash.dependencies.RepresentationController.eventList.ENAME_DATA_UPDATE_COMPLETED] = Y, this[MediaPlayer.dependencies.FragmentController.eventList.ENAME_INIT_FRAGMENT_LOADED] = x, this[MediaPlayer.dependencies.FragmentController.eventList.ENAME_MEDIA_FRAGMENT_LOADED] = y, this[MediaPlayer.dependencies.FragmentController.eventList.ENAME_STREAM_COMPLETED] = Z, this[MediaPlayer.dependencies.AbrController.eventList.ENAME_QUALITY_CHANGED] = $, this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_PROGRESS] = O, this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_SEEKING] = O, this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_SEEKED] = O, this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_TIME_UPDATED] = O, this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_RATE_CHANGED] = da, this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_WALLCLOCK_TIME_UPDATED] = ca, this[MediaPlayer.dependencies.MediaController.eventList.CURRENT_TRACK_CHANGED] = ba, A = A.bind(this), I = I.bind(this), _ = _.bind(this), this.sourceBufferExt.subscribe(MediaPlayer.dependencies.SourceBufferExtensions.eventList.ENAME_SOURCEBUFFER_APPEND_COMPLETED, this, A), this.sourceBufferExt.subscribe(MediaPlayer.dependencies.SourceBufferExtensions.eventList.ENAME_SOURCEBUFFER_REMOVE_COMPLETED, this, I), this.virtualBuffer.subscribe(MediaPlayer.utils.VirtualBuffer.eventList.CHUNK_APPENDED, this, _)
+        this[Dash.dependencies.RepresentationController.eventList.ENAME_DATA_UPDATE_COMPLETED] = _, this[MediaPlayer.dependencies.FragmentController.eventList.ENAME_INIT_FRAGMENT_LOADED] = y, this[MediaPlayer.dependencies.FragmentController.eventList.ENAME_MEDIA_FRAGMENT_LOADED] = z, this[MediaPlayer.dependencies.FragmentController.eventList.ENAME_STREAM_COMPLETED] = aa, this[MediaPlayer.dependencies.AbrController.eventList.ENAME_QUALITY_CHANGED] = ba, this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_PROGRESS] = R, this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_SEEKING] = R, this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_TIME_UPDATED] = R, this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_RATE_CHANGED] = ga, this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_WALLCLOCK_TIME_UPDATED] = fa, this[MediaPlayer.dependencies.MediaController.eventList.CURRENT_TRACK_CHANGED] = ea, B = B.bind(this), L = L.bind(this), ca = ca.bind(this), this.sourceBufferExt.subscribe(MediaPlayer.dependencies.SourceBufferExtensions.eventList.ENAME_SOURCEBUFFER_APPEND_COMPLETED, this, B), this.sourceBufferExt.subscribe(MediaPlayer.dependencies.SourceBufferExtensions.eventList.ENAME_SOURCEBUFFER_REMOVE_COMPLETED, this, L), this.virtualBuffer.subscribe(MediaPlayer.utils.VirtualBuffer.eventList.CHUNK_APPENDED, this, ca)
       },
       initialize: function(a, c, d) {
         var e = this;
         b = a, e.setMediaType(b), e.setMediaSource(c), e.streamProcessor = d, e.fragmentController = d.fragmentController, e.scheduleController = d.scheduleController, f = e.abrController.getQualityFor(b, d.getStreamInfo())
       },
-      createBuffer: t,
+      createBuffer: u,
       getStreamProcessor: function() {
         return this.streamProcessor
       },
@@ -4696,13 +4746,13 @@ ISOFile.prototype.fetch = function(a) {
         this.streamProcessor = a
       },
       getBuffer: function() {
-        return m
+        return n
       },
       setBuffer: function(a) {
-        m = a
+        n = a
       },
       getBufferLevel: function() {
-        return h
+        return i
       },
       getMinBufferTime: function() {
         return c
@@ -4711,7 +4761,7 @@ ISOFile.prototype.fetch = function(a) {
         c = a
       },
       getCriticalBufferLevel: function() {
-        return j
+        return k
       },
       setMediaSource: function(b) {
         a = b
@@ -4720,14 +4770,14 @@ ISOFile.prototype.fetch = function(a) {
         return a
       },
       isBufferingCompleted: function() {
-        return J.call(this)
+        return h
       },
       reset: function(b) {
         var e = this;
-        j = Number.POSITIVE_INFINITY, n = null, c = null, g = -1, l = -1, k = -1, f = 0, e.sourceBufferExt.unsubscribe(MediaPlayer.dependencies.SourceBufferExtensions.eventList.ENAME_SOURCEBUFFER_APPEND_COMPLETED, e, A), e.sourceBufferExt.unsubscribe(MediaPlayer.dependencies.SourceBufferExtensions.eventList.ENAME_SOURCEBUFFER_REMOVE_COMPLETED, e, I), d = null, p = !1, this.virtualBuffer.unsubscribe(MediaPlayer.utils.VirtualBuffer.eventList.CHUNK_APPENDED, e, _), q = !1, r = !1, b || (e.sourceBufferExt.abort(a, m), e.sourceBufferExt.removeSourceBuffer(a, m)), m = null
+        k = Number.POSITIVE_INFINITY, o = null, c = null, g = -1, m = -1, l = -1, f = 0, e.sourceBufferExt.unsubscribe(MediaPlayer.dependencies.SourceBufferExtensions.eventList.ENAME_SOURCEBUFFER_APPEND_COMPLETED, e, B), e.sourceBufferExt.unsubscribe(MediaPlayer.dependencies.SourceBufferExtensions.eventList.ENAME_SOURCEBUFFER_REMOVE_COMPLETED, e, L), d = null, this.virtualBuffer.unsubscribe(MediaPlayer.utils.VirtualBuffer.eventList.CHUNK_APPENDED, e, ca), q = !1, r = !1, s = !1, b || (e.sourceBufferExt.abort(a, n), e.sourceBufferExt.removeSourceBuffer(a, n)), n = null
       }
     }
-  }, MediaPlayer.dependencies.BufferController.BUFFER_SIZE_REQUIRED = "required", MediaPlayer.dependencies.BufferController.BUFFER_SIZE_MIN = "min", MediaPlayer.dependencies.BufferController.BUFFER_SIZE_INFINITY = "infinity", MediaPlayer.dependencies.BufferController.DEFAULT_MIN_BUFFER_TIME = 12, MediaPlayer.dependencies.BufferController.LOW_BUFFER_THRESHOLD_MS = 4e3, MediaPlayer.dependencies.BufferController.BUFFER_TIME_AT_TOP_QUALITY = 30, MediaPlayer.dependencies.BufferController.BUFFER_TIME_AT_TOP_QUALITY_LONG_FORM = 300, MediaPlayer.dependencies.BufferController.LONG_FORM_CONTENT_DURATION_THRESHOLD = 600, MediaPlayer.dependencies.BufferController.RICH_BUFFER_THRESHOLD = 20, MediaPlayer.dependencies.BufferController.BUFFER_LOADED = "bufferLoaded", MediaPlayer.dependencies.BufferController.BUFFER_EMPTY = "bufferStalled", MediaPlayer.dependencies.BufferController.BUFFER_TO_KEEP = 30, MediaPlayer.dependencies.BufferController.BUFFER_AHEAD_TO_KEEP = 120, MediaPlayer.dependencies.BufferController.BUFFER_PRUNING_INTERVAL = 30, MediaPlayer.dependencies.BufferController.prototype = {
+  }, MediaPlayer.dependencies.BufferController.BUFFER_SIZE_REQUIRED = "required", MediaPlayer.dependencies.BufferController.BUFFER_SIZE_MIN = "min", MediaPlayer.dependencies.BufferController.BUFFER_SIZE_INFINITY = "infinity", MediaPlayer.dependencies.BufferController.DEFAULT_MIN_BUFFER_TIME = 12, MediaPlayer.dependencies.BufferController.LOW_BUFFER_THRESHOLD = 4, MediaPlayer.dependencies.BufferController.BUFFER_TIME_AT_TOP_QUALITY = 30, MediaPlayer.dependencies.BufferController.BUFFER_TIME_AT_TOP_QUALITY_LONG_FORM = 300, MediaPlayer.dependencies.BufferController.LONG_FORM_CONTENT_DURATION_THRESHOLD = 600, MediaPlayer.dependencies.BufferController.RICH_BUFFER_THRESHOLD = 20, MediaPlayer.dependencies.BufferController.BUFFER_LOADED = "bufferLoaded", MediaPlayer.dependencies.BufferController.BUFFER_EMPTY = "bufferStalled", MediaPlayer.dependencies.BufferController.BUFFER_TO_KEEP = 30, MediaPlayer.dependencies.BufferController.BUFFER_PRUNING_INTERVAL = 30, MediaPlayer.dependencies.BufferController.prototype = {
     constructor: MediaPlayer.dependencies.BufferController
   }, MediaPlayer.dependencies.BufferController.eventList = {
     ENAME_BUFFER_LEVEL_STATE_CHANGED: "bufferLevelStateChanged",
@@ -4738,6 +4788,8 @@ ISOFile.prototype.fetch = function(a) {
     ENAME_BUFFERING_COMPLETED: "bufferingCompleted",
     ENAME_BUFFER_CLEARED: "bufferCleared",
     ENAME_INIT_REQUESTED: "initRequested",
+    ENAME_BUFFER_LEVEL_OUTRUN: "bufferLevelOutrun",
+    ENAME_BUFFER_LEVEL_BALANCED: "bufferLevelBalanced",
     ENAME_MIN_BUFFER_TIME_UPDATED: "minBufferTimeUpdated"
   }, MediaPlayer.dependencies.EventController = function() {
     "use strict";
@@ -4857,7 +4909,7 @@ ISOFile.prototype.fetch = function(a) {
         return f ? (b = e.call(this, f, d, g), c.notify(i, {
           chunk: b,
           fragmentModel: a.sender
-        }), void j.call(this)) : void c.log("No " + d.mediaType + " bytes to push.")
+        }), void k.call(this)) : void c.log("No " + d.mediaType + " bytes to push.")
       },
       h = function(a) {
         this.notify(MediaPlayer.dependencies.FragmentController.eventList.ENAME_STREAM_COMPLETED, {
@@ -4865,7 +4917,10 @@ ISOFile.prototype.fetch = function(a) {
           fragmentModel: a.sender
         })
       },
-      i = function(c) {
+      i = function() {
+        k.call(this)
+      },
+      j = function(c) {
         var d, e, f, g, h, i = c.value;
         for (g = 0; g < i.length; g += 1)
           if (e = i[g])
@@ -4875,8 +4930,8 @@ ISOFile.prototype.fetch = function(a) {
             })[0]), f.executeRequest(e));
         b = !1
       },
-      j = function(a) {
-        b || (b = !0, d.call(this, a, i.bind(this)))
+      k = function(a) {
+        b || (b = !0, d.call(this, a, j.bind(this)))
       };
     return {
       system: void 0,
@@ -4887,7 +4942,7 @@ ISOFile.prototype.fetch = function(a) {
       subscribe: void 0,
       unsubscribe: void 0,
       setup: function() {
-        this[MediaPlayer.dependencies.FragmentModel.eventList.ENAME_FRAGMENT_LOADING_STARTED] = f, this[MediaPlayer.dependencies.FragmentModel.eventList.ENAME_FRAGMENT_LOADING_COMPLETED] = g, this[MediaPlayer.dependencies.FragmentModel.eventList.ENAME_STREAM_COMPLETED] = h
+        this[MediaPlayer.dependencies.FragmentModel.eventList.ENAME_FRAGMENT_LOADING_STARTED] = f, this[MediaPlayer.dependencies.FragmentModel.eventList.ENAME_FRAGMENT_LOADING_COMPLETED] = g, this[MediaPlayer.dependencies.FragmentModel.eventList.ENAME_STREAM_COMPLETED] = h, this[MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_BALANCED] = i, this.scheduleRulesCollection.sameTimeRequestRule && this.subscribe(MediaPlayer.dependencies.FragmentController.eventList.ENAME_STREAM_COMPLETED, this.scheduleRulesCollection.sameTimeRequestRule)
       },
       process: function(a) {
         var b = null;
@@ -4906,10 +4961,10 @@ ISOFile.prototype.fetch = function(a) {
         return a && a.type && a.type === MediaPlayer.vo.metrics.HTTPRequest.INIT_SEGMENT_TYPE
       },
       prepareFragmentForLoading: function(a, b) {
-        a && b && a.addRequest(b) && j.call(this, b)
+        a && b && a.addRequest(b) && k.call(this, b)
       },
       executePendingRequests: function() {
-        j.call(this)
+        k.call(this)
       },
       reset: function() {
         a = [], this.scheduleRulesCollection.sameTimeRequestRule && this.unsubscribe(MediaPlayer.dependencies.FragmentController.eventList.ENAME_STREAM_COMPLETED, this.scheduleRulesCollection.sameTimeRequestRule)
@@ -4926,7 +4981,10 @@ ISOFile.prototype.fetch = function(a) {
   }, MediaPlayer.dependencies.MediaController = function() {
     var a, b, c, d = {},
       e = function(a, b) {
-        ("video" === a || "audio" === a) && this.DOMStorage.storeLastSettings(MediaPlayer.utils.DOMStorage.STORAGE_TYPE_LOCAL, a, b)
+        !this.DOMStorage.isSupported(MediaPlayer.utils.DOMStorage.STORAGE_TYPE_LOCAL) || "video" !== a && "audio" !== a || localStorage.setItem(MediaPlayer.utils.DOMStorage["LOCAL_STORAGE_" + a.toUpperCase() + "_SETTINGS_KEY"], JSON.stringify({
+          settings: b,
+          timestamp: (new Date).getTime()
+        }))
       },
       f = function(a) {
         var b = {
@@ -5034,16 +5092,17 @@ ISOFile.prototype.fetch = function(a) {
         ["audio", "video", "text", "fragmentedText"].forEach(function(c) {
           var d = b.getInitialSettings(c),
             e = b.getTracksFor(c, a),
-            f = [];
+            f = !1;
           d || (d = b.DOMStorage.getSavedMediaSettings(c), b.setInitialSettings(c, d)), e && 0 !== e.length && (d && e.forEach(function(a) {
-            g.call(b, d, a) && f.push(a)
-          }), 0 === f.length ? b.setTrack(j.call(b, e)) : f.length > 1 ? b.setTrack(j.call(b, f)) : b.setTrack(f[0]))
+            !f && g.call(b, d, a) && (b.setTrack(a), f = !0)
+          }), f || b.setTrack(j.call(b, e)))
         })
       },
       addTrack: function(a) {
         var b = a ? a.type : null,
-          c = a ? a.streamInfo.id : null;
-        return a && this.isMultiTrackSupportedByType(b) ? (d[c] = d[c] || k.call(this), d[c][b].list.indexOf(a) >= 0 ? !1 : (d[c][b].list.push(a), !0)) : !1
+          c = a ? a.streamInfo.id : null,
+          e = this.getInitialSettings(b);
+        return a && this.isMultiTrackSupportedByType(b) ? (d[c] = d[c] || k.call(this), d[c][b].list.indexOf(a) >= 0 ? !1 : (d[c][b].list.push(a), e && g.call(this, e, a) && !this.getCurrentTrackFor(b, a.streamInfo) && this.setTrack(a), !0)) : !1
       },
       getTracksFor: function(a, b) {
         if (!a || !b) return [];
@@ -5124,60 +5183,18 @@ ISOFile.prototype.fetch = function(a) {
   }, MediaPlayer.dependencies.MediaController.trackSelectionModes = {
     HIGHEST_BITRATE: "HIGHEST_BITRATE",
     WIDEST_RANGE: "WIDEST_RANGE"
-  }, MediaPlayer.dependencies.MediaController.DEFAULT_INIT_TRACK_SELECTION_MODE = MediaPlayer.dependencies.MediaController.trackSelectionModes.HIGHEST_BITRATE, MediaPlayer.dependencies.MetricsCollectionController = function() {
+  }, MediaPlayer.dependencies.MediaController.DEFAULT_INIT_TRACK_SELECTION_MODE = MediaPlayer.dependencies.MediaController.trackSelectionModes.HIGHEST_BITRATE, MediaPlayer.dependencies.PlaybackController = function() {
     "use strict";
-    var a = [];
-    return {
-      system: void 0,
-      initialize: function(b) {
-        var c = this;
-        b.forEach(function(b) {
-          try {
-            var d = c.system.getObject("metricsController");
-            d.initialize(b), a.push(d)
-          } catch (e) {}
-        })
-      },
-      reset: function() {
-        a.forEach(function(a) {
-          a.reset()
-        }), a = []
-      }
-    }
-  }, MediaPlayer.dependencies.MetricsCollectionController.prototype = {
-    constructor: MediaPlayer.dependencies.MetricsCollectionController
-  }, MediaPlayer.dependencies.MetricsController = function() {
-    "use strict";
-    var a, b, c;
-    return {
-      system: void 0,
-      initialize: function(d) {
-        try {
-          c = this.system.getObject("rangeController"), c.initialize(d.Range), b = this.system.getObject("reportingController"), b.initialize(d.Reporting, c), a = this.system.getObject("metricsHandlersController"), a.initialize(d.metrics, b)
-        } catch (e) {
-          throw this.reset(), e
-        }
-      },
-      reset: function() {
-        a && a.reset(), b && b.reset(), c && c.reset()
-      }
-    }
-  }, MediaPlayer.dependencies.MetricsController.prototype = {
-    constructor: MediaPlayer.dependencies.MetricsController
-  }, MediaPlayer.dependencies.PlaybackController = function() {
-    "use strict";
-    var a, b, c, d, e = 0,
-      f = NaN,
-      g = null,
-      h = {},
+    var a, b, c, d, e = 50,
+      f = 0,
+      g = NaN,
+      h = null,
       i = {},
-      j = NaN,
-      k = function(a) {
-        var b, d = parseInt(this.uriQueryFragModel.getURIFragmentData().s, 10);
-        return c ? (!isNaN(d) && d > 1262304e3 && (b = d - a.manifestInfo.availableFrom.getTime() / 1e3, (b > f || b < f - a.manifestInfo.DVRWindowSize) && (b = null)), b = b || f) : b = !isNaN(d) && d < a.duration && d >= 0 ? d : a.start, b
-      },
+      j = {},
+      k = NaN,
       l = function(a) {
-        return b.getCurrentTime() || k.call(this, a)
+        var b, d = parseInt(this.uriQueryFragModel.getURIFragmentData().s);
+        return c ? (!isNaN(d) && d > 1262304e3 && (b = d - a.manifestInfo.availableFrom.getTime() / 1e3, (b > g || b < g - a.manifestInfo.DVRWindowSize) && (b = null)), b = b || g) : b = !isNaN(d) && d < a.duration && d >= 0 ? d : a.start, b
       },
       m = function(b) {
         var c, d = this,
@@ -5187,19 +5204,19 @@ ISOFile.prototype.fetch = function(a) {
         return g ? b >= g.start && b <= g.end ? b : c = Math.max(g.end - 2 * a.manifestInfo.minBufferTime, g.start) : NaN
       },
       n = function() {
-        if (null === g) {
+        if (null === h) {
           var a = this,
             b = function() {
               G.call(a)
             };
-          g = setInterval(b, MediaPlayer.dependencies.PlaybackController.WALLCLOCK_TIME_UPDATE_INTERVAL)
+          h = setInterval(b, e)
         }
       },
       o = function() {
-        clearInterval(g), g = null
+        clearInterval(h), h = null
       },
       p = function() {
-        if (!i[a.id] && !this.isSeeking()) {
+        if (!j[a.id] && !this.isSeeking()) {
           var b = l.call(this, a);
           this.log("Starting playback at offset: " + b), this.notify(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_SEEKING, {
             seekTime: b
@@ -5241,9 +5258,7 @@ ISOFile.prototype.fetch = function(a) {
         })
       },
       x = function() {
-        this.log("<video> pause"), this.notify(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_PAUSED, {
-          ended: b.hasEnded()
-        })
+        this.log("<video> pause"), this.notify(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_PAUSED)
       },
       y = function() {
         this.log("<video> seek"), n.call(this), this.notify(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_SEEKING, {
@@ -5255,23 +5270,19 @@ ISOFile.prototype.fetch = function(a) {
       },
       A = function() {
         var a = this.getTime();
-        a !== e && (e = a, this.notify(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_TIME_UPDATED, {
-          timeToEnd: this.getTimeToStreamEnd(),
-          time: a
+        a !== f && (f = a, this.notify(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_TIME_UPDATED, {
+          timeToEnd: this.getTimeToStreamEnd()
         }))
       },
       B = function() {
         var c, d, e, f = b.getElement().buffered;
-        f.length && (c = f.length - 1, d = f.end(c), e = k.call(this, a) + a.duration - d), this.notify(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_PROGRESS, {
-          bufferedRanges: f,
+        f.length && (c = f.length - 1, d = f.end(c), e = l.call(this, a) + a.duration - d), this.notify(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_PROGRESS, {
+          bufferedRanges: b.getElement().buffered,
           remainingUnbufferedDuration: e
         })
       },
       C = function() {
-        var a = this.getPlaybackRate();
-        this.log("<video> ratechange: ", a), this.notify(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_RATE_CHANGED, {
-          playbackRate: a
-        })
+        this.log("<video> ratechange: ", this.getPlaybackRate()), this.notify(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_RATE_CHANGED)
       },
       D = function() {
         this.log("<video> loadedmetadata"), (!c || this.timelineConverter.isTimeSyncCompleted()) && p.call(this), this.notify(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_METADATA_LOADED), n.call(this)
@@ -5296,15 +5307,15 @@ ISOFile.prototype.fetch = function(a) {
           e = a.id,
           f = this.getTime(),
           g = b.sender.streamProcessor,
-          j = g.getType(),
+          h = g.getType(),
           k = this.system.getObject("streamController").getStreamById(a.id),
           m = l.call(this, a),
           n = this.adapter.getFragmentRequestForTime(g, g.getCurrentRepresentationInfo(), m, {
             ignoreIsFinished: !0
           }),
           o = n ? n.index : null,
-          p = h[e];
-        b.data.index === o && (i[e] = i[e] || {}, i[e][j] = !0, i[e].ready = !(k.hasMedia("audio") && !i[e].audio || k.hasMedia("video") && !i[e].video)), !d || !d.length || i[e] && i[e].seekCompleted || (c = Math.max(d.start(0), a.start), h[e] = void 0 === h[e] ? c : Math.max(h[e], c), p === h[e] && f === p || !i[e] || !i[e].ready || f > h[e] || (this.isSeeking() ? h = {} : (this.seek(Math.max(h[e], m)), i[e].seekCompleted = !0)))
+          p = i[e];
+        b.data.index === o && (j[e] = j[e] || {}, j[e][h] = !0, j[e].ready = !(k.hasMedia("audio") && !j[e].audio || k.hasMedia("video") && !j[e].video)), !d || !d.length || j[e] && j[e].seekCompleted || (c = Math.max(d.start(0), a.start), i[e] = void 0 === i[e] ? c : Math.max(i[e], c), p === i[e] && f === p || !j[e] || !j[e].ready || f > i[e] || (this.isSeeking() ? i = {} : (this.seek(Math.max(i[e], m)), j[e].seekCompleted = !0)))
       },
       I = function(c) {
         var d = c.sender.streamProcessor.getType(),
@@ -5332,13 +5343,12 @@ ISOFile.prototype.fetch = function(a) {
         this[Dash.dependencies.RepresentationController.eventList.ENAME_DATA_UPDATE_COMPLETED] = r, this[MediaPlayer.dependencies.LiveEdgeFinder.eventList.ENAME_LIVE_EDGE_SEARCH_COMPLETED] = s, this[MediaPlayer.dependencies.BufferController.eventList.ENAME_BYTES_APPENDED] = H, this[MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_STATE_CHANGED] = I, u = u.bind(this), v = v.bind(this), w = w.bind(this), x = x.bind(this), F = F.bind(this), y = y.bind(this), z = z.bind(this), A = A.bind(this), B = B.bind(this), C = C.bind(this), D = D.bind(this), E = E.bind(this)
       },
       initialize: function(d) {
-        b = this.videoModel, a = d, h = {}, t.call(this), J.call(this), c = a.manifestInfo.isDynamic, f = d.start
+        b = this.videoModel, a = d, i = {}, t.call(this), J.call(this), c = a.manifestInfo.isDynamic, g = d.start
       },
-      getStreamStartTime: k,
-      getInitialTime: l,
+      getStreamStartTime: l,
       getTimeToStreamEnd: function() {
         var c = b.getCurrentTime();
-        return k.call(this, a) + a.duration - c
+        return l.call(this, a) + a.duration - c
       },
       isPlaybackStarted: function() {
         return this.getTime() > 0
@@ -5362,17 +5372,17 @@ ISOFile.prototype.fetch = function(a) {
         return c
       },
       setLiveStartTime: function(a) {
-        f = a
+        g = a
       },
       getLiveStartTime: function() {
-        return f
+        return g
       },
       setLiveDelayAttributes: function(a, b) {
-        j = a, d = b
+        k = a, d = b
       },
       getLiveDelay: function(b) {
         var c, e = this.manifestExt.getMpd(this.manifestModel.getValue());
-        return c = d && e.hasOwnProperty("suggestedPresentationDelay") ? e.suggestedPresentationDelay : isNaN(b) ? 2 * a.manifestInfo.minBufferTime : b * j
+        return c = d && e.hasOwnProperty("suggestedPresentationDelay") ? e.suggestedPresentationDelay : isNaN(b) ? 2 * a.manifestInfo.minBufferTime : b * k
       },
       start: function() {
         b.play()
@@ -5390,7 +5400,7 @@ ISOFile.prototype.fetch = function(a) {
         b && a !== this.getTime() && (this.log("Do seek: " + a), b.setCurrentTime(a))
       },
       reset: function() {
-        o.call(this), t.call(this), b = null, a = null, e = 0, f = NaN, h = {}, i = {}, c = void 0, d = void 0, j = NaN
+        o.call(this), t.call(this), b = null, a = null, f = 0, g = NaN, i = {}, j = {}, c = void 0, d = void 0, k = NaN
       }
     }
   }, MediaPlayer.dependencies.PlaybackController.prototype = {
@@ -5410,7 +5420,7 @@ ISOFile.prototype.fetch = function(a) {
     ENAME_PLAYBACK_METADATA_LOADED: "playbackMetaDataLoaded",
     ENAME_PLAYBACK_ERROR: "playbackError",
     ENAME_WALLCLOCK_TIME_UPDATED: "wallclockTimeUpdated"
-  }, MediaPlayer.dependencies.PlaybackController.WALLCLOCK_TIME_UPDATE_INTERVAL = 100, MediaPlayer.dependencies.ProtectionController = function() {
+  }, MediaPlayer.dependencies.ProtectionController = function() {
     "use strict";
     var a, b, c, d = null,
       e = [],
@@ -5697,16 +5707,16 @@ ISOFile.prototype.fetch = function(a) {
       m = function(a, b) {
         var c = 0,
           d = null;
-        j && l === !1 && (d = k.start, c = a.getTime() - d.getTime(), k.duration = c, k.stopreason = b, j.trace.push(k), l = !0)
+        l === !1 && (d = k.start, c = a.getTime() - d.getTime(), k.duration = c, k.stopreason = b, l = !0)
       },
       n = function() {
-        b && (J.call(this), i = !1, g && (g = !1), this.log("start"), w.call(this))
+        b && (i = !1, g && (g = !1), this.log("start"), w.call(this))
       },
       o = function() {
-        g && r.call(this, e.quality), n.call(this)
+        g && (r.call(this, e.quality), K.call(this, MediaPlayer.vo.metrics.PlayList.INITIAL_PLAY_START_REASON)), n.call(this)
       },
       p = function(a) {
-        i || (i = !0, this.log("stop"), a && c.cancelPendingRequests())
+        i || (i = !0, this.log("stop"), a && c.cancelPendingRequests(), m(new Date, MediaPlayer.vo.metrics.PlayList.Trace.USER_REQUEST_STOP_REASON))
       },
       q = function(a) {
         var b = this,
@@ -5754,7 +5764,7 @@ ISOFile.prototype.fetch = function(a) {
         a.error || (e = this.streamProcessor.getCurrentRepresentationInfo(), d && null === this.liveEdgeFinder.getLiveEdge() || (b = !0), b && o.call(this))
       },
       z = function(a) {
-        a.data.fragmentModel === this.streamProcessor.getFragmentModel() && this.log("Stream is complete")
+        a.data.fragmentModel === this.streamProcessor.getFragmentModel() && (this.log("Stream is complete"), m(new Date, MediaPlayer.vo.metrics.PlayList.Trace.END_OF_CONTENT_STOP_REASON))
       },
       A = function(a) {
         var b = this;
@@ -5764,57 +5774,69 @@ ISOFile.prototype.fetch = function(a) {
         a.error && p.call(this)
       },
       C = function() {
-        p.call(this, !1)
+        L.call(this)
       },
-      D = function(a) {
-        r.call(this, a.data.requiredQuality)
+      D = function() {
+        p.call(this, !1)
       },
       E = function(a) {
-        c.removeExecutedRequestsBeforeTime(a.data.to), a.data.hasEnoughSpaceToAppend && w.call(this)
+        r.call(this, a.data.requiredQuality)
       },
       F = function(a) {
-        var b = this;
-        a.data.hasSufficientBuffer || b.playbackController.isSeeking() || (b.log("Stalling Buffer"), m.call(this, new Date, MediaPlayer.vo.metrics.PlayList.Trace.REBUFFERING_REASON))
+        c.removeExecutedRequestsBeforeTime(a.data.to), a.data.hasEnoughSpaceToAppend && n.call(this)
       },
-      G = function() {
-        w.call(this)
+      G = function(a) {
+        var b = this;
+        a.data.hasSufficientBuffer || b.playbackController.isSeeking() || (b.log("Stalling Buffer"), m(new Date, MediaPlayer.vo.metrics.PlayList.Trace.REBUFFERING_REASON))
       },
       H = function() {
+        w.call(this)
+      },
+      I = function() {
         p.call(this, !1)
       },
-      I = function(b) {
+      J = function(b) {
         if (a === b.data.mediaType && this.streamProcessor.getStreamInfo().id === b.data.streamInfo.id) {
           var d, f = this;
           if (d = c.cancelPendingRequests(b.data.oldQuality), e = f.streamProcessor.getRepresentationInfoForQuality(b.data.newQuality), null === e || void 0 === e) throw "Unexpected error!";
-          t.call(f, d), m.call(f, new Date, MediaPlayer.vo.metrics.PlayList.Trace.REPRESENTATION_SWITCH_STOP_REASON), J.call(f)
+          t.call(f, d), m(new Date, MediaPlayer.vo.metrics.PlayList.Trace.REPRESENTATION_SWITCH_STOP_REASON)
         }
       },
-      J = function() {
-        j && l === !0 && e && (l = !1, k = new MediaPlayer.vo.metrics.PlayList.Trace, k.representationid = e.id, k.start = new Date, k.mstart = 1e3 * this.playbackController.getTime(), k.playbackspeed = this.playbackController.getPlaybackRate().toString())
+      K = function(b) {
+        var c = new Date,
+          d = this.playbackController.getTime();
+        m(c, MediaPlayer.vo.metrics.PlayList.Trace.USER_REQUEST_STOP_REASON), j = this.metricsModel.addPlayList(a, c, d, b)
       },
-      K = function(a) {
+      L = function() {
+        var a = this,
+          b = a.playbackController.getTime(),
+          c = a.playbackController.getPlaybackRate(),
+          d = new Date;
+        l === !0 && e && j && (l = !1, k = a.metricsModel.appendPlayListTrace(j, e.id, null, d, b, null, c, null))
+      },
+      M = function(a) {
         var b = this,
           d = r.call(b, a.data.CCIndex);
         c.executeRequest(d)
       },
-      L = function() {
+      N = function() {
         n.call(this)
       },
-      M = function(a) {
+      O = function(a) {
         g || c.cancelPendingRequests();
         var b = this.metricsModel.getMetricsFor("stream"),
           d = this.metricsExt.getCurrentManifestUpdate(b);
-        this.log("seek: " + a.data.seekTime), this.metricsModel.updateManifestUpdateInfo(d, {
+        this.log("seek: " + a.data.seekTime), K.call(this, MediaPlayer.vo.metrics.PlayList.SEEK_START_REASON), this.metricsModel.updateManifestUpdateInfo(d, {
           latency: e.DVRWindow.end - this.playbackController.getTime()
         })
       },
-      N = function(a) {
-        k && (k.playbackspeed = a.data.playbackRate.toString())
+      P = function() {
+        L.call(this)
       },
-      O = function() {
+      Q = function() {
         w.call(this)
       },
-      P = function(a) {
+      R = function(a) {
         if (!a.error) {
           var c, d, f = this,
             g = a.data.liveEdge,
@@ -5847,9 +5869,8 @@ ISOFile.prototype.fetch = function(a) {
       scheduleRulesCollection: void 0,
       rulesController: void 0,
       numOfParallelRequestAllowed: void 0,
-      streamController: void 0,
       setup: function() {
-        this[MediaPlayer.dependencies.LiveEdgeFinder.eventList.ENAME_LIVE_EDGE_SEARCH_COMPLETED] = P, this[MediaPlayer.dependencies.AbrController.eventList.ENAME_QUALITY_CHANGED] = I, this[Dash.dependencies.RepresentationController.eventList.ENAME_DATA_UPDATE_STARTED] = C, this[Dash.dependencies.RepresentationController.eventList.ENAME_DATA_UPDATE_COMPLETED] = x, this[MediaPlayer.dependencies.Stream.eventList.ENAME_STREAM_UPDATED] = y, this[MediaPlayer.dependencies.FragmentController.eventList.ENAME_MEDIA_FRAGMENT_LOADING_START] = A, this[MediaPlayer.dependencies.FragmentModel.eventList.ENAME_FRAGMENT_LOADING_COMPLETED] = B, this[MediaPlayer.dependencies.FragmentController.eventList.ENAME_STREAM_COMPLETED] = z, this[MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_CLEARED] = E, this[MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_STATE_CHANGED] = F, this[MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_UPDATED] = G, this[MediaPlayer.dependencies.BufferController.eventList.ENAME_INIT_REQUESTED] = D, this[MediaPlayer.dependencies.BufferController.eventList.ENAME_QUOTA_EXCEEDED] = H, this[MediaPlayer.dependencies.TextController.eventList.ENAME_CLOSED_CAPTIONING_REQUESTED] = K, this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_STARTED] = L, this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_SEEKING] = M, this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_RATE_CHANGED] = N, this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_WALLCLOCK_TIME_UPDATED] = O
+        this[MediaPlayer.dependencies.LiveEdgeFinder.eventList.ENAME_LIVE_EDGE_SEARCH_COMPLETED] = R, this[MediaPlayer.dependencies.AbrController.eventList.ENAME_QUALITY_CHANGED] = J, this[Dash.dependencies.RepresentationController.eventList.ENAME_DATA_UPDATE_STARTED] = D, this[Dash.dependencies.RepresentationController.eventList.ENAME_DATA_UPDATE_COMPLETED] = x, this[MediaPlayer.dependencies.Stream.eventList.ENAME_STREAM_UPDATED] = y, this[MediaPlayer.dependencies.FragmentController.eventList.ENAME_MEDIA_FRAGMENT_LOADING_START] = A, this[MediaPlayer.dependencies.FragmentModel.eventList.ENAME_FRAGMENT_LOADING_COMPLETED] = B, this[MediaPlayer.dependencies.FragmentController.eventList.ENAME_STREAM_COMPLETED] = z, this[MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_CLEARED] = F, this[MediaPlayer.dependencies.BufferController.eventList.ENAME_BYTES_APPENDED] = C, this[MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_STATE_CHANGED] = G, this[MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_UPDATED] = H, this[MediaPlayer.dependencies.BufferController.eventList.ENAME_INIT_REQUESTED] = E, this[MediaPlayer.dependencies.BufferController.eventList.ENAME_QUOTA_EXCEEDED] = I, this[MediaPlayer.dependencies.TextController.eventList.ENAME_CLOSED_CAPTIONING_REQUESTED] = M, this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_STARTED] = N, this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_SEEKING] = O, this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_RATE_CHANGED] = P, this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_WALLCLOCK_TIME_UPDATED] = Q
       },
       initialize: function(b, e) {
         var f = this;
@@ -5864,13 +5885,7 @@ ISOFile.prototype.fetch = function(a) {
       replaceCanceledRequests: t,
       reset: function() {
         var a = this;
-        p.call(a, !0), c.abortRequests(), a.fragmentController.detachModel(c), f = 0, j = null
-      },
-      setPlayList: function(a) {
-        j = a
-      },
-      finalisePlayList: function(a, b) {
-        m.call(this, a, b), j = null
+        p.call(a, !0), a.bufferController.unsubscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_OUTRUN, a.scheduleRulesCollection.bufferLevelRule), a.bufferController.unsubscribe(MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_BALANCED, a.scheduleRulesCollection.bufferLevelRule), c.abortRequests(), a.fragmentController.detachModel(c), f = 0
       },
       start: n,
       stop: p
@@ -5887,29 +5902,14 @@ ISOFile.prototype.fetch = function(a) {
       l = !1,
       m = !1,
       n = !1,
-      o = !0,
-      p = !1,
-      q = null,
-      r = function(b, c) {
-        c = c || new Date, q && (a && a.getProcessors().forEach(function(a) {
-          var d = a.getScheduleController();
-          d && d.finalisePlayList(c, b)
-        }), this.metricsModel.addPlayList(q), q = null)
-      },
-      s = function(b) {
-        q = new MediaPlayer.vo.metrics.PlayList, q.start = new Date, q.mstart = 1e3 * this.playbackController.getTime(), q.starttype = b, a && a.getProcessors().forEach(function(a) {
-          var b = a.getScheduleController();
-          b && b.setPlayList(q)
-        })
-      },
-      t = function(a) {
+      o = function(a) {
         var b = this.system.getObject("mediaController");
         b.subscribe(MediaPlayer.dependencies.MediaController.eventList.CURRENT_TRACK_CHANGED, a), a.subscribe(MediaPlayer.dependencies.Stream.eventList.ENAME_STREAM_UPDATED, this.liveEdgeFinder), a.subscribe(MediaPlayer.dependencies.Stream.eventList.ENAME_STREAM_BUFFERING_COMPLETED, this)
       },
-      u = function(a) {
+      p = function(a) {
         a.unsubscribe(MediaPlayer.dependencies.Stream.eventList.ENAME_STREAM_UPDATED, this.liveEdgeFinder), a.unsubscribe(MediaPlayer.dependencies.Stream.eventList.ENAME_STREAM_BUFFERING_COMPLETED, this)
       },
-      v = function(a, b, c) {
+      q = function(a, b, c) {
         this.eventBus.dispatchEvent({
           type: a,
           data: {
@@ -5918,13 +5918,13 @@ ISOFile.prototype.fetch = function(a) {
           }
         })
       },
-      w = function() {
+      r = function() {
         a.isActivated() && k && 0 === a.getStreamInfo().index && (a.startEventController(), j && this.playbackController.start())
       },
-      x = function() {
-        k = !0
+      s = function() {
+        k = !0, r.call(this)
       },
-      y = function(a) {
+      t = function(a) {
         var b = a.data.error ? a.data.error.code : 0,
           c = "";
         if (-1 !== b) {
@@ -5947,41 +5947,34 @@ ISOFile.prototype.fetch = function(a) {
             default:
               c = "UNKNOWN"
           }
-          n = !0, this.log("Video Element Error: " + c), a.error && this.log(a.error), this.errHandler.mediaSourceError(c), this.reset(!0)
+          n = !0, this.log("Video Element Error: " + c), a.error && this.log(a.error), this.errHandler.mediaSourceError(c), this.reset()
         }
       },
-      z = function(a) {
+      u = function(a) {
         var b = this,
           c = b.videoExt.getPlaybackQuality(b.videoModel.getElement());
         c && b.metricsModel.addDroppedFrames("video", c), b.playbackController.isSeeking() || a.data.timeToEnd < i && this.mediaSourceExt.signalEndOfStream(d)
       },
-      A = function() {
-        var b = F();
-        H.call(this, a, b), r.call(this, b ? MediaPlayer.vo.metrics.PlayList.Trace.END_OF_PERIOD_STOP_REASON : MediaPlayer.vo.metrics.PlayList.Trace.END_OF_CONTENT_STOP_REASON)
+      v = function() {
+        A.call(this, a, y())
       },
-      B = function(b) {
-        var c = G(b.data.seekTime);
-        c && c !== a ? (r.call(this, MediaPlayer.vo.metrics.PlayList.Trace.END_OF_PERIOD_STOP_REASON), H.call(this, a, c, b.data.seekTime)) : r.call(this, MediaPlayer.vo.metrics.PlayList.Trace.USER_REQUEST_STOP_REASON), s.call(this, MediaPlayer.vo.metrics.PlayList.SEEK_START_REASON)
+      w = function(b) {
+        var c = z(b.data.seekTime);
+        c && c !== a && A.call(this, a, c, b.data.seekTime)
       },
-      C = function() {
-        o ? (o = !1, s.call(this, MediaPlayer.vo.metrics.PlayList.INITIAL_PLAYOUT_START_REASON)) : p && (p = !1, s.call(this, MediaPlayer.vo.metrics.PlayList.RESUME_FROM_PAUSE_START_REASON))
-      },
-      D = function(a) {
-        a.data.ended || (p = !0, r.call(this, MediaPlayer.vo.metrics.PlayList.Trace.USER_REQUEST_STOP_REASON))
-      },
-      E = function(a) {
-        var b = F(),
+      x = function(a) {
+        var b = y(),
           c = a.data.streamInfo.isLast;
         d && c && this.mediaSourceExt.signalEndOfStream(d), b && b.activate(d)
       },
-      F = function() {
+      y = function() {
         var b = a.getStreamInfo().start,
           c = a.getStreamInfo().duration;
         return g.filter(function(a) {
           return a.getStreamInfo().start === b + c
         })[0]
       },
-      G = function(a) {
+      z = function(a) {
         var b = 0,
           c = null,
           d = g.length;
@@ -5990,93 +5983,90 @@ ISOFile.prototype.fetch = function(a) {
           if (c = g[e], b += c.getDuration(), b > a) return c;
         return null
       },
-      H = function(b, c, d) {
+      A = function(b, c, d) {
         if (!l && b && c && b !== c) {
-          v.call(this, MediaPlayer.events.STREAM_SWITCH_STARTED, b, c), l = !0;
+          q.call(this, MediaPlayer.events.STREAM_SWITCH_STARTED, b, c), l = !0;
           var e = this,
             f = function() {
-              void 0 !== d && e.playbackController.seek(d), e.playbackController.start(), a.startEventController(), l = !1, v.call(e, MediaPlayer.events.STREAM_SWITCH_COMPLETED, b, c)
+              void 0 !== d && e.playbackController.seek(d), e.playbackController.start(), a.startEventController(), l = !1, q.call(e, MediaPlayer.events.STREAM_SWITCH_COMPLETED, b, c)
             };
           setTimeout(function() {
-            u.call(e, b), b.deactivate(), a = c, t.call(e, c), e.playbackController.initialize(a.getStreamInfo()), I.call(e, f)
+            p.call(e, b), b.deactivate(), a = c, o.call(e, c), e.playbackController.initialize(a.getStreamInfo()), B.call(e, f)
           }, 0)
         }
       },
-      I = function(b) {
+      B = function(b) {
         var c, e = this,
           f = function(g) {
-            e.log("MediaSource is open!"), e.log(g), window.URL.revokeObjectURL(c), d.removeEventListener("sourceopen", f), d.removeEventListener("webkitsourceopen", f), J.call(e), a.activate(d), b && b()
+            e.log("MediaSource is open!"), e.log(g), window.URL.revokeObjectURL(c), d.removeEventListener("sourceopen", f), d.removeEventListener("webkitsourceopen", f), C.call(e), a.activate(d), b && b()
           };
-        d ? e.mediaSourceExt.detachMediaSource(e.videoModel) : d = e.mediaSourceExt.createMediaSource(), d.addEventListener("sourceopen", f, !1), d.addEventListener("webkitsourceopen", f, !1), c = e.mediaSourceExt.attachMediaSource(d, e.videoModel)
+        d ? e.mediaSourceExt.detachMediaSource(e.videoModel) : d = e.mediaSourceExt.createMediaSource(), d.addEventListener("sourceopen", f, !1), d.addEventListener("webkitsourceopen", f, !1), c = e.mediaSourceExt.attachMediaSource(d, e.videoModel);
       },
-      J = function() {
+      C = function() {
         var b, c, e = this;
         b = a.getStreamInfo().manifestInfo.duration, c = e.mediaSourceExt.setDuration(d, b), e.log("Duration successfully set to: " + c)
       },
-      K = function() {
-        var e, f, i, j, k, l, n, o = this,
-          p = o.manifestModel.getValue(),
-          q = o.metricsModel.getMetricsFor("stream"),
-          r = o.metricsExt.getCurrentManifestUpdate(q),
-          s = [];
-        if (p) {
-          l = o.adapter.getStreamsInfo(p), this.capabilities.supportsEncryptedMedia() && (b || (b = this.system.getObject("protectionController"), this.eventBus.dispatchEvent({
+      D = function() {
+        var e, f, i, j, k, l, n, p = this,
+          r = p.manifestModel.getValue(),
+          s = p.metricsModel.getMetricsFor("stream"),
+          t = p.metricsExt.getCurrentManifestUpdate(s),
+          u = [];
+        if (r) {
+          l = p.adapter.getStreamsInfo(r), this.capabilities.supportsEncryptedMedia() && (b || (b = this.system.getObject("protectionController"), this.eventBus.dispatchEvent({
             type: MediaPlayer.events.PROTECTION_CREATED,
             data: {
               controller: b,
-              manifest: p
+              manifest: r
             }
           }), h = !0), b.setMediaElement(this.videoModel.getElement()), c && b.setProtectionData(c));
           try {
             if (0 === l.length) throw new Error("There are no streams");
-            for (o.metricsModel.updateManifestUpdateInfo(r, {
-                currentTime: o.videoModel.getCurrentTime(),
-                buffered: o.videoModel.getElement().buffered,
+            for (p.metricsModel.updateManifestUpdateInfo(t, {
+                currentTime: p.videoModel.getCurrentTime(),
+                buffered: p.videoModel.getElement().buffered,
                 presentationStartTime: l[0].start,
-                clientTimeOffset: o.timelineConverter.getClientTimeOffset()
+                clientTimeOffset: p.timelineConverter.getClientTimeOffset()
               }), m = !0, j = 0, f = l.length; f > j; j += 1) {
-              for (e = l[j], k = 0, i = g.length; i > k; k += 1) g[k].getId() === e.id && (n = g[k], s.push(n), n.updateData(e));
-              n || (n = o.system.getObject("stream"), n.initialize(e, b, c), n.subscribe(MediaPlayer.dependencies.Stream.eventList.ENAME_STREAM_UPDATED, o), s.push(n), a && n.updateData(e)), o.metricsModel.addManifestUpdateStreamInfo(r, e.id, e.index, e.start, e.duration), n = null
+              for (e = l[j], k = 0, i = g.length; i > k; k += 1) g[k].getId() === e.id && (n = g[k], u.push(n), n.updateData(e));
+              n || (n = p.system.getObject("stream"), n.initialize(e, b, c), n.subscribe(MediaPlayer.dependencies.Stream.eventList.ENAME_STREAM_UPDATED, p), u.push(n), a && n.updateData(e)), p.metricsModel.addManifestUpdateStreamInfo(t, e.id, e.index, e.start, e.duration), n = null
             }
-            g = s, a || (a = g[0], v.call(o, MediaPlayer.events.STREAM_SWITCH_STARTED, null, a), o.playbackController.initialize(a.getStreamInfo()), t.call(o, a), v.call(o, MediaPlayer.events.STREAM_SWITCH_COMPLETED, null, a)), d || I.call(this), m = !1, L.call(o)
-          } catch (u) {
-            o.errHandler.manifestError(u.message, "nostreamscomposed", p), o.reset(!0)
+            g = u, a || (a = g[0], q.call(p, MediaPlayer.events.STREAM_SWITCH_STARTED, null, a), p.playbackController.initialize(a.getStreamInfo()), o.call(p, a), q.call(p, MediaPlayer.events.STREAM_SWITCH_COMPLETED, null, a)), d || B.call(this), m = !1, E.call(p)
+          } catch (v) {
+            p.errHandler.manifestError(v.message, "nostreamscomposed", r), p.reset()
           }
         }
       },
-      L = function() {
+      E = function() {
         if (!m) {
           var a = this,
             b = g.length,
             c = 0;
-          for (w.call(this), c; b > c; c += 1)
+          for (r.call(this), c; b > c; c += 1)
             if (!g[c].isInitialized()) return;
           a.notify(MediaPlayer.dependencies.StreamController.eventList.ENAME_STREAMS_COMPOSED)
         }
       },
-      M = function() {
-        L.call(this)
+      F = function() {
+        E.call(this)
       },
-      N = function() {
-        K.call(this)
+      G = function() {
+        D.call(this)
       },
-      O = function(a) {
+      H = function(a) {
         var b = this;
-        if (a.error) this.reset(!0);
+        if (a.error) b.reset();
         else {
-          var c = a.data.manifest;
-          if ("dynamic" === a.data.manifest.type) {
-            var d, g, h = b.adapter.getStreamsInfo(c)[0],
-              i = b.adapter.getMediaInfoForType(c, h, "video") || b.adapter.getMediaInfoForType(c, h, "audio");
-            i && (d = b.adapter.getDataForMedia(i), g = b.manifestExt.getRepresentationsForAdaptation(c, d)[0].useCalculatedLiveEdgeTime, g && (b.log("SegmentTimeline detected using calculated Live Edge Time"), f = !1));
-            var j = b.manifestExt.getUTCTimingSources(a.data.manifest),
-              k = !b.manifestExt.getIsDynamic(c) || g ? j : j.concat(e),
-              l = b.uriQueryFragModel.isManifestHTTPS();
-            k.forEach(function(a) {
-              a.value.replace(/.*?:\/\//g, "") === MediaPlayer.UTCTimingSources["default"].value.replace(/.*?:\/\//g, "") && (a.value = a.value.replace(l ? new RegExp(/^(http:)?\/\//i) : new RegExp(/^(https:)?\/\//i), l ? "https://" : "http://"), b.log("Matching default timing source protocol to manifest protocol: ", a.value))
-            }), b.timeSyncController.initialize(k, f)
-          } else K.call(this);
-          this.metricsCollectionController.initialize(this.manifestExt.getMetrics(c))
+          var c, d, g = a.data.manifest,
+            h = b.adapter.getStreamsInfo(g)[0],
+            i = b.adapter.getMediaInfoForType(g, h, "video") || b.adapter.getMediaInfoForType(g, h, "audio");
+          i && (c = b.adapter.getDataForMedia(i), d = b.manifestExt.getRepresentationsForAdaptation(g, c)[0].useCalculatedLiveEdgeTime, d && (b.log("SegmentTimeline detected using calculated Live Edge Time"), f = !1));
+          var j = b.manifestExt.getUTCTimingSources(a.data.manifest),
+            k = !b.manifestExt.getIsDynamic(g) || d ? j : j.concat(e),
+            l = b.uriQueryFragModel.isManifestHTTPS();
+          k.forEach(function(a) {
+            a.value.replace(/.*?:\/\//g, "") === MediaPlayer.UTCTimingSources["default"].value.replace(/.*?:\/\//g, "") && (a.value = a.value.replace(l ? new RegExp(/^(http:)?\/\//i) : new RegExp(/^(https:)?\/\//i), l ? "https://" : "http://"), b.log("Matching default timing source protocol to manifest protocol: ", a.value))
+          }), b.timeSyncController.initialize(k, f)
         }
       };
     return {
@@ -6105,10 +6095,8 @@ ISOFile.prototype.fetch = function(a) {
       subscribe: void 0,
       unsubscribe: void 0,
       uriQueryFragModel: void 0,
-      metricsCollectionController: void 0,
       setup: function() {
-        this[MediaPlayer.dependencies.ManifestUpdater.eventList.ENAME_MANIFEST_UPDATED] = O, this[MediaPlayer.dependencies.Stream.eventList.ENAME_STREAM_UPDATED] = M, this[MediaPlayer.dependencies.Stream.eventList.ENAME_STREAM_BUFFERING_COMPLETED] = E, this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_SEEKING] = B, this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_TIME_UPDATED] = z, this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_ENDED] = A, this[MediaPlayer.dependencies.TimeSyncController.eventList.ENAME_TIME_SYNCHRONIZATION_COMPLETED] = N, this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_CAN_PLAY] = x, this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_ERROR] = y,
-          this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_STARTED] = C, this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_PAUSED] = D
+        this[MediaPlayer.dependencies.ManifestUpdater.eventList.ENAME_MANIFEST_UPDATED] = H, this[MediaPlayer.dependencies.Stream.eventList.ENAME_STREAM_UPDATED] = F, this[MediaPlayer.dependencies.Stream.eventList.ENAME_STREAM_BUFFERING_COMPLETED] = x, this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_SEEKING] = w, this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_TIME_UPDATED] = u, this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_ENDED] = v, this[MediaPlayer.dependencies.TimeSyncController.eventList.ENAME_TIME_SYNCHRONIZATION_COMPLETED] = G, this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_CAN_PLAY] = s, this[MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_ERROR] = t
       },
       getAutoPlay: function() {
         return j
@@ -6134,25 +6122,25 @@ ISOFile.prototype.fetch = function(a) {
         this.manifestLoader.load(a)
       },
       loadWithManifest: function(a) {
-        this.manifestUpdater.setManifest(a)
+        a[0].indexOf("http") > -1 ? this.manifestLoader.load(a) : this.manifestUpdater.setManifest(a) //DIFF5: load (parse?) a into the manifest if a[0] contains "http", otherwise set a as the new manifest.
       },
-      reset: function(e) {
-        a && u.call(this, a), r.call(this, e ? MediaPlayer.vo.metrics.PlayList.Trace.FAILURE_STOP_REASON : MediaPlayer.vo.metrics.PlayList.Trace.USER_REQUEST_STOP_REASON);
-        var f, i = this.system.getObject("mediaController");
-        this.timeSyncController.unsubscribe(MediaPlayer.dependencies.TimeSyncController.eventList.ENAME_TIME_SYNCHRONIZATION_COMPLETED, this.timelineConverter), this.timeSyncController.unsubscribe(MediaPlayer.dependencies.TimeSyncController.eventList.ENAME_TIME_SYNCHRONIZATION_COMPLETED, this.liveEdgeFinder), this.timeSyncController.unsubscribe(MediaPlayer.dependencies.TimeSyncController.eventList.ENAME_TIME_SYNCHRONIZATION_COMPLETED, this), this.timeSyncController.reset(), this.metricsCollectionController.reset();
-        for (var j = 0, q = g.length; q > j; j++) f = g[j], f.unsubscribe(MediaPlayer.dependencies.Stream.eventList.ENAME_STREAM_UPDATED, this), i.unsubscribe(MediaPlayer.dependencies.MediaController.eventList.CURRENT_TRACK_CHANGED, f), f.reset(n);
+      reset: function() {
+        a && p.call(this, a);
+        var e, f = this.system.getObject("mediaController");
+        this.timeSyncController.unsubscribe(MediaPlayer.dependencies.TimeSyncController.eventList.ENAME_TIME_SYNCHRONIZATION_COMPLETED, this.timelineConverter), this.timeSyncController.unsubscribe(MediaPlayer.dependencies.TimeSyncController.eventList.ENAME_TIME_SYNCHRONIZATION_COMPLETED, this.liveEdgeFinder), this.timeSyncController.unsubscribe(MediaPlayer.dependencies.TimeSyncController.eventList.ENAME_TIME_SYNCHRONIZATION_COMPLETED, this), this.timeSyncController.reset();
+        for (var i = 0, j = g.length; j > i; i++) e = g[i], e.unsubscribe(MediaPlayer.dependencies.Stream.eventList.ENAME_STREAM_UPDATED, this), f.unsubscribe(MediaPlayer.dependencies.MediaController.eventList.CURRENT_TRACK_CHANGED, e), e.reset(n);
         g = [], this.unsubscribe(MediaPlayer.dependencies.StreamController.eventList.ENAME_STREAMS_COMPOSED, this.manifestUpdater), this.playbackController.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_STARTED, this.manifestUpdater), this.playbackController.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_PAUSED, this.manifestUpdater), this.playbackController.unsubscribe(MediaPlayer.dependencies.PlaybackController.eventList.ENAME_PLAYBACK_ENDED, this), this.manifestUpdater.unsubscribe(MediaPlayer.dependencies.ManifestUpdater.eventList.ENAME_MANIFEST_UPDATED, this), this.manifestUpdater.reset(), this.metricsModel.clearAllCurrentMetrics();
-        var s = this.manifestModel.getValue() ? this.manifestModel.getValue().url : null;
-        if (this.manifestModel.setValue(null), this.timelineConverter.reset(), this.liveEdgeFinder.reset(), this.adapter.reset(), this.virtualBuffer.reset(), l = !1, m = !1, a = null, k = !1, n = !1, o = !0, p = !1, d && (this.mediaSourceExt.detachMediaSource(this.videoModel), d = null), b)
+        var o = this.manifestModel.getValue() ? this.manifestModel.getValue().url : null;
+        if (this.manifestModel.setValue(null), this.timelineConverter.reset(), this.liveEdgeFinder.reset(), this.adapter.reset(), this.virtualBuffer.reset(), l = !1, m = !1, a = null, k = !1, n = !1, d && (this.mediaSourceExt.detachMediaSource(this.videoModel), d = null), b)
           if (h) {
-            var t = {},
-              v = this;
-            t[MediaPlayer.models.ProtectionModel.eventList.ENAME_TEARDOWN_COMPLETE] = function() {
-              h = !1, b = null, c = null, s && v.eventBus.dispatchEvent({
+            var q = {},
+              r = this;
+            q[MediaPlayer.models.ProtectionModel.eventList.ENAME_TEARDOWN_COMPLETE] = function() {
+              h = !1, b = null, c = null, o && r.eventBus.dispatchEvent({
                 type: MediaPlayer.events.PROTECTION_DESTROYED,
-                data: s
-              }), v.notify(MediaPlayer.dependencies.StreamController.eventList.ENAME_TEARDOWN_COMPLETE)
-            }, b.protectionModel.subscribe(MediaPlayer.models.ProtectionModel.eventList.ENAME_TEARDOWN_COMPLETE, t, void 0, !0), b.teardown()
+                data: o
+              }), r.notify(MediaPlayer.dependencies.StreamController.eventList.ENAME_TEARDOWN_COMPLETE)
+            }, b.protectionModel.subscribe(MediaPlayer.models.ProtectionModel.eventList.ENAME_TEARDOWN_COMPLETE, q, void 0, !0), b.teardown()
           } else b.setMediaElement(null), b = null, c = null, this.notify(MediaPlayer.dependencies.StreamController.eventList.ENAME_TEARDOWN_COMPLETE);
         else this.notify(MediaPlayer.dependencies.StreamController.eventList.ENAME_TEARDOWN_COMPLETE)
       }
@@ -6345,10 +6333,8 @@ ISOFile.prototype.fetch = function(a) {
         c = b.length,
         d = 0;
       if ("open" === a.readyState) {
-        for (d; c > d; d += 1) {
+        for (d; c > d; d += 1)
           if (b[d].updating) return;
-          if (0 === b[d].buffered.length) return
-        }
         a.endOfStream()
       }
     }
@@ -6575,13 +6561,13 @@ ISOFile.prototype.fetch = function(a) {
       var e = this;
       try {
         e.waitForUpdateEnd(a, function() {
-          b >= 0 && c > b && "ended" !== d.readyState && (a.remove(b, c), e.waitForUpdateEnd(a, function() {
+          b >= 0 && c > b && "ended" !== d.readyState && a.remove(b, c), e.waitForUpdateEnd(a, function() {
             e.notify(MediaPlayer.dependencies.SourceBufferExtensions.eventList.ENAME_SOURCEBUFFER_REMOVE_COMPLETED, {
               buffer: a,
               from: b,
               to: c
             })
-          }))
+          })
         })
       } catch (f) {
         e.notify(MediaPlayer.dependencies.SourceBufferExtensions.eventList.ENAME_SOURCEBUFFER_REMOVE_COMPLETED, {
@@ -6672,7 +6658,6 @@ ISOFile.prototype.fetch = function(a) {
       checkVideoSize: function() {
         var a = this.getCurrentTextTrack();
         if (a && "html" === a.renderingType) {
-          if ("showing" !== a.mode) return;
           var c = b.clientWidth,
             d = b.clientHeight,
             e = this.getVideoVisibleVideoSize(b.clientWidth, b.clientHeight, b.videoWidth, b.videoHeight);
@@ -6795,364 +6780,6 @@ ISOFile.prototype.fetch = function(a) {
     }
   }, MediaPlayer.dependencies.VideoModelExtensions.prototype = {
     constructor: MediaPlayer.dependencies.VideoModelExtensions
-  }, MediaPlayer.dependencies.MetricsHandlersController = function() {
-    "use strict";
-    var a = [],
-      b = function(b) {
-        var c = b.data;
-        a.forEach(function(a) {
-          a.handleNewMetric(c.metric, c.value)
-        })
-      };
-    return {
-      metricsHandlerFactory: void 0,
-      eventBus: void 0,
-      initialize: function(c, d) {
-        var e = this;
-        c.split(",").forEach(function(b, c, f) {
-          var g, h; - 1 !== b.indexOf("(") && -1 === b.indexOf(")") && (h = f[c + 1], h && -1 === h.indexOf("(") && -1 !== h.indexOf(")") && (b += "," + h, delete f[c + 1])), g = e.metricsHandlerFactory.create(b, d), g && a.push(g)
-        }), this.eventBus.addEventListener(MediaPlayer.events.METRIC_ADDED, b), this.eventBus.addEventListener(MediaPlayer.events.METRIC_UPDATED, b)
-      },
-      reset: function() {
-        this.eventBus.removeEventListener(MediaPlayer.events.METRIC_ADDED, b), this.eventBus.removeEventListener(MediaPlayer.events.METRIC_UPDATED, b), a.forEach(function(a) {
-          a.reset()
-        }), a = []
-      }
-    }
-  }, MediaPlayer.dependencies.MetricsHandlersController.prototype = {
-    constructor: MediaPlayer.dependencies.MetricsHandlersController
-  }, MediaPlayer.dependencies.RangeController = function() {
-    "use strict";
-    var a, b = !1;
-    return {
-      log: void 0,
-      system: void 0,
-      videoModel: void 0,
-      initialize: function(c) {
-        c && c.length && (c.forEach(function(b) {
-          var c = b.starttime,
-            d = c + b.duration;
-          a.add(c, d)
-        }), b = !!c[0].useWallClockTime)
-      },
-      reset: function() {
-        a.clear()
-      },
-      setup: function() {
-        a = this.system.getObject("customTimeRanges")
-      },
-      isEnabled: function() {
-        var c, d, e, f, g = a.length;
-        if (!g) return !0;
-        for (d = b ? (new Date).getTime() / 1e3 : this.videoModel.getCurrentTime(), c = 0; g > c; c += 1)
-          if (e = a.start(c), f = a.end(c), d >= e && f > d) return !0;
-        return !1
-      }
-    }
-  }, MediaPlayer.dependencies.RangeController.prototype = {
-    constructor: MediaPlayer.dependencies.RangeController
-  }, MediaPlayer.dependencies.ReportingController = function() {
-    "use strict";
-    var a = [];
-    return {
-      reportingFactory: void 0,
-      initialize: function(b, c) {
-        var d = this;
-        b.some(function(b) {
-          var e = d.reportingFactory.create(b, c);
-          return e ? (a.push(e), !0) : void 0
-        })
-      },
-      reset: function() {
-        a.forEach(function(a) {
-          a.reset()
-        }), a = []
-      },
-      report: function(b, c) {
-        a.forEach(function(a) {
-          a.report(b, c)
-        })
-      }
-    }
-  }, MediaPlayer.dependencies.ReportingController.prototype = {
-    constructor: MediaPlayer.dependencies.ReportingController
-  }, MediaPlayer.metrics.MetricsHandlerFactory = function() {
-    "use strict";
-    var a = /([a-zA-Z]*)(\(([0-9]*)(\,\s*([a-zA-Z]*))?\))?/,
-      b = {
-        BufferLevel: "bufferLevelHandler",
-        DVBErrors: "dVBErrorsHandler",
-        HttpList: "httpListHandler",
-        PlayList: "playListHandler",
-        RepSwitchList: "genericMetricHandler",
-        TcpList: "genericMetricHandler"
-      };
-    return {
-      system: void 0,
-      log: void 0,
-      create: function(c, d) {
-        var e, f = c.match(a);
-        if (f) {
-          try {
-            e = this.system.getObject(b[f[1]]), e.initialize(f[1], d, f[3], f[5])
-          } catch (g) {
-            e = null, this.log("MetricsHandlerFactory: Could not create handler for type " + f[1] + " with args " + f[3] + ", " + f[5] + " (" + g.message + ")")
-          }
-          return e
-        }
-      },
-      register: function(a, c) {
-        b[a] = c
-      },
-      unregister: function(a) {
-        delete b[a]
-      }
-    }
-  }, MediaPlayer.metrics.MetricsHandlerFactory.prototype = {
-    constructor: MediaPlayer.metrics.MetricsHandlerFactory
-  }, MediaPlayer.metrics.handlers.BufferLevel = function() {
-    "use strict";
-    var a, b, c, d, e = function() {
-        var a = this;
-        return ["video", "audio", "fragmentedText"].map(function(b) {
-          return a.metricsExt.getCurrentBufferLevel(a.metricsModel.getReadOnlyMetricsFor(b))
-        }, this).filter(function(a) {
-          return a
-        }).reduce(function(a, b) {
-          return a.level < b.level ? a : b
-        })
-      },
-      f = function() {
-        a.report(c, e.call(this))
-      };
-    return {
-      metricsModel: void 0,
-      metricsExt: void 0,
-      handlerHelpers: void 0,
-      setup: function() {
-        f = f.bind(this)
-      },
-      initialize: function(e, g, h) {
-        g && (b = this.handlerHelpers.validateN(h), a = g, c = this.handlerHelpers.getMetricName(e, h), d = setInterval(f, b))
-      },
-      reset: function() {
-        clearInterval(d), d = null, b = 0, a = null
-      },
-      handleNewMetric: function() {}
-    }
-  }, MediaPlayer.metrics.handlers.BufferLevel.prototype = {
-    constructor: MediaPlayer.metrics.handlers.BufferLevel
-  }, MediaPlayer.metrics.handlers.DVBErrors = function() {
-    "use strict";
-    var a, b = function(b) {
-        var c, d = this.manifestModel.getValue(),
-          e = new MediaPlayer.vo.metrics.DVBErrors;
-        for (c in b) b.hasOwnProperty(c) && (e[c] = b[c]);
-        e.mpdurl || (e.mpdurl = d.url), e.servicelocation || (e.servicelocation = d.BaseURL.serviceLocation), e.terror || (e.terror = new Date), a && a.report("DVBErrors", e)
-      },
-      c = function(a) {
-        (0 === a.responsecode || a.responsecode >= 400 || a.responsecode < 100 || a.responsecode >= 600) && b.call(this, {
-          errorcode: a.responsecode || MediaPlayer.vo.metrics.DVBErrors.CONNECTION_ERROR,
-          url: a.url,
-          terror: a.tresponse
-        })
-      },
-      d = function(a) {
-        b.call(this, a)
-      };
-    return {
-      manifestModel: void 0,
-      initialize: function(c, d) {
-        d && (a = d, b.call(this, {
-          errorcode: MediaPlayer.vo.metrics.DVBErrors.BECAME_REPORTER
-        }))
-      },
-      reset: function() {
-        a = null
-      },
-      handleNewMetric: function(a, b) {
-        switch (a) {
-          case "DVBErrors":
-            d.call(this, b);
-            break;
-          case "HttpList":
-            c.call(this, b)
-        }
-      }
-    }
-  }, MediaPlayer.metrics.handlers.DVBErrors.prototype = {
-    constructor: MediaPlayer.metrics.handlers.DVBErrors
-  }, MediaPlayer.metrics.handlers.GenericMetricHandler = function() {
-    "use strict";
-    var a, b;
-    return {
-      initialize: function(c, d) {
-        a = c, b = d
-      },
-      reset: function() {
-        b = null, a = void 0
-      },
-      handleNewMetric: function(c, d) {
-        c === a && b && b.report(a, d)
-      }
-    }
-  }, MediaPlayer.metrics.handlers.GenericMetricHandler.prototype = {
-    constructor: MediaPlayer.metrics.handlers.GenericMetricHandler
-  }, MediaPlayer.metrics.handlers.HttpList = function() {
-    "use strict";
-    var a, b, c, d, e, f = [],
-      g = function() {
-        var b = f;
-        b.length && a && a.report(d, b), f = []
-      };
-    return {
-      handlerHelpers: void 0,
-      setup: function() {
-        g = g.bind(this)
-      },
-      initialize: function(f, h, i, j) {
-        h && (b = this.handlerHelpers.validateN(i), a = h, j && j.length && (c = j), d = this.handlerHelpers.getMetricName(f, i, j), e = setInterval(g, b))
-      },
-      reset: function() {
-        clearInterval(e), e = null, b = null, c = null, f = [], a = null
-      },
-      handleNewMetric: function(a, b) {
-        "HttpList" === a && (c && c !== b.type || f.push(b))
-      }
-    }
-  }, MediaPlayer.metrics.handlers.HttpList.prototype = {
-    constructor: MediaPlayer.metrics.handlers.HttpList
-  }, MediaPlayer.metrics.handlers.PlayList = function() {
-    "use strict";
-    var a;
-    return {
-      initialize: function(b, c) {
-        a = c
-      },
-      reset: function() {
-        a = null
-      },
-      handleNewMetric: function(b, c) {
-        switch (b) {
-          case "PlayList":
-            a && a.report("PlayList", c)
-        }
-      }
-    }
-  }, MediaPlayer.metrics.handlers.PlayList.prototype = {
-    constructor: MediaPlayer.metrics.handlers.PlayList
-  }, MediaPlayer.metrics.ReportingFactory = function() {
-    "use strict";
-    var a = {
-      "urn:dvb:dash:reporting:2014": "dvbReporting"
-    };
-    return {
-      system: void 0,
-      create: function(b, c) {
-        var d;
-        try {
-          d = this.system.getObject(a[b.schemeIdUri]), d.initialize(b, c)
-        } catch (e) {
-          d = null, this.log("ReportingFactory: could not create Reporting with schemeIdUri " + b.schemeIdUri + " (" + e.message + ")")
-        }
-        return d
-      },
-      register: function(b, c) {
-        a[b] = c
-      },
-      unregister: function(b) {
-        delete a[b]
-      }
-    }
-  }, MediaPlayer.metrics.ReportingFactory.prototype = {
-    constructor: MediaPlayer.metrics.ReportingFactory
-  }, MediaPlayer.metrics.reporting.DVBReporting = function() {
-    "use strict";
-    var a = !0,
-      b = !1,
-      c = !1,
-      d = null,
-      e = null,
-      f = !0,
-      g = [],
-      h = function(a, b, c) {
-        var d = new XMLHttpRequest,
-          e = function() {
-            var a = g.indexOf(d); - 1 !== a && (g.splice(a, 1), d.status >= 200 && d.status < 300 ? b && b() : c && c())
-          };
-        g.push(d);
-        try {
-          d.open("GET", a), d.onloadend = e, d.onerror = e, d.send()
-        } catch (f) {
-          d.onerror()
-        }
-      },
-      i = function(c, f) {
-        var g = this;
-        Array.isArray(f) || (f = [f]), b && e.isEnabled() && f.forEach(function(e) {
-          var f = g.metricSerialiser.serialise(e);
-          a && "DVBErrors" !== c && (f = "metricname=" + c + "&" + f), f = d + "?" + f, h(f, null, function() {
-            b = !1
-          })
-        })
-      };
-    return {
-      log: void 0,
-      eventBus: void 0,
-      metricSerialiser: void 0,
-      randomNumberGenerator: void 0,
-      initialize: function(a, f) {
-        var g;
-        if (e = f, d = a["dvb:reportingUrl"], !d) throw new Error("required parameter missing (dvb:reportingUrl)");
-        c || (g = a["dvb:probability"] || a["dvb:priority"] || 0, g && (1e3 === g || g / 1e3 >= this.randomNumberGenerator.random()) && (this.log("DVBReporting: became a reporting player!"), b = !0), c = !0)
-      },
-      reset: function() {
-        f || (g.forEach(function(a) {
-          a.abort()
-        }), g = []), c = !1, b = !1, d = null, e = null
-      },
-      report: i
-    }
-  }, MediaPlayer.metrics.reporting.DVBReporting.prototype = {
-    constructor: MediaPlayer.metrics.reporting.DVBReporting
-  }, MediaPlayer.metrics.utils.HandlerHelpers = function() {
-    "use strict";
-    return {
-      getMetricName: function(a, b, c) {
-        var d = a;
-        return b && (d += "(" + b, c && c.length && (d += "," + c), d += ")"), d
-      },
-      validateN: function(a) {
-        if (!a) throw "missing n";
-        if (isNaN(a)) throw "n is NaN";
-        if (0 > a) throw "n must be positive";
-        return a
-      }
-    }
-  }, MediaPlayer.metrics.utils.HandlerHelpers.prototype = {
-    constructor: MediaPlayer.metrics.utils.HandlerHelpers
-  }, MediaPlayer.metrics.utils.MetricSerialiser = function() {
-    "use strict";
-    var a = function(b) {
-      var c, d, e = [],
-        f = [];
-      for (c in b)
-        if (b.hasOwnProperty(c) && 0 !== c.indexOf("_")) {
-          if (d = b[c], (void 0 === d || null === d) && (d = ""), Array.isArray(d)) {
-            if (!d.length) continue;
-            f = [], d.forEach(function(b) {
-              var c = "Object" !== Object.prototype.toString.call(b).slice(8, -1);
-              f.push(c ? b : a(b))
-            }), d = encodeURIComponent(f.join(","))
-          } else "string" == typeof d ? d = encodeURIComponent(d) : d instanceof Date ? d = d.toISOString() : "number" == typeof d && (d = Math.round(d));
-          e.push(c + "=" + d)
-        } return e.join("&")
-    };
-    return {
-      serialise: a
-    }
-  }, MediaPlayer.metrics.utils.MetricSerialiser.prototype = {
-    constructor: MediaPlayer.metrics.utils.MetricSerialiser
   }, MediaPlayer.dependencies.FragmentModel = function() {
     "use strict";
     var a = null,
@@ -7160,16 +6787,17 @@ ISOFile.prototype.fetch = function(a) {
       c = [],
       d = [],
       e = [],
-      f = function(a) {
+      f = !1,
+      g = function(a) {
         var b = this;
         b.notify(MediaPlayer.dependencies.FragmentModel.eventList.ENAME_FRAGMENT_LOADING_STARTED, {
           request: a
         }), b.fragmentLoader.load(a)
       },
-      g = function(a, b) {
+      h = function(a, b) {
         var c = a.indexOf(b); - 1 !== c && a.splice(c, 1)
       },
-      h = function(a, b, c) {
+      i = function(a, b, c) {
         var d, e = a.length - 1,
           f = NaN,
           g = NaN,
@@ -7178,14 +6806,14 @@ ISOFile.prototype.fetch = function(a) {
           if (h = a[d], f = h.startTime, g = f + h.duration, c = c || h.duration / 2, !isNaN(f) && !isNaN(g) && b + c >= f && g > b - c || isNaN(f) && isNaN(b)) return h;
         return null
       },
-      i = function(a, b) {
-        return b ? b.hasOwnProperty("time") ? [h.call(this, a, b.time, b.threshold)] : a.filter(function(a) {
+      j = function(a, b) {
+        return b ? b.hasOwnProperty("time") ? [i.call(this, a, b.time, b.threshold)] : a.filter(function(a) {
           for (var c in b)
             if ("state" !== c && b.hasOwnProperty(c) && a[c] != b[c]) return !1;
           return !0
         }) : a
       },
-      j = function(a) {
+      k = function(a) {
         var f;
         switch (a) {
           case MediaPlayer.dependencies.FragmentModel.states.PENDING:
@@ -7205,7 +6833,7 @@ ISOFile.prototype.fetch = function(a) {
         }
         return f
       },
-      k = function(a, f) {
+      l = function(a, f) {
         if (a) {
           var g = a.mediaType,
             h = new Date,
@@ -7218,22 +6846,28 @@ ISOFile.prototype.fetch = function(a) {
           this.metricsModel.addSchedulingInfo(g, h, i, j, k, l, m, n, f), this.metricsModel.addRequestsQueue(g, c, d, b, e)
         }
       },
-      l = function(a) {
+      m = function(a) {
         var c = a.data.request,
           e = a.data.response,
           f = a.error;
-        d.splice(d.indexOf(c), 1), e && !f && b.push(c), k.call(this, c, f ? MediaPlayer.dependencies.FragmentModel.states.FAILED : MediaPlayer.dependencies.FragmentModel.states.EXECUTED), this.notify(MediaPlayer.dependencies.FragmentModel.eventList.ENAME_FRAGMENT_LOADING_COMPLETED, {
+        d.splice(d.indexOf(c), 1), e && !f && b.push(c), l.call(this, c, f ? MediaPlayer.dependencies.FragmentModel.states.FAILED : MediaPlayer.dependencies.FragmentModel.states.EXECUTED), this.notify(MediaPlayer.dependencies.FragmentModel.eventList.ENAME_FRAGMENT_LOADING_COMPLETED, {
           request: c,
           response: e
         }, f)
       },
-      m = function(a) {
+      n = function(a) {
         var c = this.getRequests({
           state: MediaPlayer.dependencies.FragmentModel.states.EXECUTED,
           quality: a.data.quality,
           time: a.data.start
         })[0];
-        c && (g.call(this, b, c), isNaN(a.data.index) || (e.push(c), k.call(this, c, MediaPlayer.dependencies.FragmentModel.states.REJECTED)))
+        c && (h.call(this, b, c), isNaN(a.data.index) || (e.push(c), l.call(this, c, MediaPlayer.dependencies.FragmentModel.states.REJECTED)))
+      },
+      o = function() {
+        f = !0
+      },
+      p = function() {
+        f = !1
       };
     return {
       system: void 0,
@@ -7242,12 +6876,9 @@ ISOFile.prototype.fetch = function(a) {
       notify: void 0,
       subscribe: void 0,
       unsubscribe: void 0,
-      videoModel: void 0,
-      sourceBufferExt: void 0,
-      eventBus: void 0,
       manifestExt: void 0,
       setup: function() {
-        this[MediaPlayer.dependencies.BufferController.eventList.ENAME_BYTES_REJECTED] = m, this[MediaPlayer.dependencies.FragmentLoader.eventList.ENAME_LOADING_COMPLETED] = l
+        this[MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_OUTRUN] = o, this[MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_BALANCED] = p, this[MediaPlayer.dependencies.BufferController.eventList.ENAME_BYTES_REJECTED] = n, this[MediaPlayer.dependencies.FragmentLoader.eventList.ENAME_LOADING_COMPLETED] = m
       },
       setLoader: function(a) {
         this.fragmentLoader = a
@@ -7258,34 +6889,23 @@ ISOFile.prototype.fetch = function(a) {
       getContext: function() {
         return a
       },
-      addRequest: function(a) {
-        return this.manifestExt.getIsTextTrack(a.mediaType) || a && !this.isFragmentLoadedOrPendingAndNotDiscarded(a) ? (c.push(a), k.call(this, a, MediaPlayer.dependencies.FragmentModel.states.PENDING), !0) : !1
+      getIsPostponed: function() {
+        return f
       },
-      isFragmentLoadedOrPendingAndNotDiscarded: function(a) {
+      addRequest: function(a) {
+        return this.manifestExt.getIsTextTrack(a.mediaType) || a && !this.isFragmentLoadedOrPending(a) ? (c.push(a), l.call(this, a, MediaPlayer.dependencies.FragmentModel.states.PENDING), !0) : !1
+      },
+      isFragmentLoadedOrPending: function(a) {
         var e = function(a, b) {
             return "complete" === a.action && a.action === b.action
           },
           f = function(a, b) {
-            return a.mediaType === b.mediaType && a.startTime === b.startTime
+            return a.url === b.url && a.startTime === b.startTime
           },
           g = function(a, b) {
             return isNaN(a.index) && isNaN(b.index) && a.quality === b.quality
           },
-          h = function() {
-            var c, d, e = this.videoModel.getElement(),
-              g = null !== this.sourceBufferExt.getBufferRange(e, a.startTime);
-            if (!g) {
-              d = new Date, d.setSeconds(d.getSeconds() - 3);
-              for (var h = 0; h < b.length; h += 1)
-                if (c = b[h], f(a, c) && c.requestEndDate >= d) return !1;
-              this.eventBus.dispatchEvent({
-                type: MediaPlayer.events.FRAGMENT_DISCARDED,
-                data: a.startTime
-              })
-            }
-            return !g
-          },
-          i = function(b) {
+          h = function(b) {
             var c, d, h = !1,
               i = b.length;
             for (d = 0; i > d; d += 1)
@@ -7294,7 +6914,7 @@ ISOFile.prototype.fetch = function(a) {
                 break
               } return h
           };
-        return i(c) || i(d) || i(b) && !h.call(this)
+        return h(c) || h(d) || h(b)
       },
       getRequests: function(a) {
         var b, c = [],
@@ -7302,7 +6922,7 @@ ISOFile.prototype.fetch = function(a) {
           e = 1;
         if (!a || !a.state) return c;
         a.state instanceof Array ? (e = a.state.length, b = a.state) : b = [a.state];
-        for (var f = 0; e > f; f += 1) c = j.call(this, b[f]), d = d.concat(i.call(this, c, a));
+        for (var f = 0; e > f; f += 1) c = k.call(this, b[f]), d = d.concat(j.call(this, c, a));
         return d
       },
       getLoadingTime: function() {
@@ -7314,49 +6934,50 @@ ISOFile.prototype.fetch = function(a) {
           } return d
       },
       removeExecutedRequest: function(a) {
-        g.call(this, b, a)
+        h.call(this, b, a)
       },
       removeRejectedRequest: function(a) {
-        g.call(this, e, a)
+        h.call(this, e, a)
       },
       removeExecutedRequestsBeforeTime: function(a) {
         var c, d = b.length - 1,
           e = NaN,
           f = null;
-        for (c = d; c >= 0; c -= 1) f = b[c], e = f.startTime, !isNaN(e) && a > e && g.call(this, b, f)
+        for (c = d; c >= 0; c -= 1) f = b[c], e = f.startTime, !isNaN(e) && a > e && h.call(this, b, f)
       },
       cancelPendingRequests: function(a) {
-        for (var b = this, d = [], e = [], f = c.length, g = 0; f > g; g++) {
-          var h = c[g];
-          void 0 !== a && h.quality == a ? d.push(h) : e.push(h)
-        }
-        return c = d, e.forEach(function(a) {
-          k.call(b, a, MediaPlayer.dependencies.FragmentModel.states.CANCELED)
+        var b = this,
+          d = c,
+          e = d;
+        return c = [], void 0 !== a && (c = d.filter(function(b) {
+          return b.quality === a ? !1 : (e.splice(e.indexOf(b), 1), !0)
+        })), e.forEach(function(a) {
+          l.call(b, a, MediaPlayer.dependencies.FragmentModel.states.CANCELED)
         }), e
       },
       abortRequests: function() {
         var a = [];
-        for (this.fragmentLoader.abort(); d.length > 0;) a.push(d[0]), g.call(this, d, d[0]);
+        for (this.fragmentLoader.abort(); d.length > 0;) a.push(d[0]), h.call(this, d, d[0]);
         return d = [], a
       },
       executeRequest: function(a) {
         var e = this,
-          g = c.indexOf(a);
-        if (a && -1 !== g) switch (c.splice(g, 1), a.action) {
+          f = c.indexOf(a);
+        if (a && -1 !== f) switch (c.splice(f, 1), a.action) {
           case "complete":
-            b.push(a), k.call(e, a, MediaPlayer.dependencies.FragmentModel.states.EXECUTED), e.notify(MediaPlayer.dependencies.FragmentModel.eventList.ENAME_STREAM_COMPLETED, {
+            b.push(a), l.call(e, a, MediaPlayer.dependencies.FragmentModel.states.EXECUTED), e.notify(MediaPlayer.dependencies.FragmentModel.eventList.ENAME_STREAM_COMPLETED, {
               request: a
             });
             break;
           case "download":
-            d.push(a), k.call(e, a, MediaPlayer.dependencies.FragmentModel.states.LOADING), f.call(e, a);
+            d.push(a), l.call(e, a, MediaPlayer.dependencies.FragmentModel.states.LOADING), g.call(e, a);
             break;
           default:
             this.log("Unknown request action.")
         }
       },
       reset: function() {
-        this.abortRequests(), this.cancelPendingRequests(), a = null, b = [], c = [], d = [], e = []
+        this.abortRequests(), this.cancelPendingRequests(), a = null, b = [], c = [], d = [], e = [], f = !1
       }
     }
   }, MediaPlayer.dependencies.FragmentModel.prototype = {
@@ -7399,10 +7020,6 @@ ISOFile.prototype.fetch = function(a) {
     ENAME_MANIFEST_UPDATED: "manifestUpdated"
   }, MediaPlayer.models.MetricsModel = function() {
     "use strict";
-    var a = function(a, b, c, d) {
-      var e = new MediaPlayer.vo.metrics.HTTPRequest.Trace;
-      return e.s = b, e.d = c, e.b = d, a.trace || (a.trace = []), a.trace.push(e), a.interval || (a.interval = 0), a.interval += c, e
-    };
     return {
       system: void 0,
       eventBus: void 0,
@@ -7460,19 +7077,17 @@ ISOFile.prototype.fetch = function(a) {
         var g = new MediaPlayer.vo.metrics.TCPConnection;
         return g.tcpid = b, g.dest = c, g.topen = d, g.tclose = e, g.tconnect = f, this.getMetricsFor(a).TcpList.push(g), this.metricAdded(a, this.adapter.metricsList.TCP_CONNECTION, g), g
       },
-      addHttpRequest: function(b, c, d, e, f, g, h, i, j, k, l, m, n) {
-        var o = new MediaPlayer.vo.metrics.HTTPRequest;
-        if (f && f !== e && (this.addHttpRequest(b, null, d, e, null, g, h, null, null, null, l, null, null), o.actualurl = f), o.tcpid = c, o.type = d, o.url = e, o.range = g, o.trequest = h, o.tresponse = i, o.responsecode = k, o._tfinish = j, o._stream = b, o._mediaduration = l, o._responseHeaders = m, o._latency = i - h, o._time = j - i, n) {
-          var p = 0;
-          n.forEach(function(b) {
-            p += b.b[0], a(o, b.s, b.d, b.b)
-          }), o._bytes = p
-        } else delete o.interval, delete o.trace;
-        return this.getMetricsFor(b).HttpList.push(o), this.metricAdded(b, this.adapter.metricsList.HTTP_REQUEST, o), o
+      addHttpRequest: function(a, b, c, d, e, f, g, h, i, j, k, l) {
+        var m = new MediaPlayer.vo.metrics.HTTPRequest;
+        return e && e !== d && (this.addHttpRequest(a, null, c, d, null, f, g, null, null, null, k, null), m.actualurl = e), m.stream = a, m.tcpid = b, m.type = c, m.url = d, m.range = f, m.trequest = g, m.tresponse = h, m.tfinish = i, m.responsecode = j, m.mediaduration = k, m.responseHeaders = l, this.getMetricsFor(a).HttpList.push(m), this.metricAdded(a, this.adapter.metricsList.HTTP_REQUEST, m), m
+      },
+      appendHttpTrace: function(a, b, c, d) {
+        var e = new MediaPlayer.vo.metrics.HTTPRequest.Trace;
+        return e.s = b, e.d = c, e.b = d, a.trace.push(e), a.interval || (a.interval = 0), a.interval += c, this.metricUpdated(a.stream, this.adapter.metricsList.HTTP_REQUEST_TRACE, a), e
       },
       addRepresentationSwitch: function(a, b, c, d, e) {
         var f = new MediaPlayer.vo.metrics.RepresentationSwitch;
-        return f.t = b, f.mt = c, f.to = d, e ? f.lto = e : delete f.lto, this.getMetricsFor(a).RepSwitchList.push(f), this.metricAdded(a, this.adapter.metricsList.TRACK_SWITCH, f), f
+        return f.t = b, f.mt = c, f.to = d, f.lto = e, this.getMetricsFor(a).RepSwitchList.push(f), this.metricAdded(a, this.adapter.metricsList.TRACK_SWITCH, f), f
       },
       addBufferLevel: function(a, b, c) {
         var d = new MediaPlayer.vo.metrics.BufferLevel;
@@ -7524,11 +7139,13 @@ ISOFile.prototype.fetch = function(a) {
         }
         return null
       },
-      addPlayList: function(a) {
-        var b = "stream";
-        return a.trace ? a.trace.forEach(function(a) {
-          a.hasOwnProperty("subreplevel") && !a.subreplevel && delete a.subreplevel
-        }) : delete a.trace, this.getMetricsFor(b).PlayList.push(a), this.metricAdded(b, this.adapter.metricsList.PLAY_LIST, a), a
+      addPlayList: function(a, b, c, d) {
+        var e = new MediaPlayer.vo.metrics.PlayList;
+        return e.stream = a, e.start = b, e.mstart = c, e.starttype = d, this.getMetricsFor(a).PlayList.push(e), this.metricAdded(a, this.adapter.metricsList.PLAY_LIST, e), e
+      },
+      appendPlayListTrace: function(a, b, c, d, e, f, g, h) {
+        var i = new MediaPlayer.vo.metrics.PlayList.Trace;
+        return i.representationid = b, i.subreplevel = c, i.start = d, i.mstart = e, i.duration = f, i.playbackspeed = g, i.stopreason = h, a.trace.push(i), this.metricUpdated(a.stream, this.adapter.metricsList.PLAY_LIST_TRACE, a), i
       }
     }
   }, MediaPlayer.models.MetricsModel.prototype = {
@@ -8123,19 +7740,21 @@ ISOFile.prototype.fetch = function(a) {
     constructor: MediaPlayer.models.URIQueryAndFragmentModel
   }, MediaPlayer.models.VideoModel = function() {
     "use strict";
-    var a, b, c, d, e = [],
-      f = function() {
-        return e.length > 0
+    var a, b, c, d = [],
+      e = function() {
+        return d.length > 0
       },
-      g = function(b) {
-        var c;
-        a.seeking || -1 !== e.indexOf(b) || (e.push(b), 1 === e.length && (c = document.createEvent("Event"), c.initEvent("waiting", !0, !1), d = this.getPlaybackRate(), this.setPlaybackRate(0), a.dispatchEvent(c)))
+      f = function(b) {
+        null === b || a.seeking || (this.setPlaybackRate(0), d[b] !== !0 && (d.push(b), d[b] = !0))
       },
-      h = function(b) {
-        var c, g = e.indexOf(b); - 1 !== g && e.splice(g, 1), f() === !1 && 0 === a.playbackRate && (c = document.createEvent("Event"), c.initEvent("playing", !0, !1), this.setPlaybackRate(d || 1), a.dispatchEvent(c))
+      g = function(a) {
+        if (null !== a) {
+          d[a] = !1;
+          var b = d.indexOf(a); - 1 !== b && d.splice(b, 1), e() === !1 && this.setPlaybackRate(1)
+        }
       },
-      i = function(a, b) {
-        null !== a && (b ? g.call(this, a) : h.call(this, a))
+      h = function(a, b) {
+        b ? f.call(this, a) : g.call(this, a)
       };
     return {
       system: void 0,
@@ -8147,9 +7766,6 @@ ISOFile.prototype.fetch = function(a) {
       },
       isPaused: function() {
         return a.paused
-      },
-      hasEnded: function() {
-        return a.ended
       },
       getPlaybackRate: function() {
         return a.playbackRate
@@ -8170,7 +7786,7 @@ ISOFile.prototype.fetch = function(a) {
         }
       },
       setStallState: function(a, b) {
-        i.call(this, a, b)
+        h.call(this, a, b)
       },
       listen: function(b, c) {
         a.addEventListener(b, c, !1)
@@ -8197,7 +7813,7 @@ ISOFile.prototype.fetch = function(a) {
         b = a, b.style.position = "absolute", b.style.display = "flex", b.style.overflow = "hidden", b.style.pointerEvents = "none", b.style.top = 0, b.style.left = 0
       },
       setSource: function(b) {
-        b && (a.src = b)
+        a.src = b
       }
     }
   }, MediaPlayer.models.VideoModel.prototype = {
@@ -8218,7 +7834,7 @@ ISOFile.prototype.fetch = function(a) {
     },
     getPSSHForKeySystem: function(a, b) {
       var c = MediaPlayer.dependencies.protection.CommonEncryption.parsePSSHList(b);
-      return c.hasOwnProperty(a.uuid.toLowerCase()) ? c[a.uuid.toLowerCase()] : null;
+      return c.hasOwnProperty(a.uuid.toLowerCase()) ? c[a.uuid.toLowerCase()] : null
     },
     parseInitDataFromContentProtection: function(a) {
       return "pssh" in a ? BASE64.decodeArray(a.pssh.__text).buffer : null
@@ -8496,6 +8112,7 @@ ISOFile.prototype.fetch = function(a) {
       b = [];
     return {
       insufficientBufferRule: void 0,
+      bufferOccupancyRule: void 0,
       throughputRule: void 0,
       abandonRequestRule: void 0,
       getRules: function(c) {
@@ -8509,7 +8126,7 @@ ISOFile.prototype.fetch = function(a) {
         }
       },
       setup: function() {
-        a.push(this.insufficientBufferRule), a.push(this.throughputRule), b.push(this.abandonRequestRule)
+        a.push(this.insufficientBufferRule), a.push(this.throughputRule), a.push(this.bufferOccupancyRule), b.push(this.abandonRequestRule)
       }
     }
   }, MediaPlayer.rules.ABRRulesCollection.prototype = {
@@ -8555,6 +8172,36 @@ ISOFile.prototype.fetch = function(a) {
     }
   }, MediaPlayer.rules.AbandonRequestsRule.prototype = {
     constructor: MediaPlayer.rules.AbandonRequestsRule
+  }, MediaPlayer.rules.BufferOccupancyRule = function() {
+    "use strict";
+    var a = 0;
+    return {
+      log: void 0,
+      metricsModel: void 0,
+      execute: function(b, c) {
+        var d = this,
+          e = (new Date).getTime() / 1e3,
+          f = b.getMediaInfo(),
+          g = b.getTrackInfo(),
+          h = f.type,
+          i = isNaN(g.fragmentDuration) ? 2 : g.fragmentDuration / 2,
+          j = b.getCurrentValue(),
+          k = b.getStreamProcessor(),
+          l = k.getABRController(),
+          m = this.metricsModel.getReadOnlyMetricsFor(h),
+          n = m.BufferLevel.length > 0 ? m.BufferLevel[m.BufferLevel.length - 1] : null,
+          o = m.BufferState.length > 0 ? m.BufferState[m.BufferState.length - 1] : null,
+          p = !1,
+          q = f.representationCount - 1,
+          r = new MediaPlayer.rules.SwitchRequest(MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE, MediaPlayer.rules.SwitchRequest.prototype.WEAK);
+        return i > e - a || l.getAbandonmentStateFor(h) === MediaPlayer.dependencies.AbrController.ABANDON_LOAD ? void c(r) : (null !== n && null !== o && n.level > o.target && (p = n.level - o.target > MediaPlayer.dependencies.BufferController.RICH_BUFFER_THRESHOLD, p && f.representationCount > 1 && (r = new MediaPlayer.rules.SwitchRequest(q, MediaPlayer.rules.SwitchRequest.prototype.STRONG))), r.value !== MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE && r.value !== j && d.log("BufferOccupancyRule requesting switch to index: ", r.value, "type: ", h, " Priority: ", r.priority === MediaPlayer.rules.SwitchRequest.prototype.DEFAULT ? "Default" : r.priority === MediaPlayer.rules.SwitchRequest.prototype.STRONG ? "Strong" : "Weak"), void c(r))
+      },
+      reset: function() {
+        a = 0
+      }
+    }
+  }, MediaPlayer.rules.BufferOccupancyRule.prototype = {
+    constructor: MediaPlayer.rules.BufferOccupancyRule
   }, MediaPlayer.rules.InsufficientBufferRule = function() {
     "use strict";
     var a = {},
@@ -8581,7 +8228,7 @@ ISOFile.prototype.fetch = function(a) {
           k = g.metricsModel.getReadOnlyMetricsFor(i),
           l = k.BufferState.length > 0 ? k.BufferState[k.BufferState.length - 1] : null,
           m = new MediaPlayer.rules.SwitchRequest(MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE, MediaPlayer.rules.SwitchRequest.prototype.WEAK);
-        return c > h - b || null === l ? void f(m) : (d(i, l.state), l.state === MediaPlayer.dependencies.BufferController.BUFFER_EMPTY && void 0 !== a[i].firstBufferLoadedEvent && (m = new MediaPlayer.rules.SwitchRequest(0, MediaPlayer.rules.SwitchRequest.prototype.STRONG)), m.value !== MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE && m.value !== j && g.log("InsufficientBufferRule requesting switch to index: ", m.value, "type: ", i, " Priority: ", m.formatPriority()), b = h, void f(m))
+        return c > h - b || null === l ? void f(m) : (d(i, l.state), l.state === MediaPlayer.dependencies.BufferController.BUFFER_EMPTY && void 0 !== a[i].firstBufferLoadedEvent && (m = new MediaPlayer.rules.SwitchRequest(0, MediaPlayer.rules.SwitchRequest.prototype.STRONG)), m.value !== MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE && m.value !== j && g.log("InsufficientBufferRule requesting switch to index: ", m.value, "type: ", i, " Priority: ", m.priority === MediaPlayer.rules.SwitchRequest.prototype.DEFAULT ? "Default" : m.priority === MediaPlayer.rules.SwitchRequest.prototype.STRONG ? "Strong" : "Weak"), b = h, void f(m))
       },
       reset: function() {
         a = {}, b = 0
@@ -8591,34 +8238,58 @@ ISOFile.prototype.fetch = function(a) {
     constructor: MediaPlayer.rules.InsufficientBufferRule
   }, MediaPlayer.rules.ThroughputRule = function() {
     "use strict";
-    var a = 2,
-      b = 3;
+    var a = [],
+      b = 0,
+      c = 2,
+      d = 3,
+      e = function(b, c) {
+        a[b] = a[b] || [], c !== 1 / 0 && c !== a[b][a[b].length - 1] && a[b].push(c)
+      },
+      f = function(b, e) {
+        var f = 0,
+          g = e ? c : d,
+          h = a[b],
+          i = h.length;
+        if (g = g > i ? i : g, i > 0) {
+          for (var j = i - g, k = 0, l = j; i > l; l++) k += h[l];
+          f = k / g
+        }
+        return h.length > g && h.shift(), f * MediaPlayer.dependencies.AbrController.BANDWIDTH_SAFETY / 1e3
+      };
     return {
       log: void 0,
       metricsExt: void 0,
       metricsModel: void 0,
       manifestExt: void 0,
       manifestModel: void 0,
-      execute: function(c, d) {
-        var e = this,
-          f = c.getMediaInfo(),
-          g = f.type,
-          h = c.getCurrentValue(),
-          i = e.metricsModel.getReadOnlyMetricsFor(g),
-          j = c.getStreamProcessor(),
-          k = j.getABRController(),
-          l = j.isDynamic(),
-          m = new MediaPlayer.rules.SwitchRequest(MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE, MediaPlayer.rules.SwitchRequest.prototype.WEAK);
-        if (0 === i.BufferState.length || 0 === i.BufferLevel.length) return void d(m);
-        var n = i.BufferState[i.BufferState.length - 1],
-          o = i.BufferLevel[i.BufferLevel.length - 1],
-          p = e.metricsExt.getRecentThroughput(i, l ? a : b);
-        if (0 > p) return void d(m);
-        if (p = Math.round(p * MediaPlayer.dependencies.AbrController.BANDWIDTH_SAFETY / 1e3), n.state === MediaPlayer.dependencies.BufferController.BUFFER_LOADED && (o.level >= 2 * MediaPlayer.dependencies.BufferController.LOW_BUFFER_THRESHOLD_MS || l)) {
-          var q = k.getQualityForBitrate(f, p);
-          m = new MediaPlayer.rules.SwitchRequest(q, MediaPlayer.rules.SwitchRequest.prototype.DEFAULT)
+      execute: function(a, c) {
+        var d, g, h, i = this,
+          j = (new Date).getTime() / 1e3,
+          k = a.getMediaInfo(),
+          l = k.type,
+          m = a.getCurrentValue(),
+          n = a.getTrackInfo(),
+          o = i.metricsModel.getReadOnlyMetricsFor(l),
+          p = a.getStreamProcessor(),
+          q = p.getABRController(),
+          r = p.isDynamic(),
+          s = i.metricsExt.getCurrentHttpRequest(o),
+          t = isNaN(n.fragmentDuration) ? 2 : n.fragmentDuration / 2,
+          u = o.BufferState.length > 0 ? o.BufferState[o.BufferState.length - 1] : null,
+          v = o.BufferLevel.length > 0 ? o.BufferLevel[o.BufferLevel.length - 1] : null,
+          w = new MediaPlayer.rules.SwitchRequest(MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE, MediaPlayer.rules.SwitchRequest.prototype.WEAK);
+        if (t > j - b || !o || null === s || s.type !== MediaPlayer.vo.metrics.HTTPRequest.MEDIA_SEGMENT_TYPE || null === u || null === v) return void c(w);
+        if (d = (s.tfinish.getTime() - s.tresponse.getTime()) / 1e3, s.trace.length && (h = Math.round(8 * s.trace[s.trace.length - 1].b / d), e(l, h)), g = Math.round(f(l, r)), q.setAverageThroughput(l, g), q.getAbandonmentStateFor(l) !== MediaPlayer.dependencies.AbrController.ABANDON_LOAD) {
+          if (u.state === MediaPlayer.dependencies.BufferController.BUFFER_LOADED && (v.level >= 2 * MediaPlayer.dependencies.BufferController.LOW_BUFFER_THRESHOLD || r)) {
+            var x = q.getQualityForBitrate(k, g);
+            w = new MediaPlayer.rules.SwitchRequest(x, MediaPlayer.rules.SwitchRequest.prototype.DEFAULT)
+          }
+          w.value !== MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE && w.value !== m && i.log("ThroughputRule requesting switch to index: ", w.value, "type: ", l, " Priority: ", w.priority === MediaPlayer.rules.SwitchRequest.prototype.DEFAULT ? "Default" : w.priority === MediaPlayer.rules.SwitchRequest.prototype.STRONG ? "Strong" : "Weak", "Average throughput", Math.round(g), "kbps")
         }
-        m.value !== MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE && m.value !== h && e.log("ThroughputRule requesting switch to index: ", m.value, "type: ", g, " Priority: ", m.formatPriority(), "Average throughput", p, "kbps"), d(m)
+        c(w)
+      },
+      reset: function() {
+        a = [], b = 0
       }
     }
   }, MediaPlayer.rules.ThroughputRule.prototype = {
@@ -8651,32 +8322,22 @@ ISOFile.prototype.fetch = function(a) {
     constructor: MediaPlayer.rules.RulesContext
   }, MediaPlayer.rules.RulesController = function() {
     "use strict";
-
-    function a(a) {
-      var b = "[";
-      if (a && a.length > 0)
-        for (var c = 0; c < a.length; c++) {
-          var d = a[c];
-          b += "Fragment:" + d.action + "," + d.index + "," + d.type + "," + d.quality + "," + d.mediaType
-        }
-      return a && a.ACTION_DOWNLOAD && (b += "Fragment:" + a.action + "," + a.index + "," + a.type + "," + a.quality + a.mediaType), b + "]"
-    }
-    var b = {},
-      c = ["execute"],
-      d = function(a) {
+    var a = {},
+      b = ["execute"],
+      c = function(a) {
         return a === this.SCHEDULING_RULE || a === this.ABR_RULE
       },
-      e = function(a) {
-        var b = c.length,
+      d = function(a) {
+        var c = b.length,
           d = 0;
-        for (d; b > d; d += 1)
-          if (!a.hasOwnProperty(c[d])) return !1;
+        for (d; c > d; d += 1)
+          if (!a.hasOwnProperty(b[d])) return !1;
         return !0
       },
-      f = function(a, b) {
+      e = function(a, b) {
         return new MediaPlayer.rules.RulesContext(a, b)
       },
-      g = function(a) {
+      f = function(a) {
         var b = a.execute.bind(a);
         return a.execute = function(c, d) {
           var e = function(b) {
@@ -8685,11 +8346,11 @@ ISOFile.prototype.fetch = function(a) {
           b(c, e)
         }, "function" != typeof a.reset && (a.reset = function() {}), a
       },
-      h = function(a, b, c) {
-        var d, f, h, i, j, k;
-        for (f in b)
-          if (i = b[f], j = i.length)
-            for (k = 0; j > k; k += 1) d = i[k], e.call(this, d) && (d = g.call(this, d), h = a.getRules(f), c && (c = !1, h.length = 0), this.system.injectInto(d), h.push(d))
+      g = function(a, b, c) {
+        var e, g, h, i, j, k;
+        for (g in b)
+          if (i = b[g], j = i.length)
+            for (k = 0; j > k; k += 1) e = i[k], d.call(this, e) && (e = f.call(this, e), h = a.getRules(g), c && (c = !1, h.length = 0), this.system.injectInto(e), h.push(e))
       };
     return {
       system: void 0,
@@ -8698,37 +8359,36 @@ ISOFile.prototype.fetch = function(a) {
       ABR_RULE: 1,
       SYNC_RULE: 2,
       initialize: function() {
-        b[this.ABR_RULE] = this.system.getObject("abrRulesCollection"), b[this.SCHEDULING_RULE] = this.system.getObject("scheduleRulesCollection"), b[this.SYNC_RULE] = this.system.getObject("synchronizationRulesCollection")
+        a[this.ABR_RULE] = this.system.getObject("abrRulesCollection"), a[this.SCHEDULING_RULE] = this.system.getObject("scheduleRulesCollection"), a[this.SYNC_RULE] = this.system.getObject("synchronizationRulesCollection")
       },
-      setRules: function(a, c) {
-        d.call(this, a) && c && h.call(this, b[a], c, !0)
+      setRules: function(b, d) {
+        c.call(this, b) && d && g.call(this, a[b], d, !0)
       },
-      addRules: function(a, c) {
-        d.call(this, a) && c && h.call(this, b[a], c, !1)
+      addRules: function(b, d) {
+        c.call(this, b) && d && g.call(this, a[b], d, !1)
       },
-      applyRules: function(b, c, d, g, h) {
-        var i, j, k = this,
-          l = b.length,
-          m = l,
-          n = {},
-          o = f.call(this, c, g),
-          p = function(b) {
-            var c, e;
-            b.value !== MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE && (n[b.priority] = h(n[b.priority], b.value)), b.value && (b.value && b.value.length > 0 || b.value.ACTION_DOWNLOAD) && k.log("[RULES]:", i.getName(), a(b.value), b.formatPriority()), --l || (n[MediaPlayer.rules.SwitchRequest.prototype.WEAK] !== MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE && (e = MediaPlayer.rules.SwitchRequest.prototype.WEAK, c = n[MediaPlayer.rules.SwitchRequest.prototype.WEAK]), n[MediaPlayer.rules.SwitchRequest.prototype.DEFAULT] !== MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE && (e = MediaPlayer.rules.SwitchRequest.prototype.DEFAULT, c = n[MediaPlayer.rules.SwitchRequest.prototype.DEFAULT]), n[MediaPlayer.rules.SwitchRequest.prototype.STRONG] !== MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE && (e = MediaPlayer.rules.SwitchRequest.prototype.STRONG, c = n[MediaPlayer.rules.SwitchRequest.prototype.STRONG]), e != MediaPlayer.rules.SwitchRequest.prototype.STRONG && e != MediaPlayer.rules.SwitchRequest.prototype.WEAK && (e = MediaPlayer.rules.SwitchRequest.prototype.DEFAULT), d({
-              value: void 0 !== c ? c : g,
-              confidence: e
+      applyRules: function(a, b, c, f, g) {
+        var h, i, j = a.length,
+          k = j,
+          l = {},
+          m = e.call(this, b, f),
+          n = function(a) {
+            var b, d;
+            a.value !== MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE && (l[a.priority] = g(l[a.priority], a.value)), --j || (l[MediaPlayer.rules.SwitchRequest.prototype.WEAK] !== MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE && (d = MediaPlayer.rules.SwitchRequest.prototype.WEAK, b = l[MediaPlayer.rules.SwitchRequest.prototype.WEAK]), l[MediaPlayer.rules.SwitchRequest.prototype.DEFAULT] !== MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE && (d = MediaPlayer.rules.SwitchRequest.prototype.DEFAULT, b = l[MediaPlayer.rules.SwitchRequest.prototype.DEFAULT]), l[MediaPlayer.rules.SwitchRequest.prototype.STRONG] !== MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE && (d = MediaPlayer.rules.SwitchRequest.prototype.STRONG, b = l[MediaPlayer.rules.SwitchRequest.prototype.STRONG]), d != MediaPlayer.rules.SwitchRequest.prototype.STRONG && d != MediaPlayer.rules.SwitchRequest.prototype.WEAK && (d = MediaPlayer.rules.SwitchRequest.prototype.DEFAULT), c({
+              value: void 0 !== b ? b : f,
+              confidence: d
             }))
           };
-        for (n[MediaPlayer.rules.SwitchRequest.prototype.STRONG] = MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE, n[MediaPlayer.rules.SwitchRequest.prototype.WEAK] = MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE, n[MediaPlayer.rules.SwitchRequest.prototype.DEFAULT] = MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE, j = 0; m > j; j += 1) i = b[j], e.call(this, i) ? i.execute(o, p) : l--
+        for (l[MediaPlayer.rules.SwitchRequest.prototype.STRONG] = MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE, l[MediaPlayer.rules.SwitchRequest.prototype.WEAK] = MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE, l[MediaPlayer.rules.SwitchRequest.prototype.DEFAULT] = MediaPlayer.rules.SwitchRequest.prototype.NO_CHANGE, i = 0; k > i; i += 1) h = a[i], d.call(this, h) ? h.execute(m, n) : j--
       },
       reset: function() {
-        var a, c, d = b[this.ABR_RULE],
-          e = b[this.SCHEDULING_RULE],
-          f = b[this.SYNC_RULE],
+        var b, c, d = a[this.ABR_RULE],
+          e = a[this.SCHEDULING_RULE],
+          f = a[this.SYNC_RULE],
           g = (d.getRules(MediaPlayer.rules.ABRRulesCollection.prototype.QUALITY_SWITCH_RULES) || []).concat(e.getRules(MediaPlayer.rules.ScheduleRulesCollection.prototype.NEXT_FRAGMENT_RULES) || []).concat(e.getRules(MediaPlayer.rules.ScheduleRulesCollection.prototype.FRAGMENTS_TO_SCHEDULE_RULES) || []).concat(e.getRules(MediaPlayer.rules.ScheduleRulesCollection.prototype.FRAGMENTS_TO_EXECUTE_RULES) || []).concat(f.getRules(MediaPlayer.rules.SynchronizationRulesCollection.prototype.TIME_SYNCHRONIZED_RULES) || []).concat(f.getRules(MediaPlayer.rules.SynchronizationRulesCollection.prototype.BEST_GUESS_RULES) || []),
           h = g.length;
-        for (c = 0; h > c; c += 1) a = g[c], "function" == typeof a.reset && a.reset();
-        b = {}
+        for (c = 0; h > c; c += 1) b = g[c], "function" == typeof b.reset && b.reset();
+        a = {}
       }
     }
   }, MediaPlayer.rules.RulesController.prototype = {
@@ -8736,79 +8396,95 @@ ISOFile.prototype.fetch = function(a) {
   }, MediaPlayer.rules.BufferLevelRule = function() {
     "use strict";
     var a = {},
-      b = 500,
-      c = function(a, b, c) {
+      b = {},
+      c = {},
+      d = function(a) {
+        var b = this.metricsExt.getCurrentHttpRequest(a);
+        return null !== b ? (b.tresponse.getTime() - b.trequest.getTime()) / 1e3 : 0
+      },
+      e = function(a, b, c) {
         var d;
         return d = c ? this.playbackController.getLiveDelay() : isNaN(b) || MediaPlayer.dependencies.BufferController.DEFAULT_MIN_BUFFER_TIME < b && b > a ? Math.max(MediaPlayer.dependencies.BufferController.DEFAULT_MIN_BUFFER_TIME, a) : a >= b ? Math.min(b, MediaPlayer.dependencies.BufferController.DEFAULT_MIN_BUFFER_TIME) : Math.min(b, a)
       },
-      d = function(a, d, e) {
+      f = function(a, b, c) {
         var f = this,
-          g = e.bufferController.getCriticalBufferLevel(),
+          g = c.bufferController.getCriticalBufferLevel(),
           h = f.metricsModel.getReadOnlyMetricsFor("video"),
           i = f.metricsModel.getReadOnlyMetricsFor("audio"),
-          j = c.call(this, e.bufferController.getMinBufferTime(), d, a),
+          j = e.call(this, c.bufferController.getMinBufferTime(), b, a),
           k = j,
-          l = e.bufferController.bufferMax,
+          l = c.bufferController.bufferMax,
           m = 0;
-        if (l === MediaPlayer.dependencies.BufferController.BUFFER_SIZE_MIN) m = j;
-        else if (l === MediaPlayer.dependencies.BufferController.BUFFER_SIZE_INFINITY) m = d;
-        else if (l === MediaPlayer.dependencies.BufferController.BUFFER_SIZE_REQUIRED) {
-          !a && f.abrController.isPlayingAtTopQuality(e.streamProcessor.getStreamInfo()) && (k = MediaPlayer.dependencies.BufferController.BUFFER_TIME_AT_TOP_QUALITY);
-          var n = h ? f.metricsExt.getRecentLatency(h, 4) : 0,
-            o = i ? f.metricsExt.getRecentLatency(i, 4) : 0,
-            p = Math.max(Math.max(n, o), b);
-          m = k + p
-        }
-        return Math.min(m, g)
+        return l === MediaPlayer.dependencies.BufferController.BUFFER_SIZE_MIN ? m = j : l === MediaPlayer.dependencies.BufferController.BUFFER_SIZE_INFINITY ? m = b : l === MediaPlayer.dependencies.BufferController.BUFFER_SIZE_REQUIRED && (!a && f.abrController.isPlayingAtTopQuality(c.streamProcessor.getStreamInfo()) && (k = MediaPlayer.dependencies.BufferController.BUFFER_TIME_AT_TOP_QUALITY), m = k + Math.max(d.call(f, h), d.call(f, i))), m = Math.min(m, g)
+      },
+      g = function(a, c) {
+        return b[a] && b[a][c]
+      },
+      h = function(b, c) {
+        return a[b] && a[b][c]
+      },
+      i = function(a) {
+        var c = a.data.fragmentModel.getContext().streamProcessor.getStreamInfo().id;
+        b[c] = b[c] || {}, b[c][a.data.request.mediaType] = !0
+      },
+      j = function(b) {
+        var c = b.sender.streamProcessor.getStreamInfo().id;
+        a[c] = a[c] || {}, a[c][b.sender.streamProcessor.getType()] = !0
+      },
+      k = function(b) {
+        var c = b.sender.streamProcessor.getStreamInfo().id;
+        a[c] = a[c] || {}, a[c][b.sender.streamProcessor.getType()] = !1
       };
     return {
-      log: void 0,
       metricsExt: void 0,
       metricsModel: void 0,
       abrController: void 0,
       playbackController: void 0,
       mediaController: void 0,
       virtualBuffer: void 0,
-      videoModel: void 0,
-      setScheduleController: function(b) {
-        var c = b.streamProcessor.getStreamInfo().id;
-        a[c] = a[c] || {}, a[c][b.streamProcessor.getType()] = b
+      setup: function() {
+        this[MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_OUTRUN] = j, this[MediaPlayer.dependencies.BufferController.eventList.ENAME_BUFFER_LEVEL_BALANCED] = k, this[MediaPlayer.dependencies.FragmentController.eventList.ENAME_STREAM_COMPLETED] = i
       },
-      execute: function(b, c) {
-        var e, f = b.getStreamInfo(),
-          g = f.id,
-          h = b.getMediaInfo(),
-          i = h.type,
-          j = this.metricsModel.getReadOnlyMetricsFor(i),
-          k = this.mediaController.getSwitchMode(),
-          l = this.metricsExt.getCurrentBufferLevel(j),
-          m = this.playbackController.getTime(),
-          n = this.virtualBuffer.getChunks({
-            streamId: g,
-            mediaType: i,
+      setScheduleController: function(a) {
+        var b = a.streamProcessor.getStreamInfo().id;
+        c[b] = c[b] || {}, c[b][a.streamProcessor.getType()] = a
+      },
+      execute: function(a, b) {
+        var d = a.getStreamInfo(),
+          e = d.id,
+          i = a.getMediaInfo(),
+          j = i.type;
+        if (h(e, j)) return void b(new MediaPlayer.rules.SwitchRequest(0, MediaPlayer.rules.SwitchRequest.prototype.STRONG));
+        var k, l = this.metricsModel.getReadOnlyMetricsFor(j),
+          m = this.mediaController.getSwitchMode(),
+          n = this.metricsExt.getCurrentBufferLevel(l) ? this.metricsExt.getCurrentBufferLevel(l).level : 0,
+          o = this.playbackController.getTime(),
+          p = this.virtualBuffer.getChunks({
+            streamId: e,
+            mediaType: j,
             appended: !0,
-            mediaInfo: h,
+            mediaInfo: i,
             forRange: {
-              start: m,
-              end: m + l
+              start: o,
+              end: o + n
             }
           }),
-          o = n && n.length > 0 ? n[n.length - 1].bufferedRange.end - m : null,
-          p = k === MediaPlayer.dependencies.MediaController.trackSwitchModes.NEVER_REPLACE ? l : o || 0,
-          q = a[g][i],
-          r = q.streamProcessor.getCurrentRepresentationInfo(),
-          s = q.streamProcessor.isDynamic(),
-          t = this.videoModel.getPlaybackRate(),
-          u = f.manifestInfo.duration,
-          v = p / Math.max(Math.abs(t), 1),
-          w = r.fragmentDuration,
-          x = s ? Number.POSITIVE_INFINITY : u - m,
-          y = Math.min(d.call(this, s, u, q), x),
-          z = Math.max(y - v, 0);
-        e = Math.ceil(z / w), c(new MediaPlayer.rules.SwitchRequest(e, MediaPlayer.rules.SwitchRequest.prototype.DEFAULT))
+          q = p && p.length > 0 ? p[p.length - 1].bufferedRange.end - o : null,
+          r = m === MediaPlayer.dependencies.MediaController.trackSwitchModes.NEVER_REPLACE ? n : q || 0,
+          s = c[e][j],
+          t = s.streamProcessor.getCurrentRepresentationInfo(),
+          u = s.streamProcessor.isDynamic(),
+          v = this.metricsExt.getCurrentPlaybackRate(l),
+          w = d.manifestInfo.duration,
+          x = r / Math.max(v, 1),
+          y = t.fragmentDuration,
+          z = u ? Number.POSITIVE_INFINITY : w - o,
+          A = Math.min(f.call(this, u, w, s), z),
+          B = Math.max(A - x, 0);
+        k = Math.ceil(B / y), x >= z && !g(e, j) && (k = k || 1), b(new MediaPlayer.rules.SwitchRequest(k, MediaPlayer.rules.SwitchRequest.prototype.DEFAULT))
       },
       reset: function() {
-        a = {}
+        a = {}, b = {}, c = {}
       }
     }
   }, MediaPlayer.rules.BufferLevelRule.prototype = {
@@ -8890,9 +8566,9 @@ ISOFile.prototype.fetch = function(a) {
           w = !p && r && (v > u && r.startTime <= t || isNaN(t)),
           x = m.bufferController.getBuffer(),
           y = null;
-        if (f = p ? o : w ? r.startTime : t, !p && !r && !isNaN(f) && f > u + MediaPlayer.dependencies.BufferController.BUFFER_TIME_AT_TOP_QUALITY) return void d(new MediaPlayer.rules.SwitchRequest(null, q));
+        if (f = p ? o : w ? r.startTime : t, !p && !r && f > u + MediaPlayer.dependencies.BufferController.BUFFER_TIME_AT_TOP_QUALITY) return void d(new MediaPlayer.rules.SwitchRequest(null, q));
         if (r && k.getFragmentModel().removeRejectedRequest(r), isNaN(f) || "fragmentedText" === i && this.textSourceBuffer.getAllTracksAreDisabled()) return void d(new MediaPlayer.rules.SwitchRequest(null, q));
-        for (x && (y = this.sourceBufferExt.getBufferRange(m.bufferController.getBuffer(), f), null !== y && (e = this.virtualBuffer.getChunks({
+        for (p && (a[i] = null), x && (y = this.sourceBufferExt.getBufferRange(m.bufferController.getBuffer(), f), null !== y && (e = this.virtualBuffer.getChunks({
             streamId: j,
             mediaType: i,
             appended: !0,
@@ -8903,8 +8579,14 @@ ISOFile.prototype.fetch = function(a) {
           }), w && g && g.index !== r.index && (g = this.adapter.getFragmentRequestForTime(m, n, r.startTime + r.duration / 2 + l, {
             keepIdx: s,
             timeThreshold: 0
-          })); g && m.getFragmentModel().isFragmentLoadedOrPendingAndNotDiscarded(g);) g = this.adapter.getNextFragmentRequest(m, n);
-        g && !w && m.setIndexHandlerTime(g.startTime + g.duration), g && p && (a[i] = null), d(new MediaPlayer.rules.SwitchRequest(g, q))
+          })); g && m.getFragmentModel().isFragmentLoadedOrPending(g);) {
+          if ("complete" === g.action) {
+            g = null, m.setIndexHandlerTime(NaN);
+            break
+          }
+          g = this.adapter.getNextFragmentRequest(m, n)
+        }
+        g && !w && m.setIndexHandlerTime(g.startTime + g.duration), d(new MediaPlayer.rules.SwitchRequest(g, q))
       },
       reset: function() {
         a = {}, b = {}
@@ -8914,62 +8596,100 @@ ISOFile.prototype.fetch = function(a) {
     constructor: MediaPlayer.rules.PlaybackTimeRule
   }, MediaPlayer.rules.SameTimeRequestRule = function() {
     "use strict";
-    var a = function(a, b) {
-        var d, e, f, g, h, i = 0,
+    var a = {},
+      b = function(a, b) {
+        var c, e, f, g, h, i = 0,
           j = a.length;
         for (i; j > i; i += 1)
           for (f = a[i].getRequests({
               state: MediaPlayer.dependencies.FragmentModel.states.PENDING
-            }), c.call(this, f, "index"), g = 0, h = f.length; h > g; g++) d = f[g], d.startTime > b && (!e || d.startTime < e.startTime) && (e = d);
-        return e || d ? [e || d] : null
-      },
-      b = function(a, b) {
-        var c, d, e = a.length,
-          f = [],
-          g = [];
-        for (d = 0; e > d; d += 1) {
-          for (var h = a[d].getRequests({
-              state: MediaPlayer.dependencies.FragmentModel.states.PENDING
-            }), i = 0; i < h.length; i++) c = h[i], c.type == MediaPlayer.vo.metrics.HTTPRequest.INIT_SEGMENT_TYPE && f.push(c);
-          c = a[d].getRequests({
-            state: MediaPlayer.dependencies.FragmentModel.states.PENDING,
-            time: b
-          })[0], c && g.push(c)
-        }
-        return f.length > 0 ? f : g.length > 0 ? g : null
+            }), d.call(this, f, "index"), g = 0, h = f.length; h > g; g++) {
+            if (c = f[g], isNaN(c.startTime) && "complete" !== c.action) {
+              e = c;
+              break
+            }
+            c.startTime > b && (!e || c.startTime < e.startTime) && (e = c)
+          }
+        return e || c
       },
       c = function(a, b) {
+        var c, d, e = a.length,
+          f = null;
+        for (d = 0; e > d; d += 1) c = a[d].getRequests({
+          state: MediaPlayer.dependencies.FragmentModel.states.PENDING,
+          time: b
+        })[0], c && (!f || c.startTime > f.startTime) && (f = c);
+        return f
+      },
+      d = function(a, b) {
         var c = function(a, c) {
           return a[b] < c[b] || isNaN(a[b]) && "complete" !== a.action ? -1 : a[b] > c[b] ? 1 : 0
         };
         a.sort(c)
+      },
+      e = function(b, c) {
+        return a[b] && a[b][c] ? a[b][c] : NaN
+      },
+      f = function(b) {
+        var c = b.data.fragmentModel,
+          d = b.data.request,
+          e = c.getContext().streamProcessor.getStreamInfo().id,
+          f = d.mediaType;
+        a[e] = a[e] || {}, a[e][f] = d.index - 1
       };
     return {
       playbackController: void 0,
-      setup: function() {},
+      setup: function() {
+        this[MediaPlayer.dependencies.FragmentController.eventList.ENAME_STREAM_COMPLETED] = f
+      },
       setFragmentModels: function(a, b) {
         this.fragmentModels = this.fragmentModels || {}, this.fragmentModels[b] = a
       },
-      execute: function(c, d) {
-        var e, f, g, h, i, j = c.getStreamInfo(),
-          k = j.id,
-          l = c.getCurrentValue(),
-          m = MediaPlayer.rules.SwitchRequest.prototype.DEFAULT,
-          n = this.playbackController,
-          o = this.fragmentModels[k],
-          p = new Date,
-          q = o ? o.length : null,
-          r = [];
-        if (!o || !q) return void d(new MediaPlayer.rules.SwitchRequest([], m));
-        if (g = n.isPlaybackStarted() ? n.getTime() : n.getStreamStartTime(j), h = b(o, g), f = h || a(o, g) || l, !f || 0 === f.length) return void d(new MediaPlayer.rules.SwitchRequest([], m));
-        for (var s = 0; s < f.length; s++) r.push(f[s]);
-        for (s = 0; q > s; s++)
-          if (e = o[s], i = e.getRequests({
-              state: MediaPlayer.dependencies.FragmentModel.states.LOADING
-            }).length, i > MediaPlayer.dependencies.ScheduleController.LOADING_REQUEST_THRESHOLD) return void d(new MediaPlayer.rules.SwitchRequest([], m));
-        r = r.filter(function(a) {
-          return "complete" === a.action || p.getTime() >= a.availabilityStartTime.getTime()
-        }), d(new MediaPlayer.rules.SwitchRequest(r, m))
+      execute: function(a, d) {
+        var f, g, h, i, j, k, l, m, n, o = a.getStreamInfo(),
+          p = o.id,
+          q = a.getCurrentValue(),
+          r = MediaPlayer.rules.SwitchRequest.prototype.DEFAULT,
+          s = this.playbackController,
+          t = this.fragmentModels[p],
+          u = new Date,
+          v = null,
+          w = t ? t.length : null,
+          x = !1,
+          y = [];
+        if (!t || !w) return void d(new MediaPlayer.rules.SwitchRequest([], r));
+        if (k = s.isPlaybackStarted() ? s.getTime() : s.getStreamStartTime(o), l = c(t, k), j = l || b(t, k) || q, !j) return void d(new MediaPlayer.rules.SwitchRequest([], r));
+        for (i = 0; w > i; i += 1)
+          if (g = t[i], f = g.getContext().streamProcessor.getType(), "video" === f || "audio" === f || "fragmentedText" === f) {
+            if (m = g.getRequests({
+                state: MediaPlayer.dependencies.FragmentModel.states.PENDING
+              }), n = g.getRequests({
+                state: MediaPlayer.dependencies.FragmentModel.states.LOADING
+              }).length, n > MediaPlayer.dependencies.ScheduleController.LOADING_REQUEST_THRESHOLD) return void d(new MediaPlayer.rules.SwitchRequest([], r));
+            if (v = v || (j === l ? k : j.startTime), -1 === m.indexOf(j)) {
+              if (h = g.getRequests({
+                  state: MediaPlayer.dependencies.FragmentModel.states.PENDING,
+                  time: v
+                })[0], h || 0 !== j.index || (h = m.filter(function(a) {
+                  return a.index === j.index
+                })[0]), h) y.push(h);
+              else if (h = g.getRequests({
+                  state: MediaPlayer.dependencies.FragmentModel.states.LOADING,
+                  time: v
+                })[0] || g.getRequests({
+                  state: MediaPlayer.dependencies.FragmentModel.states.EXECUTED,
+                  time: v
+                })[0], !h && j.index !== e.call(this, p, j.mediaType) && "fragmentedText" !== f) {
+                x = !0;
+                break
+              }
+            } else y.push(j)
+          } return y = y.filter(function(a) {
+          return "complete" === a.action || u.getTime() >= a.availabilityStartTime.getTime()
+        }), x ? void d(new MediaPlayer.rules.SwitchRequest([], r)) : void d(new MediaPlayer.rules.SwitchRequest(y, r))
+      },
+      reset: function() {
+        a = {}
       }
     }
   }, MediaPlayer.rules.SameTimeRequestRule.prototype = {
@@ -9013,10 +8733,7 @@ ISOFile.prototype.fetch = function(a) {
     NO_CHANGE: 999,
     DEFAULT: .5,
     STRONG: 1,
-    WEAK: 0,
-    formatPriority: function() {
-      return this.priority == this.WEAK ? "Weak" : this.priority == this.STRONG ? "Strong" : this.priority == this.DEFAULT ? "Default" : this.priority == this.NO_CHANGE ? "No Change" : this.priority
-    }
+    WEAK: 0
   }, MediaPlayer.rules.LiveEdgeBinarySearchRule = function() {
     "use strict";
     var a, b, c, d = 43200,
@@ -9226,7 +8943,7 @@ ISOFile.prototype.fetch = function(a) {
       f = function() {
         ["video", "audio"].forEach(function(a) {
           if (void 0 === this.abrController.getInitialBitrateFor(a)) {
-            if (b && this.isSupported(MediaPlayer.utils.DOMStorage.STORAGE_TYPE_LOCAL)) {
+            if (this.isSupported(MediaPlayer.utils.DOMStorage.STORAGE_TYPE_LOCAL) && b) {
               var c = MediaPlayer.utils.DOMStorage["LOCAL_STORAGE_" + a.toUpperCase() + "_BITRATE_KEY"],
                 d = JSON.parse(localStorage.getItem(c)) || {},
                 e = (new Date).getTime() - parseInt(d.timestamp) >= MediaPlayer.utils.DOMStorage.LOCAL_STORAGE_BITRATE_EXPIRATION || !1,
@@ -9236,9 +8953,6 @@ ISOFile.prototype.fetch = function(a) {
             void 0 === this.abrController.getInitialBitrateFor(a) && this.abrController.setInitialBitrateFor(a, MediaPlayer.dependencies.AbrController["DEFAULT_" + a.toUpperCase() + "_BITRATE"])
           }
         }, this)
-      },
-      g = function() {
-        return 6e5 * Math.round((new Date).getTime() / 6e5)
       };
     return {
       system: void 0,
@@ -9251,26 +8965,6 @@ ISOFile.prototype.fetch = function(a) {
       },
       enableLastMediaSettingsCaching: function(a, b) {
         c = a, d.call(this, "LOCAL_STORAGE_MEDIA_SETTINGS_EXPIRATION", b)
-      },
-      storeBitrate: function(a, c, d) {
-        var e = window[a];
-        if (e && b) {
-          var f = MediaPlayer.utils.DOMStorage["LOCAL_STORAGE_" + c.toUpperCase() + "_BITRATE_KEY"];
-          e.setItem(f, JSON.stringify({
-            bitrate: d,
-            timestamp: g()
-          }))
-        }
-      },
-      storeLastSettings: function(a, b, d) {
-        var e = window[a];
-        if (e && c) {
-          var f = MediaPlayer.utils.DOMStorage["LOCAL_STORAGE_" + b.toUpperCase() + "_SETTINGS_KEY"];
-          e.setItem(f, JSON.stringify({
-            settings: d,
-            timestamp: g()
-          }))
-        }
       },
       isSupported: function(b) {
         if (void 0 !== a) return a;
@@ -9296,8 +8990,8 @@ ISOFile.prototype.fetch = function(a) {
   }, MediaPlayer.utils.Debug = function() {
     "use strict";
     var a, b = !0,
-      c = !0,
-      d = !0,
+      c = !1,
+      d = !1,
       e = (new Date).getTime();
     return {
       system: void 0,
@@ -9460,25 +9154,6 @@ ISOFile.prototype.fetch = function(a) {
     }
   }, MediaPlayer.utils.IsoFile.prototype = {
     constructor: MediaPlayer.utils.IsoFile
-  }, MediaPlayer.utils.RNG = function() {
-    "use strict";
-    var a, b, c = window.crypto || window.msCrypto,
-      d = Uint32Array,
-      e = Math.pow(2, 8 * d.BYTES_PER_ELEMENT) - 1,
-      f = 10,
-      g = function() {
-        c && (a || (a = new d(f)), c.getRandomValues(a), b = 0)
-      },
-      h = function(d, f) {
-        var h;
-        return d || (d = 0), f || (f = 1), c ? (b === a.length && g(), h = a[b] / e, b += 1) : h = Math.random(), h * (f - d) + d
-      };
-    return {
-      random: h,
-      setup: g
-    }
-  }, MediaPlayer.utils.RNG.prototype = {
-    constructor: MediaPlayer.utils.RNG
   }, MediaPlayer.utils.VirtualBuffer = function() {
     var a = {},
       b = function(a, b) {
@@ -9534,18 +9209,17 @@ ISOFile.prototype.fetch = function(a) {
       },
       storeAppendedChunk: function(c, d) {
         if (c && d) {
-          var e, f = c.streamId,
-            g = c.mediaInfo.type,
-            h = this.getChunks({
-              streamId: f,
-              mediaType: g,
+          var e, f, g = c.streamId,
+            h = c.mediaInfo.type,
+            i = a[g][h].actualBufferedRanges,
+            j = this.getChunks({
+              streamId: g,
+              mediaType: h,
               appended: !0,
               start: c.start
             })[0];
-          c.bufferedRange = {
-            start: c.start,
-            end: c.end
-          }, h ? (e = a[f][g].appended.indexOf(h), a[f][g].appended[e] = c) : a[f][g].appended.push(c), b(a[f][g].appended, "start")
+          if (j ? (f = a[g][h].appended.indexOf(j), a[g][h].appended[f] = c) : a[g][h].appended.push(c), b(a[g][h].appended, "start"), e = this.sourceBufferExt.getRangeDifference(i, d), !e) return void(j && (c.bufferedRange = j.bufferedRange));
+          c.bufferedRange = e, i.add(e.start, e.end), j && (c.bufferedRange.start = Math.min(j.bufferedRange.start, e.start), c.bufferedRange.end = Math.max(j.bufferedRange.end, e.end))
         }
       },
       updateBufferedRanges: function(b, c) {
@@ -9692,12 +9366,7 @@ ISOFile.prototype.fetch = function(a) {
     this.target = null, this.state = MediaPlayer.dependencies.BufferController.BUFFER_EMPTY
   }, MediaPlayer.vo.metrics.BufferState.prototype = {
     constructor: MediaPlayer.vo.metrics.BufferState
-  }, MediaPlayer.vo.metrics.DVBErrors = function() {
-    "use strict";
-    this.mpdurl = null, this.errorcode = null, this.terror = null, this.url = null, this.ipaddress = null, this.servicelocation = null
-  }, MediaPlayer.vo.metrics.DVBErrors.prototype = {
-    constructor: MediaPlayer.vo.metrics.DVBErrors
-  }, MediaPlayer.vo.metrics.DVBErrors.SSL_CONNECTION_FAILED_PREFIX = "SSL", MediaPlayer.vo.metrics.DVBErrors.DNS_RESOLUTION_FAILED = "C00", MediaPlayer.vo.metrics.DVBErrors.HOST_UNREACHABLE = "C01", MediaPlayer.vo.metrics.DVBErrors.CONNECTION_REFUSED = "C02", MediaPlayer.vo.metrics.DVBErrors.CONNECTION_ERROR = "C03", MediaPlayer.vo.metrics.DVBErrors.CORRUPT_MEDIA_ISOBMFF = "M00", MediaPlayer.vo.metrics.DVBErrors.CORRUPT_MEDIA_OTHER = "M01", MediaPlayer.vo.metrics.DVBErrors.BASE_URL_CHANGED = "F00", MediaPlayer.vo.metrics.DVBErrors.BECAME_REPORTER = "S00", MediaPlayer.vo.metrics.DVRInfo = function() {
+  }, MediaPlayer.vo.metrics.DVRInfo = function() {
     "use strict";
     this.time = null, this.range = null, this.manifestInfo = null
   }, MediaPlayer.vo.metrics.DVRInfo.prototype = {
@@ -9709,7 +9378,7 @@ ISOFile.prototype.fetch = function(a) {
     constructor: MediaPlayer.vo.metrics.DroppedFrames
   }, MediaPlayer.vo.metrics.HTTPRequest = function() {
     "use strict";
-    this.tcpid = null, this.type = null, this.url = null, this.actualurl = null, this.range = null, this.trequest = null, this.tresponse = null, this.responsecode = null, this.interval = null, this.trace = [], this._latency = null, this._bytes = null, this._stream = null, this._tfinish = null, this._mediaduration = null, this._responseHeaders = null
+    this.stream = null, this.tcpid = null, this.type = null, this.url = null, this.actualurl = null, this.range = null, this.trequest = null, this.tresponse = null, this.tfinish = null, this.responsecode = null, this.interval = null, this.mediaduration = null, this.responseHeaders = null, this.trace = []
   }, MediaPlayer.vo.metrics.HTTPRequest.prototype = {
     constructor: MediaPlayer.vo.metrics.HTTPRequest
   }, MediaPlayer.vo.metrics.HTTPRequest.Trace = function() {
@@ -9717,7 +9386,7 @@ ISOFile.prototype.fetch = function(a) {
     this.s = null, this.d = null, this.b = []
   }, MediaPlayer.vo.metrics.HTTPRequest.Trace.prototype = {
     constructor: MediaPlayer.vo.metrics.HTTPRequest.Trace
-  }, MediaPlayer.vo.metrics.HTTPRequest.MPD_TYPE = "MPD", MediaPlayer.vo.metrics.HTTPRequest.XLINK_EXPANSION_TYPE = "XLinkExpansion", MediaPlayer.vo.metrics.HTTPRequest.INIT_SEGMENT_TYPE = "InitializationSegment", MediaPlayer.vo.metrics.HTTPRequest.INDEX_SEGMENT_TYPE = "IndexSegment", MediaPlayer.vo.metrics.HTTPRequest.MEDIA_SEGMENT_TYPE = "MediaSegment", MediaPlayer.vo.metrics.HTTPRequest.BITSTREAM_SWITCHING_SEGMENT_TYPE = "BitstreamSwitchingSegment", MediaPlayer.vo.metrics.HTTPRequest.OTHER_TYPE = "other", MediaPlayer.vo.metrics.ManifestUpdate = function() {
+  }, MediaPlayer.vo.metrics.HTTPRequest.MPD_TYPE = "MPD", MediaPlayer.vo.metrics.HTTPRequest.XLINK_EXPANSION_TYPE = "XLink Expansion", MediaPlayer.vo.metrics.HTTPRequest.INIT_SEGMENT_TYPE = "Initialization Segment", MediaPlayer.vo.metrics.HTTPRequest.INDEX_SEGMENT_TYPE = "Index Segment", MediaPlayer.vo.metrics.HTTPRequest.MEDIA_SEGMENT_TYPE = "Media Segment", MediaPlayer.vo.metrics.HTTPRequest.BITSTREAM_SWITCHING_SEGMENT_TYPE = "Bitstream Switching Segment", MediaPlayer.vo.metrics.HTTPRequest.OTHER_TYPE = "other", MediaPlayer.vo.metrics.ManifestUpdate = function() {
     "use strict";
     this.mediaType = null, this.type = null, this.requestTime = null, this.fetchTime = null, this.availabilityStartTime = null, this.presentationStartTime = 0, this.clientTimeOffset = 0, this.currentTime = null, this.buffered = null, this.latency = 0, this.streamInfo = [], this.trackInfo = []
   }, MediaPlayer.vo.metrics.ManifestUpdate.StreamInfo = function() {
@@ -9734,15 +9403,15 @@ ISOFile.prototype.fetch = function(a) {
     constructor: MediaPlayer.vo.metrics.ManifestUpdate.TrackInfo
   }, MediaPlayer.vo.metrics.PlayList = function() {
     "use strict";
-    this.start = null, this.mstart = null, this.starttype = null, this.trace = []
+    this.stream = null, this.start = null, this.mstart = null, this.starttype = null, this.trace = []
   }, MediaPlayer.vo.metrics.PlayList.Trace = function() {
     "use strict";
     this.representationid = null, this.subreplevel = null, this.start = null, this.mstart = null, this.duration = null, this.playbackspeed = null, this.stopreason = null
   }, MediaPlayer.vo.metrics.PlayList.prototype = {
     constructor: MediaPlayer.vo.metrics.PlayList
-  }, MediaPlayer.vo.metrics.PlayList.INITIAL_PLAYOUT_START_REASON = "initial_playout", MediaPlayer.vo.metrics.PlayList.SEEK_START_REASON = "seek", MediaPlayer.vo.metrics.PlayList.RESUME_FROM_PAUSE_START_REASON = "resume", MediaPlayer.vo.metrics.PlayList.METRICS_COLLECTION_START_REASON = "metrics_collection_start", MediaPlayer.vo.metrics.PlayList.Trace.prototype = {
+  }, MediaPlayer.vo.metrics.PlayList.INITIAL_PLAY_START_REASON = "initial_start", MediaPlayer.vo.metrics.PlayList.SEEK_START_REASON = "seek", MediaPlayer.vo.metrics.PlayList.Trace.prototype = {
     constructor: MediaPlayer.vo.metrics.PlayList.Trace()
-  }, MediaPlayer.vo.metrics.PlayList.Trace.REPRESENTATION_SWITCH_STOP_REASON = "representation_switch", MediaPlayer.vo.metrics.PlayList.Trace.REBUFFERING_REASON = "rebuffering", MediaPlayer.vo.metrics.PlayList.Trace.USER_REQUEST_STOP_REASON = "user_request", MediaPlayer.vo.metrics.PlayList.Trace.END_OF_PERIOD_STOP_REASON = "end_of_period", MediaPlayer.vo.metrics.PlayList.Trace.END_OF_CONTENT_STOP_REASON = "end_of_content", MediaPlayer.vo.metrics.PlayList.Trace.METRICS_COLLECTION_STOP_REASON = "metrics_collection_end", MediaPlayer.vo.metrics.PlayList.Trace.FAILURE_STOP_REASON = "failure", MediaPlayer.vo.metrics.RepresentationSwitch = function() {
+  }, MediaPlayer.vo.metrics.PlayList.Trace.USER_REQUEST_STOP_REASON = "user_request", MediaPlayer.vo.metrics.PlayList.Trace.REPRESENTATION_SWITCH_STOP_REASON = "representation_switch", MediaPlayer.vo.metrics.PlayList.Trace.END_OF_CONTENT_STOP_REASON = "end_of_content", MediaPlayer.vo.metrics.PlayList.Trace.REBUFFERING_REASON = "rebuffering", MediaPlayer.vo.metrics.RepresentationSwitch = function() {
     "use strict";
     this.t = null, this.mt = null, this.to = null, this.lto = null
   }, MediaPlayer.vo.metrics.RepresentationSwitch.prototype = {

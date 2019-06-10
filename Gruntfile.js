@@ -1,7 +1,7 @@
-/* 
-* The copyright in this software is being made available under the following 
-* TNO license terms. This software may be subject to other third party and 
-* TNO intellectual property rights, including patent rights, 
+/*
+* The copyright in this software is being made available under the following
+* TNO license terms. This software may be subject to other third party and
+* TNO intellectual property rights, including patent rights,
 * and no such rights are granted under this license.
 *
 * Created by Jorrit van den Berg on 7/12/15.
@@ -20,8 +20,8 @@
 *    be used to endorse or promote products derived from this software without
 *    specific prior written permission.
 *
-* THIS SOFTWARE IS PROVIDED BY TNO "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
-* INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND 
+* THIS SOFTWARE IS PROVIDED BY TNO "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+* INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL TNO
 * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
 * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
@@ -37,11 +37,15 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    // rename the task, and create an additional uglify task
     uglify: {
       options: {
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+        beautify: true,
+        mangle : false,
+        compress : false
       },
-      build: {
+      uglify: {
         src: ['src/srdplayer/Initializer.js',
             'src/utils/ArrayTools.js',
             'src/utils/ServiceBus.js',
@@ -58,7 +62,8 @@ module.exports = function(grunt) {
             'src/srdplayer/PlaybackControls.js',
             'src/srdplayer/UIEventHandlers.js',
             'src/srdplayer/PlayerEventHandlers.js'],
-        dest: 'build/<%= pkg.name %>.min.js'
+        dest: 'build/<%= pkg.name %>.js',
+          flow: { steps: { js: ['concat'], css: ['concat', 'cssmin'] }, post: {} }
       }
     }
   });

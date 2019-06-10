@@ -3,14 +3,14 @@
 dash-srd.js is a DASH player implementing the tiled
 streaming concept. It allows the user to freely navigate
 in a high resolution video panorama while downloading just what
-is needed to render the user's viewpoint. 
+is needed to render the user's viewpoint.
 
 The software provided here is a proof of concept and does not
 reflect the performances of a final end-user product.
 
 ## Requirements
 
-Currently it works on desktop and mobile devices are not yet supported.
+Currently it works on desktop and **mobile devices are not yet supported**.
 
 ## Background
 
@@ -28,8 +28,8 @@ information on the standard and its application can be found in the
 ### Implementation
 
 The dash-srd.js player allows the playback of spatially segmented
-content provided in up to 2 resolution layers in addition to the
-non-tiled content, also called "fallback" layer. As specified by
+content provided **in up to 2 resolution layers in addition to the
+non-tiled content, also called "fallback" layer.** As specified by
 MPEG DASH, the content is described in a manifest file called the Media
 Presentation Description whose file extension is commonly `.mpd`.
 
@@ -38,15 +38,15 @@ It determines the spatial segments needed for the current user's
 viewpoint. From the original MPD, it only retains the selected spatial
 segments and generates as many MPD as selected Representations.
 Then, the player feeds each individual MPD as an object
-to a dash.js instance. Therefore, dash.js is slightly modified to be
-able to handle an MPD object as input instead of an MPD URL.
+to a dash.js instance. **Therefore, dash.js is slightly modified to be
+able to handle an MPD object as input instead of an MPD URL.**
 
-In addition, the sash-srd.js player assumes two things. The first
+In addition, the dash-srd.js player assumes two things. The first
 assumption is that the first AdaptationSet of the MPD contains
 the legacy content which is also the fallback layer of the
 dash-srd.js player. Having such legacy content enables backward
 compatibility of the MPD regarding non-SRD aware DASH players. And the
-second is that if the fallbacklayer has non-multiplexed audio, 
+second is that if the fallbacklayer has non-multiplexed audio,
 the audio will be in the second AdaptationSet of the manifest file.
 
 ## License
@@ -62,7 +62,7 @@ Python SimpleHTTPServer.
 
 Python SimpleHTTPServer is easy to use for testing environments. Just go
 to your local repository directory with a command line tool and type
-python –m SimpleHTTPServer (or python 3 –m http.server when on
+python –m SimpleHTTPServer (or *python 3 –m http.server* when on
 Python 3). This will host the dash-srd.js player on
 http://localhost:8000/public/
 
@@ -89,8 +89,8 @@ the element id references in the `Initializer.js` script as well.
 3. [install grunt](http://gruntjs.com/getting-started)
  * npm install -g grunt-cli
 
-The source files are contained in the `src` directory. They consist
-of the player files, in subdirectory `srdplayer`, and utilities for
+*The source files are contained in the `src` directory. They consist
+of the player files, in subdirectory `srdplayer`*, and utilities for
 generic tasks in JavaScript. All the necessary source files are
 included in `Gruntfile.js`, such that you can build dash-srd.min.js
 with the grunt command line. Note that you must use the command in the
